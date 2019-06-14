@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Mail\Auth\VerifyMail;
-use App\User;
+use App\Entity\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -15,15 +16,40 @@ class RegisterController extends Controller
 {
     use RegistersUsers;
 
+    protected $redirectTo = '/cabinet';
+
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
+    
     public function form()
     {
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function verify($token)
     {
-        $this->validate($request, $this->validator());
+        if(!$user = User::where('verify_code', $token)->first()) {
+            return redirect()->route('login')
+                ->with('error', 'Sorry, your link cant be identified');
+        }
 
+        if($user->status !== User::STATUS_WAIT){
+            return redirect()->route('login')
+                ->with('error', 'Your email are already verified');
+        }
+
+        $user->status = User::STATUS_ACTIVE;
+        $user->verify_code = null;
+        $user->save();
+
+        return redirect()->route('login')
+            ->with('success', 'Your e-mail are verified. You can now login');
+    }
+
+    public function register(RegisterRequest $request)
+    {
         if(!true){
             return redirect()->route('cabinet')->exceptInput();
         }
@@ -35,23 +61,14 @@ class RegisterController extends Controller
         return redirect()->route('cabinet');
     }
 
-    public function validator() : array
-    {
-        return [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6|confirmed',
-        ];
-    }
-
     public function create(Request $request)
     {
         $user = User::create([
             'name' => $request['name'],
             'email' => $request['email'],
             'password' => bcrypt($request['password']),
-            'verify_token' => Str::random(),
-            'status' => User::STATUS_WAIT,
+            'verify_code' => Str::random(),
+            'status' => User::STATUS_WAIT
         ]);
 
         Mail::to($user->email)->send(new VerifyMail($user));
