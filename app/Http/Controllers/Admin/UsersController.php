@@ -3,14 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entity\User;
+use App\Http\Requests\Admin\Users\CreateRequest;
+use App\Http\Requests\Admin\Users\UpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
     public function index()
     {
+        $users = User::orderBy('id', 'desc')->paginate(20);
 
+        return view('admin.users.index', compact('users'));
     }
 
     public function create()
@@ -18,41 +24,55 @@ class UsersController extends Controller
         return view('admin.users.create');
     }
 
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $this->validate($request, [
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-        ]);
-
         $user = User::create([
-           'email'=>$request['email'],
-           'name'=>$request['name'],
-            'status'=>User::STATUS_ACTIVE
+            'email' => $request['email'],
+            'name' => $request['name'],
+            'password' => bcrypt(Str::random()),
+            'status' => User::STATUS_ACTIVE
         ]);
 
-        return redirect()->route('admin.users.show', ['id'=>$user->id]);
+        return redirect()->route('admin.users.show', $user);
     }
 
-    public function show($id)
+    public function show(User $user)
     {
+        return view('admin.users.show', compact('user'));
+    }
+
+    public function edit(User $user)
+    {
+//        $statuses = [
+//            User::STATUS_ACTIVE => 'Active',
+//            User::STATUS_WAIT => 'Waiting'
+//        ];
+
+//        return view('admin.users.edit', compact('user', 'statuses'));
+        return view('admin.users.edit', compact('user'));
+    }
+
+    public function update(UpdateRequest $request, User $user)
+    {
+        dd($user);
+        $user->update($request->only(['name', 'email', 'status']));
+
+        return redirect()->route('admin.users.show', $user);
+    }
+
+    public function destroy(User $user)
+    {
+        $user->delete();
+
+        return redirect()->route('admin.users.index');
+    }
+
+    public function verify($id)
+    {
+//        dd($id);
         $user = User::findOrFail($id);
+        $user->verify();
 
-        return view('admin.users.show');
-    }
-
-    public function edit($id)
-    {
-        //
-    }
-
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    public function destroy($id)
-    {
-        //
+        return redirect()->route('admin.users.show', $user);
     }
 }

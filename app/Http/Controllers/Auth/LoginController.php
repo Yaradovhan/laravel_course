@@ -26,6 +26,12 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+//    public function logout()
+//    {
+//        Auth::logout();
+//        return view('auth.login');
+//    }
+
     public function login(LoginRequest $request)
     {
         if (method_exists($this, 'hasTooManyLoginAttempts') &&
@@ -39,13 +45,11 @@ class LoginController extends Controller
             $request->filled('remember')
         );
 
-
-
         if ($authenticate) {
             $request->session()->regenerate();
             $this->clearLoginAttempts($request);
             $user = Auth::user();
-            if(!$user->status !== User::STATUS_ACTIVE){
+            if($user->status !== User::STATUS_ACTIVE){
                 Auth::logout();
                 return back()->with('error', 'You need to confirm your account. Please, check your email');
             }

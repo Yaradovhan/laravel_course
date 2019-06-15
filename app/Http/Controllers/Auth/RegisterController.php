@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Mail\Auth\VerifyMail;
 use App\Entity\User;
+use App\UseCases\Auth\RegisterService;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -17,10 +19,12 @@ class RegisterController extends Controller
     use RegistersUsers;
 
     protected $redirectTo = '/cabinet';
+    private $service;
 
-    public function __construct()
+    public function __construct(RegisterService $service)
     {
         $this->middleware('guest');
+        $this->service = $service;
     }
     
     public function form()
@@ -35,51 +39,30 @@ class RegisterController extends Controller
                 ->with('error', 'Sorry, your link cant be identified');
         }
 
-        if($user->status !== User::STATUS_WAIT){
+        try{
+            $this->service->verify($user->id);
             return redirect()->route('login')
-                ->with('error', 'Your email are already verified');
+                ->with('success', 'Your e-mail are verified. You can now login');
+        } catch (\DomainException $e){
+            return redirect()->route('login')
+                ->with('error', $e->getMessage());
         }
 
-        $user->status = User::STATUS_ACTIVE;
-        $user->verify_code = null;
-        $user->save();
 
-        return redirect()->route('login')
-            ->with('success', 'Your e-mail are verified. You can now login');
     }
 
     public function register(RegisterRequest $request)
     {
-        if(!true){
-            return redirect()->route('cabinet')->exceptInput();
-        }
+        $this->service->register($request);
 
-        $user = $this->create($request);
-
-        Auth::login($user);
-
-        return redirect()->route('cabinet');
+        return redirect()->route('login')
+            ->with('success', "Check your email and click on the link to verify.");
     }
 
-    public function create(Request $request)
-    {
-        $user = User::create([
-            'name' => $request['name'],
-            'email' => $request['email'],
-            'password' => bcrypt($request['password']),
-            'verify_code' => Str::random(),
-            'status' => User::STATUS_WAIT
-        ]);
-
-        Mail::to($user->email)->send(new VerifyMail($user));
-
-        return $user;
-    }
-
-    protected function registered(Request $request, $user)
-    {
-        $this->guard()->logout();
-
-        return redirect()->route('login')->with('success', 'Check your email and click on the link to verify.');
-    }
+//    protected function registered(Request $request, $user)
+//    {
+//        $this->guard()->logout();
+//
+//        return redirect()->route('login')->with('success', 'Check your email and click on the link to verify.');
+//    }
 }

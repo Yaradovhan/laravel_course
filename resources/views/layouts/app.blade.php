@@ -83,6 +83,7 @@
     <div class="container">
         @section('breadcrumbs', Breadcrumbs::render())
         @yield('breadcrumbs')
+        @include('partials.flash')
         @yield('content')
     </div>
 </main>
