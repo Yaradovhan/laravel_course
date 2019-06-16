@@ -23,17 +23,17 @@
             @endif
         </div>
 
-{{--        <div class="form-group">--}}
-{{--            <label for="status" class="col-form-label">Status</label>--}}
-{{--            <select name="status" id="status" class="form-control{{$errors->has('status') ? ' is-invalid' : ''}}">--}}
-{{--                @foreach($statuses as $value=>$label)--}}
-{{--                    <option value="{{$value}}" {{$value === old('status', $user->status) ? 'selected' : ''}}>{{$label}}</option>--}}
-{{--                @endforeach--}}
-{{--            </select>--}}
-{{--            @if($errors->has('status'))--}}
-{{--                <span class="invalid-feedback"><strong>{{$errors->first('status')}}</strong></span>--}}
-{{--            @endif--}}
-{{--        </div>--}}
+        <div class="form-group">
+            <label for="role" class="col-form-label">Role</label>
+            <select name="role" id="role" class="form-control{{$errors->has('role') ? ' is-invalid' : ''}}">
+                @foreach($roles as $value=>$label)
+                    <option value="{{$value}}" {{$value === old('role', $user->role) ? 'selected' : ''}}>{{$label}}</option>
+                @endforeach
+            </select>
+            @if($errors->has('role'))
+                <span class="invalid-feedback"><strong>{{$errors->first('role')}}</strong></span>
+            @endif
+        </div>
 
         <div class="form-group">
             <button type="submit" class="btn btn-primary">Save</button>

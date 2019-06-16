@@ -27,9 +27,9 @@ Route::group([
     'prefix' => 'admin',
     'as' => 'admin.',
     'namespace' => 'admin',
-    'middleware' => ['auth']
+    'middleware' => ['auth','can:admin-panel']
 ], function () {
     Route::get('/', 'HomeController@index')->name('home');
-    Route::post('users/verify/{id}', 'UsersController@verify')->name('users.verify');
+    Route::post('/users/{user}/verify', 'UsersController@verify')->name('users.verify');
     Route::resource('users', 'UsersController');
 });

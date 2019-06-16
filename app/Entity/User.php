@@ -23,9 +23,11 @@ class User extends Authenticatable
 
     public const STATUS_WAIT = 'wait';
     public const STATUS_ACTIVE = 'active';
+    public const ROLE_ADMIN = 'admin';
+    public const ROLE_USER = 'user';
 
     protected $fillable = [
-        'name', 'email', 'password', 'status', 'verify_code'
+        'name', 'email', 'password', 'status', 'verify_code', 'role'
     ];
 
     protected $hidden = [
@@ -39,6 +41,7 @@ class User extends Authenticatable
             'email' => $email,
             'password' => bcrypt($password),
             'verify_code' => Str::uuid(),
+            'role' => self::ROLE_USER,
             'status' => self::STATUS_WAIT
         ]);
     }
@@ -50,6 +53,7 @@ class User extends Authenticatable
             'email' => $email,
             'password' => bcrypt(Str::random()),
             'verify_code' => Str::uuid(),
+            'role' => self::ROLE_USER,
             'status' => self::STATUS_ACTIVE
         ]);
     }
@@ -64,16 +68,33 @@ class User extends Authenticatable
         return $this->status === self::STATUS_ACTIVE;
     }
 
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
     public function verify(): void
     {
         if (!$this->isWait()) {
-//            throw new \DomainException('User already verified');
-             back()->with('error','User already verified');
+            throw new \DomainException('User already verified');
+//             back()->with('error','User already verified');
         }
 
         $this->update([
             'status' => self::STATUS_ACTIVE,
             'verify_code' => null
         ]);
+    }
+
+    public function changeRole($role): void
+    {
+        if(!\in_array($role, [self::ROLE_USER, self::ROLE_ADMIN], true)){
+            throw new \InvalidArgumentException('Undefined role "'. $role . '""');
+        }
+        if ($this->role === $role){
+            throw new \DomainException('Role is already assigned');
+        }
+
+        $this->update(['role' => $role]);
     }
 }

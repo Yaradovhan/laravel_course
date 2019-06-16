@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Entity\User;
 use App\Http\Requests\Admin\Users\CreateRequest;
 use App\Http\Requests\Admin\Users\UpdateRequest;
+use App\UseCases\Auth\RegisterService;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
@@ -12,11 +13,51 @@ use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {
-    public function index()
-    {
-        $users = User::orderBy('id', 'desc')->paginate(20);
+    private $service;
 
-        return view('admin.users.index', compact('users'));
+    public function __construct(RegisterService $service)
+    {
+        $this->service = $service;
+    }
+
+    public function index(Request $request)
+    {
+
+        $query = User::orderByDesc('id');
+
+        if (!empty($value = $request->get('id'))) {
+            $query->where('id', $value);
+        }
+
+        if (!empty($value = $request->get('name'))) {
+            $query->where('name', 'like', '%' . $value . '%');
+        }
+
+        if (!empty($value = $request->get('email'))) {
+            $query->where('email', 'like', '%' . $value . '%');
+        }
+
+        if (!empty($value = $request->get('status'))) {
+            $query->where('status', $value);
+        }
+
+        if (!empty($value = $request->get('role'))) {
+            $query->where('role', $value);
+        }
+
+        $users = $query->paginate(20);
+
+        $statuses = [
+            User::STATUS_ACTIVE => 'Active',
+            User::STATUS_WAIT => 'Waiting'
+        ];
+
+        $roles = [
+            User::ROLE_USER => 'user',
+            User::ROLE_ADMIN => 'admin'
+        ];
+
+        return view('admin.users.index', compact('users', 'statuses', 'roles'));
     }
 
     public function create()
@@ -30,7 +71,8 @@ class UsersController extends Controller
             'email' => $request['email'],
             'name' => $request['name'],
             'password' => bcrypt(Str::random()),
-            'status' => User::STATUS_ACTIVE
+            'status' => User::STATUS_ACTIVE,
+            'role' => User::ROLE_USER
         ]);
 
         return redirect()->route('admin.users.show', $user);
@@ -43,19 +85,23 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
-//        $statuses = [
-//            User::STATUS_ACTIVE => 'Active',
-//            User::STATUS_WAIT => 'Waiting'
-//        ];
+        $statuses = [
+            User::STATUS_ACTIVE => 'Active',
+            User::STATUS_WAIT => 'Waiting'
+        ];
+
+        $roles = [
+            User::ROLE_USER => 'user',
+            User::ROLE_ADMIN => 'admin'
+        ];
 
 //        return view('admin.users.edit', compact('user', 'statuses'));
-        return view('admin.users.edit', compact('user'));
+        return view('admin.users.edit', compact('user', 'roles', 'statuses'));
     }
 
     public function update(UpdateRequest $request, User $user)
     {
-        dd($user);
-        $user->update($request->only(['name', 'email', 'status']));
+        $user->update($request->only(['name', 'email', 'status', 'role']));
 
         return redirect()->route('admin.users.show', $user);
     }
@@ -67,12 +113,9 @@ class UsersController extends Controller
         return redirect()->route('admin.users.index');
     }
 
-    public function verify($id)
+    public function verify(User $user)
     {
-//        dd($id);
-        $user = User::findOrFail($id);
-        $user->verify();
-
+        $this->service->verify($user->id);
         return redirect()->route('admin.users.show', $user);
     }
 }
