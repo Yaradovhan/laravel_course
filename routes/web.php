@@ -14,19 +14,10 @@ Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.
 
 Route::get('/cabinet', 'Cabinet\HomeController@index')->name('cabinet');
 
-//Route::prefix('admin')->group(function () {
-//    Route::middleware('auth')->group(function () {
-//        Route::namespace('admin')->group(function () {
-//            Route::get('/', 'HomeController@index')->name('admin.home');
-//            Route::resource('users', 'UsersController');
-//        });
-//    });
-//});
-
 Route::group([
     'prefix' => 'admin',
     'as' => 'admin.',
-    'namespace' => 'admin',
+    'namespace' => 'Admin',
     'middleware' => ['auth','can:admin-panel']
 ], function () {
     Route::get('/', 'HomeController@index')->name('home');
