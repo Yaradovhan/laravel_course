@@ -2,6 +2,7 @@
 
 use App\Entity\Region;
 use \App\Entity\User;
+use \App\Entity\Adverts\Category;
 use DaveJamesMiller\Breadcrumbs\BreadcrumbsGenerator as Crumbs;
 
 Breadcrumbs::for('home', function (Crumbs $trail) {
@@ -87,4 +88,30 @@ Breadcrumbs::for('admin.regions.show', function (Crumbs $crumbs, Region $region)
 Breadcrumbs::for('admin.regions.edit', function (Crumbs $crumbs, Region $region) {
     $crumbs->parent('admin.regions.show', $region);
     $crumbs->push('Edit', route('admin.regions.edit', $region));
+});
+
+// Advert Categories
+
+Breadcrumbs::for('admin.adverts.categories.index', function (Crumbs $crumbs) {
+    $crumbs->parent('admin.home');
+    $crumbs->push('Categories', route('admin.adverts.categories.index'));
+});
+
+Breadcrumbs::for('admin.adverts.categories.create', function (Crumbs $crumbs) {
+    $crumbs->parent('admin.adverts.categories.index');
+    $crumbs->push('Create', route('admin.adverts.categories.create'));
+});
+
+Breadcrumbs::for('admin.adverts.categories.show', function (Crumbs $crumbs, Category $category) {
+    if ($parent = $category->parent) {
+        $crumbs->parent('admin.adverts.categories.show', $parent);
+    } else {
+        $crumbs->parent('admin.adverts.categories.index');
+    }
+    $crumbs->push($category->name, route('admin.adverts.categories.show', $category));
+});
+
+Breadcrumbs::for('admin.adverts.categories.edit', function (Crumbs $crumbs, Category $category) {
+    $crumbs->parent('admin.adverts.categories.show', $category);
+    $crumbs->push('Edit', route('admin.adverts.categories.edit', $category));
 });
