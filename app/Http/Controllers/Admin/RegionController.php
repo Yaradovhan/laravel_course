@@ -73,6 +73,7 @@ class RegionController extends Controller
             'slug' => $request['slug'],
         ]);
 
+
         return redirect()->route('admin.regions.show', $region);
     }
 
