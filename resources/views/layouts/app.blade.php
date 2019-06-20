@@ -17,7 +17,7 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/app.css', 'build') }}" rel="stylesheet">
 </head>
 <body id="app">
 <header>
@@ -96,7 +96,7 @@
     </div>
 </footer>
 
-{{--<script src="{{mix('js/app.js', 'build')}}"></script>--}}
+<script src="{{mix('js/app.js', 'build')}}"></script>
 
 </body>
 </html>
