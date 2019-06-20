@@ -33,6 +33,7 @@ Route::group([
             Route::post('/up', 'CategoryController@up')->name('up');
             Route::post('/down', 'CategoryController@down')->name('down');
             Route::post('/last', 'CategoryController@last')->name('last');
+            Route::resource('attributes', 'AttributeController')->except('index');
         });
     });
 });

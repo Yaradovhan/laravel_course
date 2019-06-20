@@ -58,12 +58,14 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param Category $category
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category)
     {
-        return view('admin.adverts.categories.show', compact('category'));
+        $attributes = $category->attributes()->orderBy('sort')->get();
+
+        return view('admin.adverts.categories.show', compact('category', 'attributes'));
     }
 
     /**

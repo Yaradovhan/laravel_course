@@ -27,7 +27,7 @@
         </tbody>
     </table>
 
-    <p><a href="{{ route('admin.adverts.categories.attributes.create', $category) }}" class="btn btn-success">Add Attribute</a></p>
+{{--    <p><a href="{{ route('admin.adverts.categories.attributes.create', $category) }}" class="btn btn-success">Add Attribute</a></p>--}}
 
     <table class="table table-bordered">
         <thead>
@@ -42,7 +42,7 @@
 
         <tr><th colspan="4">Parent attributes</th></tr>
 
-        @forelse ($parentAttributes as $attribute)
+        @forelse ($attributes as $attribute)
             <tr>
                 <td>{{ $attribute->sort }}</td>
                 <td>{{ $attribute->name }}</td>
