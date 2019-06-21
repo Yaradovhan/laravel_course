@@ -1,22 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
-        </div>
-    </div>
-
+    <ul class="nav nav-tabs mb-3">
+        <li class="nav-item"><a href="{{route('cabinet.home')}}"></a>Dashboard</li>
+        <li class="nav-item"><a href="{{route('cabinet.profile.home')}}"></a>Profile</li>
+    </ul>
 @endsection

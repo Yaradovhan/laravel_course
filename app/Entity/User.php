@@ -27,7 +27,7 @@ class User extends Authenticatable
     public const ROLE_USER = 'user';
 
     protected $fillable = [
-        'name', 'email', 'password', 'status', 'verify_code', 'role'
+        'name', 'last_name', 'email', 'password', 'status', 'verify_code', 'role'
     ];
 
     protected $hidden = [
@@ -38,6 +38,7 @@ class User extends Authenticatable
     {
         return static::create([
             'name' => $name,
+            'last_name' => '',
             'email' => $email,
             'password' => bcrypt($password),
             'verify_code' => Str::uuid(),
@@ -50,6 +51,7 @@ class User extends Authenticatable
     {
         return static::create([
             'name' => $name,
+            'last_name' => '',
             'email' => $email,
             'password' => bcrypt(Str::random()),
             'verify_code' => Str::uuid(),
