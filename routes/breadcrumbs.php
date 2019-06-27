@@ -32,6 +32,7 @@ Breadcrumbs::for('password.reset', function (Crumbs $trail) {
     $trail->push('Password reset', route('password.reset'));
 });
 
+//Cabinet
 Breadcrumbs::for('cabinet.home', function (Crumbs $trail) {
     $trail->parent('home');
     $trail->push('Cabinet', route('cabinet.home'));
