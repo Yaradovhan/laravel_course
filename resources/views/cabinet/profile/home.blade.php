@@ -4,7 +4,7 @@
     @include('cabinet.profile._nav')
 
     <div class="mb-3">
-        <a href="{{route('cabinet.profile.edit')}}" class="btn btn-primary"></a>
+        <a href="{{ route('cabinet.profile.edit') }}" class="btn btn-primary">Edit</a>
     </div>
 
     <table class="table table-bordered">

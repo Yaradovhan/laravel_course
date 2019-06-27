@@ -38,6 +38,21 @@ Breadcrumbs::for('cabinet.home', function (Crumbs $trail) {
     $trail->push('Cabinet', route('cabinet.home'));
 });
 
+Breadcrumbs::for('cabinet.profile.home', function (Crumbs $crumbs) {
+    $crumbs->parent('cabinet.home');
+    $crumbs->push('Profile', route('cabinet.profile.home'));
+});
+
+Breadcrumbs::for('cabinet.profile.edit', function (Crumbs $crumbs) {
+    $crumbs->parent('cabinet.profile.home');
+    $crumbs->push('Edit', route('cabinet.profile.edit'));
+});
+
+Breadcrumbs::for('cabinet.profile.phone', function (Crumbs $crumbs) {
+    $crumbs->parent('cabinet.profile.home');
+    $crumbs->push('Phone', route('cabinet.profile.phone'));
+});
+
 // Admin
 Breadcrumbs::for('admin.home', function (Crumbs $trail) {
     $trail->parent('home');
