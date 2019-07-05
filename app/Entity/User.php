@@ -119,6 +119,11 @@ class User extends Authenticatable
         $this->saveOrFail();
     }
 
+    public function isPhoneVerified() :bool
+    {
+        return $this->phone_verified;
+    }
+    
     public function requestPhoneVerification(Carbon $now) :string
     {
         if(empty($this->phone)){
