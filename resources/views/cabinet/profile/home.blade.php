@@ -36,6 +36,21 @@
                 @endif
             </td>
         </tr>
+        @if($user->phone)
+            <tr>
+                <th>Two factor auth</th>
+                <td>
+                    <form action="{{route('cabinet.profile.phone.auth')}}" method="post">
+                        @csrf
+                        @if($user->isPhoneAuthEnabled())
+                            <button class="btn btn-sm btn-success">On</button>
+                        @else
+                            <button class="btn btn-sm btn-danger">Off</button>
+                        @endif
+                    </form>
+                </td>
+            </tr>
+        @endif
         </tbody>
     </table>
 @endsection

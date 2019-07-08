@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
  * @property string $phone
  * @property bool $phone_verified
  * @property bool $role
+ * @property bool $phone_auth
  * @property string $phone_verify_token
  * @property Carbon $phone_verify_token_expire
  * @property mixed password
@@ -33,7 +34,7 @@ class User extends Authenticatable
     public const ROLE_USER = 'user';
 
     protected $fillable = [
-        'name', 'last_name', 'email', 'phone', 'password', 'status', 'verify_code', 'role'
+        'name', 'last_name', 'email', 'phone', 'password', 'status', 'verify_code', 'role', 'phone_auth'
     ];
 
     protected $hidden = [
@@ -84,6 +85,24 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isPhoneAuthEnabled() :bool
+    {
+        return $this->phone_auth == 1;
+    }
+
+    public function enabledPhoneAuth()
+    {
+        $this->update([
+            'phone_auth' => true
+        ]);
+    }
+    public function disabledPhoneAuth()
+    {
+        $this->update([
+            'phone_auth' => false
+        ]);
     }
 
     public function verify(): void

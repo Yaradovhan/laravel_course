@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Cabinet;
 
+use App\Services\Sms\SmsSender;
+//use App\Services\Sms\TwilioSms;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -9,12 +11,21 @@ use App\Http\Controllers\Controller;
 
 class PhoneController extends Controller
 {
+    private $sms;
+
+    public function __construct(SmsSender $sms)
+    {
+        $this->sms = $sms;
+    }
+
     public function request(Request $request)
     {
         $user = Auth::user();
         try {
             $token = $user->requestPhoneVerification(Carbon::now());
-        } catch (\DomainException $e){
+            $this->sms->send($user->phone,$token);
+//            $this->sms->sendSms($phone, $body);
+        } catch (\DomainException $e) {
             $request->session()->flash('error', $e->getMessage());
         }
 
@@ -36,10 +47,23 @@ class PhoneController extends Controller
 
         $user = Auth::user();
 
-        try{
+        try {
             $user->verifyPhone($request['token'], Carbon::now());
-        }catch (\DomainException $e){
+        } catch (\DomainException $e) {
             return redirect()->route('cabinet.profile.phone')->with('error', $e->getMessage());
+        }
+
+        return redirect()->route('cabinet.profile.home');
+    }
+
+    public function auth()
+    {
+        $user = Auth::user();
+
+        if($user->isPhoneAuthEnabled()){
+            $user->disabledPhoneAuth();
+        } else {
+            $user->enabledPhoneAuth();
         }
 
         return redirect()->route('cabinet.profile.home');
