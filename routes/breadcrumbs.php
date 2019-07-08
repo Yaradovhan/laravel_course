@@ -21,6 +21,10 @@ Breadcrumbs::for('register', function (Crumbs $trail) {
     $trail->push('Register', route('register'));
 });
 
+Breadcrumbs::for('login.phone', function (Crumbs $crumbs) {
+    $crumbs->parent('home');
+    $crumbs->push('Login', route('login.phone'));
+});
 
 Breadcrumbs::for('password.request', function (Crumbs $trail) {
     $trail->parent('login');

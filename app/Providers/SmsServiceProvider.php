@@ -31,8 +31,6 @@ class SmsServiceProvider extends ServiceProvider
                     throw new \InvalidArgumentException('Undefined SMS driver ' . $config['driver']);
 
             }
-
-//            return new TwilioSms($config['sid'], $config['token']);
         });
     }
 
