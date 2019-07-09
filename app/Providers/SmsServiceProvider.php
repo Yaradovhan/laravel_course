@@ -9,12 +9,7 @@ use Illuminate\Support\ServiceProvider;
 
 class SmsServiceProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     *
-     * @return void
-     */
-    public function register()
+    public function register() :void
     {
         $this->app->singleton(SmsSender::class, function ($app) {
             $config = $app->make('config')->get('sms');
@@ -34,12 +29,7 @@ class SmsServiceProvider extends ServiceProvider
         });
     }
 
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
-    public function boot()
+    public function boot() :void
     {
         //
     }

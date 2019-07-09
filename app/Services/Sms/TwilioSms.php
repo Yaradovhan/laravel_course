@@ -12,13 +12,6 @@ class TwilioSms implements SmsSender
 
     public function __construct($id, $token)
     {
-//        $this->sid = env("TWILIO_SID");
-//        $this->token = env("TWILIO_TOKEN");
-//        try {
-//            $this->client = new Client($this->sid, $this->token);
-//        } catch (ConfigurationException $e) {
-//            throw new ConfigurationException($e->getMessage());
-//        }
         try {
             $this->client = new Client($id, $token);
         } catch (ConfigurationException $e) {
