@@ -57,6 +57,13 @@ Breadcrumbs::for('cabinet.profile.phone', function (Crumbs $crumbs) {
     $crumbs->push('Phone', route('cabinet.profile.phone'));
 });
 
+//Adverts
+
+Breadcrumbs::for('cabinet.adverts.index', function (Crumbs $crumbs) {
+    $crumbs->parent('cabinet.home');
+    $crumbs->push('Adverts', route('cabinet.adverts.index'));
+});
+
 // Admin
 Breadcrumbs::for('admin.home', function (Crumbs $trail) {
     $trail->parent('home');
