@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Auth;
 
 class FilledProfile
 {
@@ -10,12 +11,12 @@ class FilledProfile
     {
         $user = Auth::user();
 
-        if(empty($user->hasFailedProfile())) {
+        if(!$user->hasFailedProfile()) {
             return redirect()
                 ->route('cabinet.profile.home')
                 ->with('error', 'Please, verify your profile and phone');
         }
 
-        return view('cabinet.adverts.edit');
+        return $next($request);
     }
 }
