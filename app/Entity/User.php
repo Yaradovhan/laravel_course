@@ -109,9 +109,7 @@ class User extends Authenticatable
 
     public function hasFailedProfile()
     {
-        return (empty($this->name)
-            || empty($this->last_name)
-                || !$this->isPhoneVerified()) ? false : true;
+        return (empty($this->name) || empty($this->last_name) || !$this->isPhoneVerified()) ? false : true;
     }
 
     public function verify(): void

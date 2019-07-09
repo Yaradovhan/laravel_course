@@ -15,6 +15,8 @@ Route::post('/register', 'Auth\RegisterController@register');
 
 Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.verify');
 
+Route::get('/ajax/regions', 'Ajax\RegionController@get')->name('ajax.regions');
+
 Route::group([
     'prefix' => 'cabinet',
     'as' => 'cabinet.',
