@@ -32,6 +32,7 @@ class User extends Authenticatable
     public const STATUS_WAIT = 'wait';
     public const STATUS_ACTIVE = 'active';
     public const ROLE_ADMIN = 'admin';
+    public const ROLE_MODERATOR = 'moderator';
     public const ROLE_USER = 'user';
 
     protected $fillable = [
@@ -46,6 +47,15 @@ class User extends Authenticatable
         'phone_verified' => 'boolean',
         'phone_verify_token_expire' => 'datetime'
     ];
+
+    public static function rolesList(): array
+    {
+        return [
+            self::ROLE_ADMIN => 'Admin',
+            self::ROLE_MODERATOR => 'Moderator',
+            self::ROLE_USER => 'User'
+        ];
+    }
 
     public static function register(string $name, string $email, string $password): self
     {
@@ -88,6 +98,11 @@ class User extends Authenticatable
         return $this->role === self::ROLE_ADMIN;
     }
 
+    public function isModerator(): bool
+    {
+        return $this->role === self::ROLE_MODERATOR;
+    }
+
     public function isPhoneAuthEnabled(): bool
     {
         return $this->phone_auth == 1;
@@ -127,7 +142,7 @@ class User extends Authenticatable
 
     public function changeRole($role): void
     {
-        if (!\in_array($role, [self::ROLE_USER, self::ROLE_ADMIN], true)) {
+        if (!in_array($role, self::rolesList(), true)) {
             throw new \InvalidArgumentException('Undefined role "' . $role . '""');
         }
         if ($this->role === $role) {
