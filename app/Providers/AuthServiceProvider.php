@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Entity\Adverts\Advert\Advert;
 use App\Entity\User;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -40,6 +41,14 @@ class AuthServiceProvider extends ServiceProvider
 
         Gate::define('manage-adverts-categories', function (User $user){
             return $user->isAdmin();
+        });
+
+        Gate::define('edit-own-advert', function (User $user, Advert $advert){
+            return $advert->user_id === $user->id;
+        });
+
+        Gate::define('show-advert', function (User $user, Advert $advert){
+            return $user->isAdmin() || $user->isModerator() || $advert->id === $user->id;
         });
     }
 }

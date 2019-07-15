@@ -33,6 +33,8 @@ use Illuminate\Support\Carbon;
  * @method Builder active()
  * @method Builder forUser(User $user)
  * @method static make(array $array)
+ *
+ * @property Value[] $value
  */
 class Advert extends Model
 {

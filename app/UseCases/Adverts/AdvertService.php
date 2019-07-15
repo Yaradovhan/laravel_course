@@ -6,8 +6,10 @@ use App\Entity\Adverts\Advert\Advert;
 use App\Entity\Adverts\Category;
 use App\Entity\Region;
 use App\Entity\User;
+use App\Http\Requests\Adverts\AttributeRequest;
 use App\Http\Requests\Adverts\CreateRequest;
 use App\Http\Requests\Adverts\PhotosRequest;
+use App\Http\Requests\Adverts\RejectRequest;
 use Illuminate\Support\Facades\DB;
 
 class AdvertService
@@ -74,5 +76,38 @@ class AdvertService
     {
         $advert = $this->getAdvert($id);
         $advert->sendToModeration();
+    }
+
+    public function reject($id, RejectRequest $request) :void
+    {
+        $advert = $this->getAdvert($id);
+        $advert->reject($request['reason']);
+    }
+
+    public function editAttributes($id, AttributeRequest $request) :void
+    {
+        $advert = $this->getAdvert($id);
+
+        DB::transaction(function () use ($request, $advert){
+           foreach ($advert->values as $value){
+               $value->delete();
+           }
+
+           foreach ($advert->category->allAttributes() as $attribute){
+               $value = $request['attributes'][$attribute->id] ?? null;
+               if(!empty($value)){
+                   $advert->values()->create([
+                      'attribute_id' => $attribute->id,
+                       'value' => $value
+                   ]);
+               }
+           }
+        });
+    }
+
+    public function remove($id) :void
+    {
+        $advert = $this->getAdvert($id);
+        $advert->delete();
     }
 }

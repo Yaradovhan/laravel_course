@@ -35,7 +35,7 @@ Route::group([
         Route::post('/phone/auth', 'PhoneController@auth')->name('phone.auth');
     });
 
-    Route::resource('/adverts', 'Adverts\AdvertsController');
+    Route::resource('/adverts', 'Adverts\AdvertController');
 
     Route::group([
         'prefix' => 'adverts',
