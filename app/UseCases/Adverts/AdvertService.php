@@ -6,6 +6,8 @@ use App\Entity\Adverts\Advert\Advert;
 use App\Entity\Adverts\Category;
 use App\Entity\Region;
 use App\Entity\User;
+use App\Http\Requests\Adverts\CreateRequest;
+use App\Http\Requests\Adverts\PhotosRequest;
 use Illuminate\Support\Facades\DB;
 
 class AdvertService
@@ -48,5 +50,29 @@ class AdvertService
             return $advert;
         });
 
+    }
+
+    public function addPhotos($id, PhotosRequest $request): void
+    {
+        $advert = $this->getAdvert($id);
+
+        DB::transaction(function () use ($request, $advert) {
+            foreach ($request['files'] as $file) {
+                $advert->photos()->create([
+                    'file' => $file->store('adverts')
+                ]);
+            }
+        });
+    }
+
+    public function getAdvert($id) :Advert
+    {
+        return Advert::findOrFail($id);
+    }
+
+    public function sendToModeration($id) :void
+    {
+        $advert = $this->getAdvert($id);
+        $advert->sendToModeration();
     }
 }
