@@ -1,4 +1,5 @@
-@extends('layouts.app')
+{{--@extends('layouts.app')--}}
+@extends('semantic.layouts.app')
 
 @section('content')
     @include('cabinet.adverts._nav')

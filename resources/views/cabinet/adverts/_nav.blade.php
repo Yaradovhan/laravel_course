@@ -1,5 +1,5 @@
-<ul class="nav nav-tabs mb-3">
-    <li class="nav-item"><a class="nav-link" href="{{ route('cabinet.home') }}">Dashboard</a></li>
-    <li class="nav-item"><a class="nav-link active" href="{{ route('cabinet.adverts.index') }}">Adverts</a></li>
-    <li class="nav-item"><a class="nav-link" href="{{ route('cabinet.profile.home') }}">Profile</a></li>
-</ul>
+<div class="ui tabular menu">
+    <a class="item" href="{{ route('cabinet.home') }}">Dashboard</a>
+    <a class="item active" href="{{ route('cabinet.adverts.index') }}">Adverts</a>
+    <a class="item" href="{{ route('cabinet.profile.home') }}">Profile</a>
+</div>
