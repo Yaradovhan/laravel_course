@@ -43,28 +43,3 @@ $('.ui.dropdown')
 $('.menu .item')
     .tab()
 ;
-$('.ui.checkbox.two_factor')
-    .checkbox()
-    .first().checkbox({
-    onChecked: function() {
-        console.log('1');
-    },
-    onUnchecked: function() {
-        console.log('2');
-    },
-    onEnable: function() {
-        console.log('3');
-    },
-    onDisable: function() {
-        console.log('4');
-    },
-    onDeterminate: function() {
-        console.log('5');
-    },
-    onIndeterminate: function() {
-        console.log('6');
-    },
-    onChange: function() {
-        console.log('7');
-    }
-});

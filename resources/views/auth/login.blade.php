@@ -7,17 +7,22 @@
 
 @section('content')
 
-    <form class="ui form" method="POST" action="{{ route('login') }}">
+    <form class="ui fluid form" method="POST" action="{{ route('login') }}">
         @csrf
         <h4 class="ui dividing header">{{ __('Login') }}</h4>
-        <div class="field @error('email') error @enderror">
+        <div class="field">
             <label for="email">{{ __('E-Mail Address') }}</label>
             <input type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                @error('email')
+                <div class="ui pointing red basic label">
+                    Your email is not correct. Try again!
+                </div>
+                @enderror
         </div>
         @error('email')
-        <span class="ui error" role="alert">
-          <strong>{{ $message }}</strong>
-        </span>
+{{--        <span class="ui error" role="alert">--}}
+{{--          <strong>{{ $message }}</strong>--}}
+{{--        </span>--}}
         @enderror
 
         <div class="field @error('password') error @enderror">
