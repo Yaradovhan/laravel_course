@@ -1,28 +1,36 @@
-// Body
-$body-bg: #f8fafc;
+//// Body
+//$body-bg: #f8fafc;
+//
+//// Typography
+//$font-size-base: 0.9rem;
+//$line-height-base: 1.6;
+//
+//// Navbar-dark
+//$navbar-dark-color: rgba(#fff, .8);
+//$navbar-dark-color-hover: rgba(#fff, .95);
+//
+//// Colors
+//$blue: #3490dc;
+//$indigo: #6574cd;
+//$purple: #9561e2;
+//$pink: #f66d9b;
+//$red: #e3342f;
+//$orange: #f6993f;
+//$yellow: #ffed4a;
+//$green: #38c172;
+//$teal: #4dc0b5;
+//$cyan: #6cb2eb;
+//
+//$primary: #337ab7;
+//$success: #00b735;
+//$info: #66a8b7;
+//$warning: #b7941d;
+//$danger: #b7322f;
 
-// Typography
-$font-size-base: 0.9rem;
-$line-height-base: 1.6;
-
-// Navbar-dark
-$navbar-dark-color: rgba(#fff, .8);
-$navbar-dark-color-hover: rgba(#fff, .95);
-
-// Colors
-$blue: #3490dc;
-$indigo: #6574cd;
-$purple: #9561e2;
-$pink: #f66d9b;
-$red: #e3342f;
-$orange: #f6993f;
-$yellow: #ffed4a;
-$green: #38c172;
-$teal: #4dc0b5;
-$cyan: #6cb2eb;
-
-$primary: #337ab7;
-$success: #00b735;
-$info: #66a8b7;
-$warning: #b7941d;
-$danger: #b7322f;
+$import-google-fonts: true !default;
+$font-url: 'https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic&subset=latin,latin-ext' !default;
+$font-name: 'Lato' !default;
+$font-family: $font-name, 'Helvetica Neue', Arial, Helvetica, sans-serif !default;
+$use-custom-scrollbars: true !default;
+$icons-font-path: '../../icons' !default;
+$flags-image-path: '../../images' !default;
