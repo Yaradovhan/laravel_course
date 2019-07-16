@@ -5,58 +5,60 @@
 @section('content')
     @include('cabinet.profile._nav')
 
-    <div class="mb-3">
-        <a href="{{ route('cabinet.profile.edit') }}" class="ui green button">Edit</a>
-    </div>
-
     <div class="ui card">
         <div class="image">
-            <img src="/images/avatar2/large/kristy.png">
+            <img src="{{asset('/images/users_profile/user1/img1.png')}}">
         </div>
         <div class="content">
-            <a class="header">{{$user->name}}</a>
-            <a class="header">{{$user->last_name}}</a>
-            <div class="meta">
-                <span class="date">Joined in 2013</span>
-            </div>
-            <div class="description">
-                Kristy is an art director living in New York.
-            </div>
+            <div class="header">
+                {{$user->name}}
+                {{$user->last_name}}</div>
+            {{--<div class="description">--}}
+                {{--Kristy is an art director living in New York.--}}
+            {{--</div>--}}
         </div>
         <div class="extra content">
-            <a>
-                <i class="user icon"></i>
-                22 Friends
-            </a>
+                <div class="meta">
+                    <i class="mail icon"></i>
+                    <span>{{$user->email}}</span>
+                </div>
+            @if($user->phone)
+            <div class="meta">
+                <i class="phone icon"></i>
+                <span>{{$user->phone}}</span>
+                @if(!$user->isPhoneVerified())
+                    <i>(is not verified)</i>
+                    <form action="{{route('cabinet.profile.phone')}}" method="post">
+                        @csrf
+                        <button type="submit" class="mini ui orange button">Verify</button>
+                    </form>
+                @endif
+            </div>
+            @endif
+            <div class="ui checkbox two_factor">
+                <label>Two factor auth</label>
+                <input type="checkbox">
+            </div>
+            <div class="ui right">
+                <a href="{{ route('cabinet.profile.edit') }}" class="ui green button">Edit</a>
+            </div>
         </div>
     </div>
 
     <table class="ui celled table">
         <tbody>
-        <tr>
-            <th>First name</th>
-            <td>{{$user->name}}</td>
-        </tr>
-        <tr>
-            <th>Last name</th>
-            <td>{{$user->last_name}}</td>
-        </tr>
-        <tr>
-            <th>Email</th>
-            <td>{{$user->email}}</td>
-        </tr>
 {{--        <tr>--}}
 {{--            <th>Phone</th>--}}
 {{--            <td>--}}
 {{--                @if($user->phone)--}}
 {{--                    {{$user->phone}}--}}
-{{--                    @if(!$user->isPhoneVerified())--}}
-{{--                        <i>(is not verified)</i><br/>--}}
-{{--                        <form action="{{route('cabinet.profile.phone')}}" method="post">--}}
-{{--                            @csrf--}}
-{{--                            <button type="submit" class="btn btn-success btn-success">Verify</button>--}}
-{{--                        </form>--}}
-{{--                    @endif--}}
+                    {{--@if(!$user->isPhoneVerified())--}}
+                        {{--<i>(is not verified)</i><br/>--}}
+                        {{--<form action="{{route('cabinet.profile.phone')}}" method="post">--}}
+                            {{--@csrf--}}
+                            {{--<button type="submit" class="btn btn-success btn-success">Verify</button>--}}
+                        {{--</form>--}}
+                    {{--@endif--}}
 {{--                @endif--}}
 {{--            </td>--}}
 {{--        </tr>--}}
