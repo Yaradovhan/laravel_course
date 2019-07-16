@@ -12,29 +12,26 @@
         <h4 class="ui dividing header">{{ __('Login') }}</h4>
         <div class="field">
             <label for="email">{{ __('E-Mail Address') }}</label>
-            <input type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                @error('email')
-                <div class="ui pointing red basic label">
-                    Your email is not correct. Try again!
-                </div>
-                @enderror
+            <label>
+                <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+            </label>
+{{--            @error('email')--}}
+{{--            <div class="ui red message">Your email is not correct. Try again!</div>--}}
+{{--            @enderror--}}
         </div>
-        @error('email')
+        <div class="field">
+            <label for="password">{{ __('Password') }}</label>
+                <input id="password" type="password" name="password" value="{{ old('password') }}" required
+                       autocomplete="current-password" autofocus>
+            @error(0)
+            <div class="ui red message">{{ $message }}</div>
+            @enderror
+        </div>
+{{--        @error('password')--}}
 {{--        <span class="ui error" role="alert">--}}
 {{--          <strong>{{ $message }}</strong>--}}
 {{--        </span>--}}
-        @enderror
-
-        <div class="field @error('password') error @enderror">
-            <label for="password">{{ __('Password') }}</label>
-            <input type="password" name="password" value="{{ old('password') }}" required
-                   autocomplete="current-password" autofocus>
-        </div>
-        @error('password')
-        <span class="ui error" role="alert">
-          <strong>{{ $message }}</strong>
-        </span>
-        @enderror
+{{--        @enderror--}}
 
         <div class="inline field">
             <div class="ui checkbox">
