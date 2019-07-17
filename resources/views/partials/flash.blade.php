@@ -23,13 +23,19 @@
 {{--@endif--}}
 @if (session('status'))
     <div class="ui green message">
-    {{ session('status') }}
-</div>
+        {{ session('status') }}
+    </div>
 @endif
 
 @if (session('success'))
     <div class="ui green message">
         {{ session('success') }}
+    </div>
+@endif
+
+@if($errors->any())
+    <div class="ui red message">
+        <h4>{{$errors->first()}}</h4>
     </div>
 @endif
 
