@@ -35,15 +35,19 @@
                     @endif
                 </div>
             @endif
-            <div class="ui toggle checkbox two_factor">
-                <span>Two factor auth</span>
-                <input type="checkbox" data-source="{{route('cabinet.profile.phone.auth')}}"  {{$user->isPhoneAuthEnabled() ? 'checked' : ''}}  >
+            <div class="content">
+                <span class="right floated">
+                    <div class="ui toggle checkbox two_factor">
+                        <input type="checkbox" data-source="{{route('cabinet.profile.phone.auth')}}"  {{$user->isPhoneAuthEnabled() ? 'checked' : ''}}  >
+                    </div>
+                </span>
+                <i class="info icon"></i>Two factor auth
             </div>
-            <div class="extra content">
+            <div class="content">
                  <span class="right floated">
-                <a href="{{ route('cabinet.profile.edit') }}" class="circular ui icon button">
-                    <i class="icon settings"></i>
-                </a>
+                    <a href="{{ route('cabinet.profile.edit') }}" class="circular ui icon button">
+                        <i class="icon settings"></i>
+                    </a>
                 </span>
             </div>
         </div>
