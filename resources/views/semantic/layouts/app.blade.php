@@ -16,50 +16,56 @@
     <link href="{{ mix('css/app.css', 'build') }}" rel="stylesheet">
 </head>
 <body>
+<div class="ui inverted center aligned segment">
+    <div class="ui container">
 
-<div class="ui menu">
-    <div class="header item">
-        <a href="{{ url('/') }}">Advert</a>
-    </div>
-
-    <div class="right menu">
-
-        @guest
-            <div class="header item">
-                <a class="ui blue button" href="{{ route('login') }}">{{ __('Login') }}</a>
-            </div>
-            @if (Route::has('register'))
-                <div class="header item">
-                    <a class="ui button" href="{{ route('register') }}">{{ __('Register') }}</a>
+{{--        <div class="ui inverted segment">--}}
+            <div class="ui small inverted secondary pointing menu">
+                {{--<div class="ui inverted fixed main menu">--}}
+                <div class="item">
+                    <a href="{{ url('/') }}">Advert</a>
                 </div>
-            @endif
-        @else
-            <div class="ui dropdown item">
-                {{ Auth::user()->name }}
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                    <a class="item" href="{{route('admin.home')}}">Admin</a>
-                    <a class="item" href="{{route('cabinet.home')}}">Cabinet</a>
-                    <div class="item">
-                        <a class="ui black button" href="{{ route('logout') }}"
-                           onclick="event.preventDefault();
+
+                <div class="right menu">
+
+                    @guest
+                        <div class="header item">
+                            <a class="ui blue button" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        </div>
+                        @if (Route::has('register'))
+                            <div class="header item">
+                                <a class="ui button" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            </div>
+                        @endif
+                    @else
+                        <div class="ui dropdown item">
+                            {{ Auth::user()->name }}
+                            <i class="dropdown icon"></i>
+                            <div class="menu">
+                                <a class="item" href="{{route('admin.home')}}">Admin</a>
+                                <a class="item" href="{{route('cabinet.home')}}">Cabinet</a>
+                                <div class="item">
+                                    <a class="ui black button" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
                                                                  document.getElementById('logout-form').submit();">
-                            {{ __('Logout') }}
-                        </a>
-                    </div>
+                                        {{ __('Logout') }}
+                                    </a>
+                                </div>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                          style="display: none;">
-                        @csrf
-                    </form>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                      style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </div>
+                    @endguest
                 </div>
             </div>
-        @endguest
+{{--        </div>--}}
+
     </div>
-
 </div>
-
-<main class="app-content">
+<main class="app-content pt-5rem">
     <div class="main ui container">
         @section('breadcrumbs', Breadcrumbs::render())
         @yield('breadcrumbs')

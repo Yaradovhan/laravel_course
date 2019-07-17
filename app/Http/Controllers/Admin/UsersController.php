@@ -45,7 +45,7 @@ class UsersController extends Controller
             $query->where('role', $value);
         }
 
-        $users = $query->paginate(20);
+        $users = $query->paginate(10);
 
         $statuses = [
             User::STATUS_ACTIVE => 'Active',
