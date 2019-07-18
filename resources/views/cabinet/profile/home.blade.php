@@ -1,6 +1,4 @@
-{{--@extends('layouts.app')--}}
 @extends('semantic.layouts.app')
-
 
 @section('content')
     @include('cabinet.profile._nav')
@@ -12,18 +10,16 @@
         <div class="content">
             <div class="header">
                 {{$user->name}}
-                {{$user->last_name}}</div>
-            {{--<div class="description">--}}
-            {{--Kristy is an art director living in New York.--}}
-            {{--</div>--}}
+                {{$user->last_name}}
+            </div>
         </div>
         <div class="extra content">
-            <div class="meta">
+            <div class="meta meta-m-3">
                 <i class="mail icon"></i>
                 <span>{{$user->email}}</span>
             </div>
             @if($user->phone)
-                <div class="meta">
+                <div class="meta meta-m-3">
                     <i class="phone icon"></i>
                     <span>{{$user->phone}}</span>
                     @if(!$user->isPhoneVerified())
@@ -43,12 +39,11 @@
                 </span>
                 <i class="info icon"></i>Two factor auth
             </div>
+            <br>
             <div class="content">
-                 <span class="right floated">
-                    <a href="{{ route('cabinet.profile.edit') }}" class="circular ui icon button">
-                        <i class="icon settings"></i>
-                    </a>
-                </span>
+                <a href="{{ route('cabinet.profile.edit') }}" class="circular ui icon button">
+                    <i class="icon settings"></i>
+                </a>
             </div>
         </div>
 
@@ -74,37 +69,4 @@
         </tbody>
     </table>
 
-    {{--    <table class="ui celled table">--}}
-    {{--        <tbody>--}}
-    {{--        <tr>--}}
-    {{--            <th>Phone</th>--}}
-    {{--            <td>--}}
-    {{--                @if($user->phone)--}}
-    {{--                    {{$user->phone}}--}}
-    {{--@if(!$user->isPhoneVerified())--}}
-    {{--<i>(is not verified)</i><br/>--}}
-    {{--<form action="{{route('cabinet.profile.phone')}}" method="post">--}}
-    {{--@csrf--}}
-    {{--<button type="submit" class="btn btn-success btn-success">Verify</button>--}}
-    {{--</form>--}}
-    {{--@endif--}}
-    {{--                @endif--}}
-    {{--            </td>--}}
-    {{--        </tr>--}}
-    {{--        @if($user->phone)--}}
-    {{--            <tr>--}}
-    {{--                <th>Two factor auth</th>--}}
-    {{--                <td>--}}
-    {{--                    <form action="{{route('cabinet.profile.phone.auth')}}" method="post">--}}
-    {{--                        @csrf--}}
-    {{--                        @if($user->isPhoneAuthEnabled())--}}
-    {{--                            <button class="btn btn-sm btn-success">On</button>--}}
-    {{--                        @else--}}
-    {{--                            <button class="btn btn-sm btn-danger">Off</button>--}}
-    {{--                        @endif--}}
-    {{--                    </form>--}}
-    {{--                </td>--}}
-    {{--            </tr>--}}
-    {{--        @endif--}}
-    {{--        </tbody>--}}
 @endsection

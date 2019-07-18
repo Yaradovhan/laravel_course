@@ -16,11 +16,7 @@
     <link href="{{ mix('css/app.css', 'build') }}" rel="stylesheet">
 </head>
 <body>
-{{--<div class="ui inverted center aligned segment">--}}
-{{--    <div class="ui container">--}}
 
-{{--        <div class="ui inverted segment">--}}
-{{--            <div class="ui small inverted secondary pointing menu">--}}
 <div class="ui inverted fixed main menu">
     <div class="item">
         <a href="{{ url('/') }}">Advert</a>
@@ -61,10 +57,7 @@
         @endguest
     </div>
 </div>
-{{--        </div>--}}
 
-{{--    </div>--}}
-{{--</div>--}}
 <main class="app-content pt-5rem">
     <div class="main ui container">
         @section('breadcrumbs', Breadcrumbs::render())

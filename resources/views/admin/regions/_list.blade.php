@@ -1,4 +1,4 @@
-<table class="table table-bordered table-striped">
+<table class="ui striped table">
     <thead>
     <tr>
         <th>Name</th>
@@ -6,13 +6,11 @@
     </tr>
     </thead>
     <tbody>
-
     @foreach ($regions as $region)
         <tr>
             <td><a href="{{ route('admin.regions.show', $region) }}">{{ $region->name }}</a></td>
             <td>{{ $region->slug }}</td>
         </tr>
     @endforeach
-
     </tbody>
 </table>

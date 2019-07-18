@@ -1,4 +1,3 @@
-{{--@extends('layouts.app')--}}
 @extends('semantic.layouts.app')
 
 @section('content')

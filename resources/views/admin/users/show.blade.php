@@ -2,52 +2,60 @@
 
 @section('content')
     @include('admin.users._nav')
-    <div class="d-flex flex-row mb-3">
-        <a href="{{route('admin.users.edit', $user)}}" class="btn btn-primary mr-1">Edit</a>
-        @if ($user->isWait())
-            <form method="POST" action="{{ route('admin.users.verify', $user) }}" class="mr-1">
-                @csrf
-                <button class="btn btn-success">Verify</button>
-            </form>
-        @endif
-        <form action="{{route('admin.users.update', $user)}}" method="post" class="mr-1">
-            @csrf
-            @method('DELETE')
-            <button class="btn btn-danger">Delete</button>
-        </form>
+
+    <div class="ui card">
+        <div class="content">
+            <img class="right floated mini ui image" src="{{asset('/images/users_profile/user1/img1.png')}}">
+            <div class="header">
+                {{$user->name}}
+                {{$user->last_name}}
+            </div>
+            <div class="meta">
+                <i class="id badge outline icon"></i>
+                <span>{{$user->id}}</span>
+            </div>
+            <div class="meta">
+                <i class="mail icon"></i>
+                <span>{{$user->email}}</span>
+            </div>
+            <div class="meta meta-m-3">
+                <i class="info icon"></i>
+                Status
+                @if($user->isWait())
+                    <span class="ui orange horizontal label">Waiting</span>
+                @endif
+                @if($user->isActive())
+                    <span class="ui teal horizontal label">Active</span>
+                @endif
+            </div>
+            <div class="meta meta-m-3">
+                <i class="info icon"></i>
+                Role
+                @if($user->isAdmin())
+                    <span class="ui red horizontal basic label">Admin</span>
+                @elseif($user->isModerator())
+                    <span class="ui yellow horizontal basic label">Moderator</span>
+                @else
+                    <span class="ui teal horizontal basic label">User</span>
+                @endif
+            </div>
+        </div>
+        <div class="extra content">
+            <div class="ui three buttons">
+
+                @if ($user->isWait())
+                    <button type="button" data-source="{{ route('admin.users.verify', $user) }}"
+                            class="ui green basic button user_verify">Verify
+                    </button>
+                @endif
+                    <button type="button" data-source="{{route('admin.users.edit', $user)}}"
+                            class="ui blue basic button user_edit">Edit
+                    </button>
+                    <button type="button" data-source="{{route('admin.users.update', $user)}}"
+                            class="ui red basic button user_delete">Delete
+                    </button>
+            </div>
+        </div>
     </div>
 
-    <table class="table table-border->table-stripped">
-        <tbody>
-            <tr>
-                <th>ID</th><td>{{$user->id}}</td>
-            </tr>
-            <tr>
-                <th>Name</th><td>{{$user->name}}</td>
-            </tr>
-            <tr>
-                <th>Email</th><td>{{$user->email}}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>
-                    @if($user->isWait())
-                        <span class="badge badge-secondary">Waiting</span>
-                    @endif
-                    @if($user->isActive())
-                        <span class="badge badge-primary">Active</span>
-                    @endif
-                </td>
-            </tr>
-            <tr>
-                <th>Role</th><td>
-                    @if($user->isAdmin())
-                        <span class="badge badge-danger">Admin</span>
-                 @else
-                        <span class="badge badge-secondary">User</span>
-                    @endif
-                </td>
-            </tr>
-        </tbody>
-    </table>
 @endsection

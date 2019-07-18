@@ -3,7 +3,32 @@
 @section('content')
     @include('admin.users._nav')
 
-    <p><a href="{{ route('admin.users.create') }}" class="btn btn-success">Add User</a></p>
+    <p><a href="{{ route('admin.users.create') }}" class="ui primary button">Add User</a></p>
+
+    <div class="ui card filter-user">
+        <div class="content">
+            <div class="ui sub header">Filter</div>
+        </div>
+        <div class="content">
+            <form action="" method="get" class="ui form">
+                <div class="field">
+                    <div class="fields">
+                        <div class="six wide field">
+                            <input type="number" name="id" placeholder="ID">
+                        </div>
+                        <div class="twelve wide field">
+                            <input type="text" name="name" placeholder="Name">
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <input type="email" name="email" placeholder="Email">
+                </div>
+
+            </form>
+        </div>
+    </div>
+
 
     <div class="card mb-3">
         <div class="card-header">Filter</div>
@@ -62,14 +87,14 @@
     </div>
 
 
-    <table class="table table-border->table-stripped">
+    <table class="ui striped table">
         <thead>
         <tr>
-            <td>ID</td>
-            <td>Name</td>
-            <td>Email</td>
-            <td>Status</td>
-            <td>Role</td>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Role</th>
         </tr>
         </thead>
         <tbody>
@@ -89,6 +114,8 @@
                 <td>
                     @if($user->isAdmin())
                         <span class="badge badge-danger">Admin</span>
+                        @elseif ($user->isModerator())
+                        <span class="badge badge-secondary">Moderator</span>
                         @else
                         <span class="badge badge-secondary">User</span>
                     @endif

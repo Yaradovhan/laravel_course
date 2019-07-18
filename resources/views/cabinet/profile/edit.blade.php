@@ -1,38 +1,32 @@
-@extends('layouts.app')
+@extends('semantic.layouts.app')
 
 @section('content')
     @include('cabinet.profile._nav')
-
-    <form method="POST" action="{{ route('cabinet.profile.update') }}">
+    <form class="ui form" method="POST" action="{{ route('cabinet.profile.update') }}">
         @csrf
         @method('PUT')
-
-        <div class="form-group">
-            <label for="name" class="col-form-label">First Name</label>
-            <input id="name" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name', $user->name) }}" required>
-            @if ($errors->has('name'))
-                <span class="invalid-feedback"><strong>{{ $errors->first('name') }}</strong></span>
-            @endif
+        <div class="fields">
+            <div class="field">
+                <label for="name">First name</label>
+                <input id="name" type="text" name="name" placeholder="First Name" value="{{ old('name', $user->name) }}"
+                       required>
+            </div>
+            <div class="field">
+                <label for="last_name">Last name</label>
+                <input id="last_name" type="text" name="last_name" placeholder="Last Name"
+                       value="{{ old('last_name', $user->last_name) }}" required>
+            </div>
+            <div class="field {{$errors->has('phone') ? 'error' : ''}}">
+                <label for="phone">Phone</label>
+                <input id="phone" type="tel" name="phone" placeholder="Phone" value="{{ old('phone', $user->phone) }}"
+                       required>
+            </div>
+        </div>
+        <div class="field disabled">
+            <label>Update your photo</label>
+            <input type="file" name="avatar">
         </div>
 
-        <div class="form-group">
-            <label for="last_name" class="col-form-label">Last Name</label>
-            <input id="last_name" type="text" class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}" name="last_name" value="{{ old('last_name', $user->last_name) }}" required>
-            @if ($errors->has('last_name'))
-                <span class="invalid-feedback"><strong>{{ $errors->first('last_name') }}</strong></span>
-            @endif
-        </div>
-
-        <div class="form-group">
-            <label for="phone" class="col-form-label">Phone</label>
-            <input id="phone" type="tel" class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone', $user->phone) }}" required>
-            @if ($errors->has('phone'))
-                <span class="invalid-feedback"><strong>{{ $errors->first('phone') }}</strong></span>
-            @endif
-        </div>
-
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save</button>
-        </div>
+        <button class="ui button" type="submit">Submit</button>
     </form>
 @endsection

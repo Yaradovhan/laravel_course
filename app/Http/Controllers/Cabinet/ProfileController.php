@@ -27,7 +27,7 @@ class ProfileController extends Controller
         $this->validate($request, [
             'name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'phone' => 'required|string|max:255',
+            'phone' => 'required|regex:/^[0-9\-\(\)\/\+\s]*$/',
         ]);
 
         $user = Auth::user();

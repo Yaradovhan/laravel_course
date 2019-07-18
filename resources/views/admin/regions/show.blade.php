@@ -3,30 +3,29 @@
 @section('content')
     @include('admin.regions._nav')
 
-    <div class="d-flex flex-row mb-3">
-        <a href="{{ route('admin.regions.edit', $region) }}" class="btn btn-primary mr-1">Edit</a>
-        <form method="POST" action="{{ route('admin.regions.update', $region) }}" class="mr-1">
+    <div class="ui buttons">
+        <a href="{{ route('admin.regions.edit', $region) }}" class="ui blue basic button">Edit</a>
+        <form method="POST" action="{{ route('admin.regions.update', $region) }}">
             @csrf
             @method('DELETE')
-            <button class="btn btn-danger">Delete</button>
+            <button class="ui red basic button">Delete</button>
         </form>
     </div>
-
-    <table class="table table-bordered table-striped">
+    <table class="ui collapsing table">
         <tbody>
         <tr>
-            <th>ID</th><td>{{ $region->id }}</td>
+            <td>ID</td><td>{{ $region->id }}</td>
         </tr>
         <tr>
-            <th>Name</th><td>{{ $region->name }}</td>
+            <td>Name</td><td>{{ $region->name }}</td>
         </tr>
         <tr>
-            <th>Slug</th><td>{{ $region->slug }}</td>
+            <td>Slug</td><td>{{ $region->slug }}</td>
         </tr>
         </tbody>
     </table>
 
-    <p><a href="{{ route('admin.regions.create', ['parent' => $region->id]) }}" class="btn btn-success">Add SubRegion</a></p>
+    <p><a href="{{ route('admin.regions.create', ['parent' => $region->id]) }}" class="ui basic button">Add SubRegion</a></p>
 
     @include('admin.regions._list', ['regions' => $regions])
 @endsection

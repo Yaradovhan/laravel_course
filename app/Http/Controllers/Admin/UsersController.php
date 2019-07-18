@@ -104,7 +104,7 @@ class UsersController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('admin.users.index');
+        return route('admin.users.index');
     }
 
     public function verify(User $user)
