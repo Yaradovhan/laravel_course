@@ -27,7 +27,7 @@
             </div>
         </div>
 
-        <button class="ui primary button" type="submit">Update</button>
+        <button class="ui blue basic button" type="submit">Update</button>
     </form>
 
 @endsection

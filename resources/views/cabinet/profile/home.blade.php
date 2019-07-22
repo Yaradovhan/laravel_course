@@ -48,25 +48,25 @@
         </div>
 
     </div>
-    <table class="ui definition table">
-        <tbody>
-        <tr>
-            <td class="two wide column">Size</td>
-            <td>1" x 2"</td>
-        </tr>
-        <tr>
-            <td>Weight</td>
-            <td>6 ounces</td>
-        </tr>
-        <tr>
-            <td>Color</td>
-            <td>Yellowish</td>
-        </tr>
-        <tr>
-            <td>Odor</td>
-            <td>Not Much Usually</td>
-        </tr>
-        </tbody>
-    </table>
+{{--    <table class="ui definition table">--}}
+{{--        <tbody>--}}
+{{--        <tr>--}}
+{{--            <td class="two wide column">Size</td>--}}
+{{--            <td>1" x 2"</td>--}}
+{{--        </tr>--}}
+{{--        <tr>--}}
+{{--            <td>Weight</td>--}}
+{{--            <td>6 ounces</td>--}}
+{{--        </tr>--}}
+{{--        <tr>--}}
+{{--            <td>Color</td>--}}
+{{--            <td>Yellowish</td>--}}
+{{--        </tr>--}}
+{{--        <tr>--}}
+{{--            <td>Odor</td>--}}
+{{--            <td>Not Much Usually</td>--}}
+{{--        </tr>--}}
+{{--        </tbody>--}}
+{{--    </table>--}}
 
 @endsection

@@ -68,7 +68,7 @@
 </main>
 
 <footer>
-    <div class="ui container">
+    <div class="ui container pt-10">
         <div class="ui inverted segment">
             <p>&copy; {{date('Y')}} - Adverts</p>
         </div>

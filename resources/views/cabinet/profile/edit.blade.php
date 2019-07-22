@@ -27,6 +27,6 @@
             <input type="file" name="avatar">
         </div>
 
-        <button class="ui button" type="submit">Submit</button>
+        <button class="ui blue basic button" type="submit">Submit</button>
     </form>
 @endsection
