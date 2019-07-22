@@ -17,11 +17,11 @@ class AdvertService
     public function create($userId, $categoryId, $regionId, CreateRequest $request): Advert
     {
         /* @var User $user */
-        $user = User::findOfFail($userId);
+        $user = User::findOrFail($userId);
         /* @var Category $category */
-        $category = Category::findOfFail($categoryId);
+        $category = Category::findOrFail($categoryId);
         /* @var Region $region */
-        $region = $regionId ? Region::findOfFail($regionId) : null;
+        $region = $regionId ? Region::findOrFail($regionId) : null;
 
         return DB::transaction(function () use ($request, $user, $category, $region) {
 
