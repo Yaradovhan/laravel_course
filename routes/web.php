@@ -43,21 +43,21 @@ Route::group([
         'namespace' => 'Adverts',
         'middleware' => [App\Http\Middleware\FilledProfile::class],
     ], function () {
-//        Route::get('/', 'AdvertController@index')->name('index');
-//        Route::get('/create', 'CreateController@category')->name('create');
-//        Route::get('/create/region/{category}/{region?}', 'CreateController@region')->name('create.region');
-//        Route::get('/create/advert/{category}/{region?}', 'CreateController@advert')->name('create.advert');
-//        Route::post('/create/advert/{category}/{region?}', 'CreateController@store')->name('create.advert.store');
-//
-//        Route::get('/{advert}/edit', 'ManageController@editForm')->name('edit');
-//        Route::put('/{advert}/edit', 'ManageController@edit');
-//        Route::get('/{advert}/photos', 'ManageController@photosForm')->name('photos');
-//        Route::post('/{advert}/photos', 'ManageController@photos');
-//        Route::get('/{advert}/attributes', 'ManageController@attributesForm')->name('attributes');
-//        Route::post('/{advert}/attributes', 'ManageController@attributes');
-//        Route::post('/{advert}/send', 'ManageController@send')->name('send');
-//        Route::post('/{advert}/close', 'ManageController@close')->name('close');
-//        Route::delete('/{advert}/destroy', 'ManageController@destroy')->name('destroy');
+        Route::get('/', 'AdvertController@index')->name('index');
+        Route::get('/create', 'CreateController@category')->name('create');
+        Route::get('/create/region/{category}/{region?}', 'CreateController@region')->name('create.region');
+        Route::get('/create/advert/{category}/{region?}', 'CreateController@advert')->name('create.advert');
+        Route::post('/create/advert/{category}/{region?}', 'CreateController@store')->name('create.advert.store');
+
+        Route::get('/{advert}/edit', 'ManageController@editForm')->name('edit');
+        Route::put('/{advert}/edit', 'ManageController@edit');
+        Route::get('/{advert}/photos', 'ManageController@photosForm')->name('photos');
+        Route::post('/{advert}/photos', 'ManageController@photos');
+        Route::get('/{advert}/attributes', 'ManageController@attributesForm')->name('attributes');
+        Route::post('/{advert}/attributes', 'ManageController@attributes');
+        Route::post('/{advert}/send', 'ManageController@send')->name('send');
+        Route::post('/{advert}/close', 'ManageController@close')->name('close');
+        Route::delete('/{advert}/destroy', 'ManageController@destroy')->name('destroy');
     });
 
 });
@@ -84,4 +84,17 @@ Route::group([
             Route::resource('attributes', 'AttributeController')->except('index');
         });
     });
+});
+
+Route::group([
+    'prefix' => 'adverts',
+    'as' => 'adverts.',
+    'namespace' => 'Adverts',
+], function () {
+    Route::get('/show/{advert}', 'AdvertController@show')->name('show');
+    Route::post('/show/{advert}/phone', 'AdvertController@phone')->name('phone');
+    Route::post('/show/{advert}/favorites', 'FavoriteController@add')->name('favorites');
+    Route::delete('/show/{advert}/favorites', 'FavoriteController@remove');
+
+    Route::get('/{adverts_path?}', 'AdvertController@index')->name('index')->where('adverts_path', '.+');
 });
