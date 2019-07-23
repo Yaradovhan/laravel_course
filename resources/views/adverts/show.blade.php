@@ -3,11 +3,11 @@
 @section('content')
 
     @if ($advert->isDraft())
-        <div class="alert alert-danger">
+        <div class="ui red message">
             It is a draft.
         </div>
         @if ($advert->reject_reason)
-            <div class="alert alert-danger">
+            <div class="ui red message">
                 {{ $advert->reject_reason }}
             </div>
         @endif

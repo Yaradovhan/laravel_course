@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('semantic.layouts.app')
 
 {{--@section('search')--}}
 {{--    @include('layouts.partials.search', ['category' => $category, 'route' => '?'])--}}

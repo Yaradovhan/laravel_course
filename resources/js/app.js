@@ -36,6 +36,15 @@ $('.region-selector').each(function () {
     buildSelect(null, selected);
 });
 
+$(document).on('click', 'phone-button', function () {
+    var button = $(this);
+    axios.post(button.data('source')).then(function (res) {
+        button.find('.number').html(res.data)
+    }).catch(function (reason) {
+        console.log(reason);
+    });
+});
+
 $('.ui.dropdown').dropdown();
 $('.menu .item').tab();
 $('.ui.checkbox').checkbox()
