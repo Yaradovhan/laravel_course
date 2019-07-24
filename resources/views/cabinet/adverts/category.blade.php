@@ -1,4 +1,4 @@
-@extends('layouts')
+@extends('semantic.layouts.app')
 
 @section('content')
     <p>Choose category:</p>
