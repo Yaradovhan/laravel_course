@@ -5,11 +5,13 @@
 
     @if ($region)
         <p>
-            <a href="{{ route('cabinet.adverts.create.advert', [$category, $region]) }}" class="btn btn-success">Add Advert for {{ $region->name }}</a>
+            <a href="{{ route('cabinet.adverts.create.advert', [$category, $region]) }}" class="ui green button">Add
+                Advert for {{ $region->name }}</a>
         </p>
     @else
         <p>
-            <a href="{{ route('cabinet.adverts.create.advert', [$category]) }}" class="btn btn-success">Add Advert for all regions</a>
+            <a href="{{ route('cabinet.adverts.create.advert', [$category]) }}" class="ui green button">Add Advert for
+                all regions</a>
         </p>
     @endif
 

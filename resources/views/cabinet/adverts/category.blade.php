@@ -3,6 +3,8 @@
 @section('content')
     <p>Choose category:</p>
 
-    @include('cabinet.adverts.create._categories', ['categories'=> $categoies])
-    
+    <div class="ui bulleted list">
+        @include('cabinet.adverts.create._categories', ['categories'=> $categoies])
+    </div>
+
 @endsection

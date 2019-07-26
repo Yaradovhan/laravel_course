@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('semantic.layouts.app')
 
 @section('content')
 
@@ -14,51 +14,51 @@
     @endif
 
     @can ('manage-adverts')
-        <div class="d-flex flex-row mb-3">
-            <a href="{{ route('admin.adverts.adverts.edit', $advert) }}" class="btn btn-primary mr-1">Edit</a>
-            <a href="{{ route('admin.adverts.adverts.photos', $advert) }}" class="btn btn-primary mr-1">Photos</a>
+        <div class="">
+            <a href="{{ route('admin.adverts.adverts.edit', $advert) }}" class="ui primary button">Edit</a>
+            <a href="{{ route('admin.adverts.adverts.photos', $advert) }}" class="ui primary button">Photos</a>
 
             @if ($advert->isOnModeration())
-                <form method="POST" action="{{ route('admin.adverts.adverts.moderate', $advert) }}" class="mr-1">
+                <form method="POST" action="{{ route('admin.adverts.adverts.moderate', $advert) }}">
                     @csrf
-                    <button class="btn btn-success">Moderate</button>
+                    <button class="ui green button">Moderate</button>
                 </form>
             @endif
 
             @if ($advert->isOnModeration() || $advert->isActive())
-                <a href="{{ route('admin.adverts.adverts.reject', $advert) }}" class="btn btn-danger mr-1">Reject</a>
+                <a href="{{ route('admin.adverts.adverts.reject', $advert) }}" class="ui red button">Reject</a>
             @endif
 
-            <form method="POST" action="{{ route('admin.adverts.adverts.destroy', $advert) }}" class="mr-1">
+            <form method="POST" action="{{ route('admin.adverts.adverts.destroy', $advert) }}">
                 @csrf
                 @method('DELETE')
-                <button class="btn btn-danger">Delete</button>
+                <button class="ui red button">Delete</button>
             </form>
         </div>
     @endcan
 
     @can ('manage-own-advert', $advert)
-        <div class="d-flex flex-row mb-3">
-            <a href="{{ route('cabinet.adverts.edit', $advert) }}" class="btn btn-primary mr-1">Edit</a>
-            <a href="{{ route('cabinet.adverts.photos', $advert) }}" class="btn btn-primary mr-1">Photos</a>
+        <div class="">
+            <a href="{{ route('cabinet.adverts.edit', $advert) }}" class="ui primary button">Edit</a>
+            <a href="{{ route('cabinet.adverts.photos', $advert) }}" class="ui primary button">Photos</a>
 
             @if ($advert->isDraft())
-                <form method="POST" action="{{ route('cabinet.adverts.send', $advert) }}" class="mr-1">
+                <form method="POST" action="{{ route('cabinet.adverts.send', $advert) }}">
                     @csrf
-                    <button class="btn btn-success">Publish</button>
+                    <button class="ui green button">Publish</button>
                 </form>
             @endif
             @if ($advert->isActive())
-                <form method="POST" action="{{ route('cabinet.adverts.close', $advert) }}" class="mr-1">
+                <form method="POST" action="{{ route('cabinet.adverts.close', $advert) }}">
                     @csrf
-                    <button class="btn btn-success">Close</button>
+                    <button class="ui green button">Close</button>
                 </form>
             @endif
 
-            <form method="POST" action="{{ route('cabinet.adverts.destroy', $advert) }}" class="mr-1">
+            <form method="POST" action="{{ route('cabinet.adverts.destroy', $advert) }}">
                 @csrf
                 @method('DELETE')
-                <button class="btn btn-danger">Delete</button>
+                <button class="ui red button">Delete</button>
             </form>
         </div>
     @endcan
@@ -77,19 +77,19 @@
                 @endif
             </p>
 
-            <div style="margin-bottom: 20px">
-                <div class="row">
-                    <div class="col-10">
-                        <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd"></div>
-                    </div>
-                    <div class="col-2">
-                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>
-                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>
-                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>
-                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>
-                    </div>
-                </div>
-            </div>
+{{--            <div style="margin-bottom: 20px">--}}
+{{--                <div class="row">--}}
+{{--                    <div class="col-10">--}}
+{{--                        <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
+{{--                    </div>--}}
+{{--                    <div class="col-2">--}}
+{{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
+{{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
+{{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
+{{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
             <p>{!! nl2br(e($advert->content)) !!}</p>
 
@@ -171,34 +171,34 @@
     </div>
 @endsection
 
-{{--@section('scripts')--}}
-{{--    <script src="//api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>--}}
+@section('scripts')
+    <script src="//api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
 
-{{--    <script type='text/javascript'>--}}
-{{--        ymaps.ready(init);--}}
-{{--        function init(){--}}
-{{--            var geocoder = new ymaps.geocode(--}}
-{{--                '{{ $advert->address }}',--}}
-{{--                { results: 1 }--}}
-{{--            );--}}
-{{--            geocoder.then(--}}
-{{--                function (res) {--}}
-{{--                    var coord = res.geoObjects.get(0).geometry.getCoordinates();--}}
-{{--                    var map = new ymaps.Map('map', {--}}
-{{--                        center: coord,--}}
-{{--                        zoom: 7,--}}
-{{--                        behaviors: ['default', 'scrollZoom'],--}}
-{{--                        controls: ['mapTools']--}}
-{{--                    });--}}
-{{--                    map.geoObjects.add(res.geoObjects.get(0));--}}
-{{--                    map.zoomRange.get(coord).then(function(range){--}}
-{{--                        map.setCenter(coord, range[1] - 1)--}}
-{{--                    });--}}
-{{--                    map.controls.add('mapTools')--}}
-{{--                        .add('zoomControl')--}}
-{{--                        .add('typeSelector');--}}
-{{--                }--}}
-{{--            );--}}
-{{--        }--}}
-{{--    </script>--}}
-{{--@endsection--}}
+    <script type='text/javascript'>
+        ymaps.ready(init);
+        function init(){
+            var geocoder = new ymaps.geocode(
+                '{{ $advert->address }}',
+                { results: 1 }
+            );
+            geocoder.then(
+                function (res) {
+                    var coord = res.geoObjects.get(0).geometry.getCoordinates();
+                    var map = new ymaps.Map('map', {
+                        center: coord,
+                        zoom: 7,
+                        behaviors: ['default', 'scrollZoom'],
+                        controls: ['mapTools']
+                    });
+                    map.geoObjects.add(res.geoObjects.get(0));
+                    map.zoomRange.get(coord).then(function(range){
+                        map.setCenter(coord, range[1] - 1)
+                    });
+                    map.controls.add('mapTools')
+                        .add('zoomControl')
+                        .add('typeSelector');
+                }
+            );
+        }
+    </script>
+@endsection

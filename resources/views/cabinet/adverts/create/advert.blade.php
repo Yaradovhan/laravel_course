@@ -6,100 +6,229 @@
     <form method="POST" action="{{ route('cabinet.adverts.create.advert.store', [$category, $region]) }}">
         @csrf
 
-        <div class="card mb-3">
-            <div class="card-header">
+        <div class="ui segments">
+            <div class="ui segment">
                 Common
             </div>
-            <div class="card-body pb-2">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="title" class="col-form-label">Title</label>
-                            <input id="title" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="title" value="{{ old('title') }}" required>
-                            @if ($errors->has('title'))
-                                <span class="invalid-feedback"><strong>{{ $errors->first('title') }}</strong></span>
+            <div class="ui segment">
+                <div class="ui form">
+                    <div class="three fields">
+                        <div class="five wide field">
+                            <label>Title</label>
+                            <div class="ui input {{ $errors->has('title') ? ' error' : '' }}">
+                                <input id="title" name="title" value="{{ old('title') }}" required>
+                                @if ($errors->has('title'))
+                                    <div class="ui pointing red basic label">
+                                        {{ $errors->first('title') }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="three wide field">
+                            <label>Price</label>
+                            <div class="ui input {{ $errors->has('price') ? ' error' : '' }}">
+                                <input id="price" type="number"
+                                       class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" name="price"
+                                       value="{{ old('price') }}" required>
+                                @if ($errors->has('price'))
+                                    <div class="ui pointing red basic label">
+                                        {{ $errors->first('price') }}
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="eight wide field">
+                            <label for="address">Address</label>
+                            <div class="ui icon input">
+                                <i class="inverted bordered location arrow link icon location-button"
+                                   data-target="#address"></i>
+                                <input id="address" type="text"
+                                       class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }} "
+                                       name="address"
+                                       value="{{ old('address', $region != null ?$region->getAddress() : '') }}"
+                                       required>
+                                @if ($errors->has('address'))
+                                    {{ $errors->first('address') }}
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label>Content</label>
+                        <div class="ui input {{ $errors->has('content') ? ' error' : '' }}">
+                            <textarea id="content" name="content" rows="10" required>{{ old('content') }}</textarea>
+                            @if ($errors->has('content'))
+                                {{ $errors->first('content') }}
                             @endif
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="price" class="col-form-label">Price</label>
-                            <input id="price" type="number" class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" name="price" value="{{ old('price') }}" required>
-                            @if ($errors->has('price'))
-                                <span class="invalid-feedback"><strong>{{ $errors->first('price') }}</strong></span>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="address" class="col-form-label">Address</label>
-                    <div class="row">
-                        <div class="col-md-11">
-                            <input id="address" type="text" class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" value="{{ old('address', $region->getAddress()) }}" required>
-                            @if ($errors->has('address'))
-                                <span class="invalid-feedback"><strong>{{ $errors->first('address') }}</strong></span>
-                            @endif
-                        </div>
-                        <div class="col-md-1">
-                            <span class="btn btn-primary btn-block location-button" data-target="#address"><span class="fa fa-location-arrow"></span></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="content" class="col-form-label">Content</label>
-                    <textarea id="content" class="form-control{{ $errors->has('content') ? ' is-invalid' : '' }}" name="content" rows="10" required>{{ old('content') }}</textarea>
-                    @if ($errors->has('content'))
-                        <span class="invalid-feedback"><strong>{{ $errors->first('content') }}</strong></span>
-                    @endif
                 </div>
             </div>
         </div>
 
-        <div class="card mb-3">
-            <div class="card-header">
+        <div class="ui segments">
+            <div class="ui segment">
                 Characteristics
             </div>
-            <div class="card-body pb-2">
-                @foreach ($category->allAttributes() as $attribute)
+            <div class="ui segment">
+                <div class="ui form">
+                    @foreach ($category->allAttributes() as $attribute)
 
-                    <div class="form-group">
-                        <label for=attribute_{{ $attribute->id }}" class="col-form-label">{{ $attribute->name }}</label>
+                        <div class="field">
+                            <label for=attribute_{{ $attribute->id }}">{{ $attribute->name }}</label>
 
-                        @if ($attribute->isSelect())
+                            @if ($attribute->isSelect())
 
-                            <select id="attribute_{{ $attribute->id }}" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]">
-                                <option value=""></option>
-                                @foreach ($attribute->variants as $variant)
-                                    <option value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id) ? ' selected' : '' }}>
-                                        {{ $variant }}
-                                    </option>
-                                @endforeach
-                            </select>
+                                <select id="attribute_{{ $attribute->id }}"
+                                        class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}"
+                                        name="attributes[{{ $attribute->id }}]">
+                                    <option value=""></option>
+                                    @foreach ($attribute->variants as $variant)
+                                        <option value="{{ $variant }}" {{ $variant== old('attributes.' . $attribute->id) ? '
+                                    selected' : '' }}>
+                                            {{ $variant }}
+                                        </option>
+                                    @endforeach
+                                </select>
 
-                        @elseif ($attribute->isNumber())
+                            @elseif ($attribute->isNumber())
 
-                            <input id="attribute_{{ $attribute->id }}" type="number" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id) }}">
+                                <input id="attribute_{{ $attribute->id }}" type="number"
+                                       class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}"
+                                       name="attributes[{{ $attribute->id }}]"
+                                       value="{{ old('attributes.' . $attribute->id) }}">
 
-                        @else
+                            @else
 
-                            <input id="attribute_{{ $attribute->id }}" type="text" class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}" name="attributes[{{ $attribute->id }}]" value="{{ old('attributes.' . $attribute->id) }}">
+                                <input id="attribute_{{ $attribute->id }}" type="text"
+                                       class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}"
+                                       name="attributes[{{ $attribute->id }}]"
+                                       value="{{ old('attributes.' . $attribute->id) }}">
 
-                        @endif
+                            @endif
 
-                        @if ($errors->has('parent'))
-                            <span class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
-                        @endif
-                    </div>
+                            @if ($errors->has('parent'))
+                                <span
+                                    class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>
+                            @endif
+                        </div>
 
-                @endforeach
+                    @endforeach
+                </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <button type="submit" class="btn btn-primary">Save</button>
+        <div class="field">
+            <button type="submit" class="ui primary button">Save</button>
         </div>
     </form>
+
+    {{--        <div class="card mb-3">--}}
+    {{--            <div class="card-header">--}}
+    {{--                Common--}}
+    {{--            </div>--}}
+    {{--            <div class="card-body pb-2">--}}
+    {{--                <div class="row">--}}
+    {{--                    <div class="col-md-6">--}}
+    {{--                        <div class="form-group">--}}
+    {{--                            <label for="title" class="col-form-label">Title</label>--}}
+    {{--                            <input id="title" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}"--}}
+    {{--                                   name="title" value="{{ old('title') }}" required>--}}
+    {{--                            @if ($errors->has('title'))--}}
+    {{--                                <span class="invalid-feedback"><strong>{{ $errors->first('title') }}</strong></span>--}}
+    {{--                            @endif--}}
+    {{--                        </div>--}}
+    {{--                    </div>--}}
+    {{--                    <div class="col-md-6">--}}
+    {{--                        <div class="form-group">--}}
+    {{--                            <label for="price" class="col-form-label">Price</label>--}}
+    {{--                            <input id="price" type="number"--}}
+    {{--                                   class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" name="price"--}}
+    {{--                                   value="{{ old('price') }}" required>--}}
+    {{--                            @if ($errors->has('price'))--}}
+    {{--                                <span class="invalid-feedback"><strong>{{ $errors->first('price') }}</strong></span>--}}
+    {{--                            @endif--}}
+    {{--                        </div>--}}
+    {{--                    </div>--}}
+    {{--                </div>--}}
+
+    {{--                <div class="form-group">--}}
+    {{--                    <label for="address" class="col-form-label">Address</label>--}}
+    {{--                    <div class="row">--}}
+    {{--                        <div class="col-md-11">--}}
+    {{--                            <input id="address" type="text"--}}
+    {{--                                   class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address"--}}
+    {{--                                   value="{{ old('address', $region != null ?$region->getAddress() : '') }}" required>--}}
+    {{--                            @if ($errors->has('address'))--}}
+    {{--                                <span class="invalid-feedback"><strong>{{ $errors->first('address') }}</strong></span>--}}
+    {{--                            @endif--}}
+    {{--                        </div>--}}
+    {{--                        <div class="col-md-1">--}}
+    {{--                            <span class="btn btn-primary btn-block location-button" data-target="#address"><span--}}
+    {{--                                    class="fa fa-location-arrow"></span></span>--}}
+    {{--                        </div>--}}
+    {{--                    </div>--}}
+    {{--                </div>--}}
+
+    {{--                <div class="form-group">--}}
+    {{--                    <label for="content" class="col-form-label">Content</label>--}}
+    {{--                    <textarea id="content" class="form-control{{ $errors->has('content') ? ' is-invalid' : '' }}"--}}
+    {{--                              name="content" rows="10" required>{{ old('content') }}</textarea>--}}
+    {{--                    @if ($errors->has('content'))--}}
+    {{--                        <span class="invalid-feedback"><strong>{{ $errors->first('content') }}</strong></span>--}}
+    {{--                    @endif--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+
+    {{--        <div class="card mb-3">--}}
+    {{--            <div class="card-header">--}}
+    {{--                Characteristics--}}
+    {{--            </div>--}}
+    {{--            <div class="card-body pb-2">--}}
+    {{--                @foreach ($category->allAttributes() as $attribute)--}}
+
+    {{--                    <div class="form-group">--}}
+    {{--                        <label for=attribute_{{ $attribute->id }}" class="col-form-label">{{ $attribute->name }}</label>--}}
+
+    {{--                        @if ($attribute->isSelect())--}}
+
+    {{--                            <select id="attribute_{{ $attribute->id }}"--}}
+    {{--                                    class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}"--}}
+    {{--                                    name="attributes[{{ $attribute->id }}]">--}}
+    {{--                                <option value=""></option>--}}
+    {{--                                @foreach ($attribute->variants as $variant)--}}
+    {{--                                    <option value="{{ $variant }}" {{ $variant== old('attributes.' . $attribute->id) ? '--}}
+    {{--                                    selected' : '' }}>--}}
+    {{--                                    {{ $variant }}--}}
+    {{--                                    </option>--}}
+    {{--                                @endforeach--}}
+    {{--                            </select>--}}
+
+    {{--                        @elseif ($attribute->isNumber())--}}
+
+    {{--                            <input id="attribute_{{ $attribute->id }}" type="number"--}}
+    {{--                                   class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}"--}}
+    {{--                                   name="attributes[{{ $attribute->id }}]"--}}
+    {{--                                   value="{{ old('attributes.' . $attribute->id) }}">--}}
+
+    {{--                        @else--}}
+
+    {{--                            <input id="attribute_{{ $attribute->id }}" type="text"--}}
+    {{--                                   class="form-control{{ $errors->has('attributes.' . $attribute->id) ? ' is-invalid' : '' }}"--}}
+    {{--                                   name="attributes[{{ $attribute->id }}]"--}}
+    {{--                                   value="{{ old('attributes.' . $attribute->id) }}">--}}
+
+    {{--                        @endif--}}
+
+    {{--                        @if ($errors->has('parent'))--}}
+    {{--                            <span--}}
+    {{--                                class="invalid-feedback"><strong>{{ $errors->first('attributes.' . $attribute->id) }}</strong></span>--}}
+    {{--                        @endif--}}
+    {{--                    </div>--}}
+
+    {{--                @endforeach--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
 
 @endsection

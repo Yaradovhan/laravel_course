@@ -4,7 +4,7 @@
     @include('cabinet.adverts._nav')
 
     <p>Choose category:</p>
-
-    @include('cabinet.adverts.create._categories', ['categories' => $categories])
-
+    <div class="ui bulleted list">
+        @include('cabinet.adverts.create._categories', ['categories' => $categories])
+    </div>
 @endsection

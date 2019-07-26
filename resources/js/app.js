@@ -89,3 +89,50 @@ $('.user_edit').click(function () {
     var url = block.data('source');
     window.location = url;
 });
+
+$('.field .ui.embed').embed();
+
+
+$(document).on('click', '.location-button', function () {
+    var button = $(this);
+    var target = $(button.data('target'));
+
+
+    window.geocode_callback = function (response) {
+        if (response.response.GeoObjectCollection.metaDataProperty.GeocoderResponseMetaData.found > 0) {
+            target.val(response.response.GeoObjectCollection.featureMember['0'].GeoObject.metaDataProperty.GeocoderMetaData.Address.formatted);
+        } else {
+            alert('Unable to detect your address.');
+        }
+    };
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            var location = position.coords.longitude + ',' + position.coords.latitude;
+            // console.log(location);
+            // var url = 'https://www.google.com/maps?q=Randall Miller %26 Associates 300 E Broadway, Logansport, IN 46947&output=embed';
+            // var url = 'https://geocode-maps.yandex.ru/1.x/?format=json&callback=geocode_callback&geocode=' + location;
+            var url = 'https://geocode-maps.yandex.ru/1.x/?format=json&callback=geocode_callback&geocode=' + location;
+            //https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyChq5tO3U4Gi7k0NLYvRQjTcYMrh27-6p0
+            // console.log('https://geocode-maps.yandex.ru/1.x/?format=json&callback=geocode_callback&geocode=' + location);
+            console.log('https://www.google.com/maps?q=' + target.val() + '&key=AIzaSyChq5tO3U4Gi7k0NLYvRQjTcYMrh27-6p0');
+            // console.log(url);
+            // console.log(target.val());
+
+            // console.log('https://www.google.com/maps?q='+ url +'&output=embed');
+            // console.log('https://www.google.com/maps?q='+ location +'&output=embed');
+            var script = $('<script>').appendTo($('body'));
+            script.attr('src', url);
+        }, function (error) {
+            console.warn(error.message);
+        });
+    } else {
+        alert('Unable to detect your location.');
+    }
+});
+// $('.ui.embed.map').embed({
+//     source      : 'map',
+//     id          : 'O6Xo21L0ybE',
+//     placeholder : '/images/bear-waving.jpg',
+//     url         : 'https://www.google.com/maps?q=&output=embed'
+// });

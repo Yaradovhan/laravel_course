@@ -60,13 +60,12 @@ Breadcrumbs::for('cabinet.profile.phone', function (Crumbs $crumbs) {
 
 //Adverts
 
-Breadcrumbs::for('adverts.index', function (Crumbs $crumbs, AdvertsPath $path = null) {
-    $path = $path ?: adverts_path(null, null);
-    $crumbs->parent('adverts.inner_category', $path, $path);
-});
+//Breadcrumbs::for('adverts.index', function (Crumbs $crumbs) {
+//    $crumbs->push('Advert', route('adverts'));
+//});
 
 Breadcrumbs::for('adverts.show', function (Crumbs $crumbs, Advert $advert) {
-    $crumbs->parent('adverts.index', adverts_path($advert->region, $advert->category));
+//    $crumbs->parent('adverts.index', $advert->region, $advert->category);
     $crumbs->push($advert->title, route('adverts.show', $advert));
 });
 
