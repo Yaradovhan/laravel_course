@@ -4,11 +4,11 @@
     @include('admin.adverts.categories._nav')
 
     <div class="d-flex flex-row mb-3">
-        <a href="{{ route('admin.adverts.categories.edit', $category) }}" class="btn btn-primary mr-1">Edit</a>
+        <a href="{{ route('admin.adverts.categories.edit', $category) }}" class="ui primary button">Edit</a>
         <form method="POST" action="{{ route('admin.adverts.categories.destroy', $category) }}" class="mr-1">
             @csrf
             @method('DELETE')
-            <button class="btn btn-danger">Delete</button>
+            <button class="ui red button">Delete</button>
         </form>
     </div>
 

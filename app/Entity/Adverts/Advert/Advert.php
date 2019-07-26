@@ -5,6 +5,12 @@ namespace App\Entity\Adverts\Advert;
 use App\Entity\Adverts\Category;
 use App\Entity\Region;
 use App\Entity\User;
+use Geocoder\Exception\Exception;
+use Geocoder\Provider\GeoPlugin\GeoPlugin;
+use Geocoder\Provider\GoogleMaps\GoogleMaps;
+use Geocoder\Query\GeocodeQuery;
+use Geocoder\StatefulGeocoder;
+use Http\Adapter\Guzzle6\Client;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
@@ -250,5 +256,19 @@ class Advert extends Model
         return $query->whereHas('favorites', function(Builder $query) use ($user) {
             $query->where('user_id', $user->id);
         });
+    }
+
+    public function getGeos()
+    {
+        $httpClient = new Client();
+        $provider = new GeoPlugin($httpClient);
+        $geocoder = new StatefulGeocoder($provider, 'en');
+        try {
+            $result = $geocoder->geocodeQuery(GeocodeQuery::create('217.77.215.39'));
+        } catch (Exception $e) {
+            dd($e->getMessage());
+        }
+        dd($result);
+//        return $result;
     }
 }
