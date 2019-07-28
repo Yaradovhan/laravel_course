@@ -13,7 +13,10 @@
         @endif
     @endif
 
-    @can ('manage-adverts')
+{{--TODO @can ('manage-adverts') add controllers + fix buttons--}}
+    @can ('manage-adverts1')
+
+
         <div class="">
             <a href="{{ route('admin.adverts.adverts.edit', $advert) }}" class="ui primary button">Edit</a>
             <a href="{{ route('admin.adverts.adverts.photos', $advert) }}" class="ui primary button">Photos</a>
@@ -38,28 +41,28 @@
     @endcan
 
     @can ('manage-own-advert', $advert)
-        <div class="">
-            <a href="{{ route('cabinet.adverts.edit', $advert) }}" class="ui primary button">Edit</a>
-            <a href="{{ route('cabinet.adverts.photos', $advert) }}" class="ui primary button">Photos</a>
-
+        <div class="content">
+        <div class="ui buttons">
+            <button type="button" data-source="{{ route('cabinet.adverts.edit', $advert) }}"
+                    class="ui blue  button redirect">Edit
+            </button>
+            <button type="button" data-source="{{ route('cabinet.adverts.photos', $advert) }}"
+                    class="ui brown  button redirect">Photos
+            </button>
             @if ($advert->isDraft())
-                <form method="POST" action="{{ route('cabinet.adverts.send', $advert) }}">
-                    @csrf
-                    <button class="ui green button">Publish</button>
-                </form>
+                <button type="button" data-source="{{ route('cabinet.adverts.send', $advert) }}"
+                        class="ui positive button updateItem">Publish
+                </button>
             @endif
+            <button type="button" data-source="{{ route('cabinet.adverts.destroy', $advert) }}"
+                    class="ui negative  button deleteItem">Delete
+            </button>
             @if ($advert->isActive())
-                <form method="POST" action="{{ route('cabinet.adverts.close', $advert) }}">
-                    @csrf
-                    <button class="ui green button">Close</button>
-                </form>
+                <button type="button" data-source="{{ route('cabinet.adverts.close', $advert) }}"
+                        class="ui orange  button updateItem">Close
+                </button>
             @endif
-
-            <form method="POST" action="{{ route('cabinet.adverts.destroy', $advert) }}">
-                @csrf
-                @method('DELETE')
-                <button class="ui red button">Delete</button>
-            </form>
+        </div>
         </div>
     @endcan
 
@@ -77,19 +80,19 @@
                 @endif
             </p>
 
-{{--            <div style="margin-bottom: 20px">--}}
-{{--                <div class="row">--}}
-{{--                    <div class="col-10">--}}
-{{--                        <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
-{{--                    </div>--}}
-{{--                    <div class="col-2">--}}
-{{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
-{{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
-{{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
-{{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            {{--            <div style="margin-bottom: 20px">--}}
+            {{--                <div class="row">--}}
+            {{--                    <div class="col-10">--}}
+            {{--                        <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
+            {{--                    </div>--}}
+            {{--                    <div class="col-2">--}}
+            {{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
+            {{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
+            {{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
+            {{--                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>--}}
+            {{--                    </div>--}}
+            {{--                </div>--}}
+            {{--            </div>--}}
 
             <p>{!! nl2br(e($advert->content)) !!}</p>
 
@@ -112,75 +115,90 @@
 
             <p style="margin-bottom: 20px">Seller: {{ $advert->user->name }}</p>
 
-{{--            <div class="d-flex flex-row mb-3">--}}
-{{--                <span class="btn btn-success mr-1"><span class="fa fa-envelope"></span> Send Message</span>--}}
-{{--                <span class="btn btn-primary phone-button mr-1" data-source="{{ route('adverts.phone', $advert) }}"><span class="fa fa-phone"></span> <span class="number">Show Phone Number</span></span>--}}
-{{--                @if ($user && $user->hasInFavorites($advert->id))--}}
-{{--                    <form method="POST" action="{{ route('adverts.favorites', $advert) }}" class="mr-1">--}}
-{{--                        @csrf--}}
-{{--                        @method('DELETE')--}}
-{{--                        <button class="btn btn-secondary"><span class="fa fa-star"></span> Remove from Favorites</button>--}}
-{{--                    </form>--}}
-{{--                @else--}}
-{{--                    <form method="POST" action="{{ route('adverts.favorites', $advert) }}" class="mr-1">--}}
-{{--                        @csrf--}}
-{{--                        <button class="btn btn-danger"><span class="fa fa-star"></span> Add to Favorites</button>--}}
-{{--                    </form>--}}
-{{--                @endif--}}
-{{--            </div>--}}
+            {{--            <div class="d-flex flex-row mb-3">--}}
+            {{--                <span class="btn btn-success mr-1"><span class="fa fa-envelope"></span> Send Message</span>--}}
+            {{--                <span class="btn btn-primary phone-button mr-1" data-source="{{ route('adverts.phone', $advert) }}"><span class="fa fa-phone"></span> <span class="number">Show Phone Number</span></span>--}}
+            {{--                @if ($user && $user->hasInFavorites($advert->id))--}}
+            {{--                    <form method="POST" action="{{ route('adverts.favorites', $advert) }}" class="mr-1">--}}
+            {{--                        @csrf--}}
+            {{--                        @method('DELETE')--}}
+            {{--                        <button class="btn btn-secondary"><span class="fa fa-star"></span> Remove from Favorites</button>--}}
+            {{--                    </form>--}}
+            {{--                @else--}}
+            {{--                    <form method="POST" action="{{ route('adverts.favorites', $advert) }}" class="mr-1">--}}
+            {{--                        @csrf--}}
+            {{--                        <button class="btn btn-danger"><span class="fa fa-star"></span> Add to Favorites</button>--}}
+            {{--                    </form>--}}
+            {{--                @endif--}}
+            {{--            </div>--}}
 
             <hr/>
 
-            <div class="h3">Similar adverts</div>
+{{--            <div class="h3">Similar adverts</div>--}}
 
-            <div class="row">
-                <div class="col-sm-6 col-md-4">
-                    <div class="card">
-                        <img class="card-img-top" src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt=""/>
-                        <div class="card-body">
-                            <div class="card-title h4 mt-0" style="margin: 10px 0"><a href="#">The First Thing</a></div>
-                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4">
-                    <div class="card">
-                        <img class="card-img-top" src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt=""/>
-                        <div class="card-body">
-                            <div class="card-title h4 mt-0" style="margin: 10px 0"><a href="#">The First Thing</a></div>
-                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-md-4">
-                    <div class="card">
-                        <img class="card-img-top" src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt=""/>
-                        <div class="card-body">
-                            <div class="card-title h4 mt-0" style="margin: 10px 0"><a href="#">The First Thing</a></div>
-                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+{{--            <div class="row">--}}
+{{--                <div class="col-sm-6 col-md-4">--}}
+{{--                    <div class="card">--}}
+{{--                        <img class="card-img-top"--}}
+{{--                             src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"--}}
+{{--                             alt=""/>--}}
+{{--                        <div class="card-body">--}}
+{{--                            <div class="card-title h4 mt-0" style="margin: 10px 0"><a href="#">The First Thing</a></div>--}}
+{{--                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas--}}
+{{--                                eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh--}}
+{{--                                ultricies vehicula ut id elit.</p>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-sm-6 col-md-4">--}}
+{{--                    <div class="card">--}}
+{{--                        <img class="card-img-top"--}}
+{{--                             src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"--}}
+{{--                             alt=""/>--}}
+{{--                        <div class="card-body">--}}
+{{--                            <div class="card-title h4 mt-0" style="margin: 10px 0"><a href="#">The First Thing</a></div>--}}
+{{--                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas--}}
+{{--                                eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh--}}
+{{--                                ultricies vehicula ut id elit.</p>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--                <div class="col-sm-6 col-md-4">--}}
+{{--                    <div class="card">--}}
+{{--                        <img class="card-img-top"--}}
+{{--                             src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"--}}
+{{--                             alt=""/>--}}
+{{--                        <div class="card-body">--}}
+{{--                            <div class="card-title h4 mt-0" style="margin: 10px 0"><a href="#">The First Thing</a></div>--}}
+{{--                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas--}}
+{{--                                eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh--}}
+{{--                                ultricies vehicula ut id elit.</p>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
 
-        </div>
-        <div class="col-md-3">
-            <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd; margin-bottom: 20px"></div>
-            <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd; margin-bottom: 20px"></div>
-        </div>
+{{--        </div>--}}
+{{--        <div class="col-md-3">--}}
+{{--            <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd; margin-bottom: 20px"></div>--}}
+{{--            <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd; margin-bottom: 20px"></div>--}}
+{{--        </div>--}}
     </div>
 @endsection
 
 @section('scripts')
-    <script src="//api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
+    <script src="//api-maps.yandex.ru/2.1-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>
 
     <script type='text/javascript'>
+        console.log(1);
         ymaps.ready(init);
-        function init(){
+
+        function init() {
             var geocoder = new ymaps.geocode(
                 '{{ $advert->address }}',
-                { results: 1 }
+                {results: 1}
             );
+            console.log(geocoder);
             geocoder.then(
                 function (res) {
                     var coord = res.geoObjects.get(0).geometry.getCoordinates();
@@ -191,7 +209,7 @@
                         controls: ['mapTools']
                     });
                     map.geoObjects.add(res.geoObjects.get(0));
-                    map.zoomRange.get(coord).then(function(range){
+                    map.zoomRange.get(coord).then(function (range) {
                         map.setCenter(coord, range[1] - 1)
                     });
                     map.controls.add('mapTools')

@@ -107,6 +107,7 @@ class UsersController extends Controller
         return route('admin.users.index');
     }
 
+
     public function verify(User $user)
     {
         $this->service->verify($user->id);

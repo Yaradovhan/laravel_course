@@ -45,14 +45,14 @@
 
                 @if ($user->isWait())
                     <button type="button" data-source="{{ route('admin.users.verify', $user) }}"
-                            class="ui green basic button user_verify">Verify
+                            class="ui green basic button updateItem">Verify
                     </button>
                 @endif
                     <button type="button" data-source="{{route('admin.users.edit', $user)}}"
-                            class="ui blue basic button user_edit">Edit
+                            class="ui blue basic button redirect">Edit
                     </button>
                     <button type="button" data-source="{{route('admin.users.update', $user)}}"
-                            class="ui red basic button user_delete">Delete
+                            class="ui red basic button deleteItem">Delete
                     </button>
             </div>
         </div>

@@ -59,11 +59,12 @@ $('.ui.checkbox').checkbox()
     }
 });
 
-$('.user_verify').click(function () {
+$('.updateItem').click(function () {
     var block = $(this);
     var url = block.data('source');
     axios.post(url)
-        .then(function () {
+        .then(function (res) {
+            // console.log(res);
             location.reload()
         })
         .catch(function (error) {
@@ -72,7 +73,7 @@ $('.user_verify').click(function () {
 
 });
 
-$('.user_delete').click(function () {
+$('.deleteItem').click(function () {
     var block = $(this);
     var url = block.data('source');
     axios.delete(url)
@@ -84,7 +85,7 @@ $('.user_delete').click(function () {
         });
 });
 
-$('.user_edit').click(function () {
+$('.redirect').click(function () {
     var block = $(this);
     window.location = block.data('source');
 });
