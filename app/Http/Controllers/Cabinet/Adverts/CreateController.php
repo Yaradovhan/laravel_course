@@ -39,7 +39,6 @@ class CreateController extends Controller
 
     public function store(CreateRequest $request, Category $category, Region $region = null)
     {
-        dd($request, $category, $region);
         try {
             $advert = $this->service->create(
                 Auth::id(),

@@ -5,15 +5,9 @@ namespace App\Entity\Adverts\Advert;
 use App\Entity\Adverts\Category;
 use App\Entity\Region;
 use App\Entity\User;
-use Geocoder\Exception\Exception;
-use Geocoder\Provider\GeoPlugin\GeoPlugin;
-use Geocoder\Provider\GoogleMaps\GoogleMaps;
-use Geocoder\Query\GeocodeQuery;
-use Geocoder\StatefulGeocoder;
-use Http\Adapter\Guzzle6\Client;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 /**
  * @property int $id
@@ -38,9 +32,6 @@ use Illuminate\Support\Carbon;
  * @property Photo[] $photos
  * @method Builder active()
  * @method Builder forUser(User $user)
- * @method static make(array $array)
- *
- * @property Value[] $value
  */
 class Advert extends Model
 {
@@ -135,28 +126,28 @@ class Advert extends Model
         $this->getDialogWith($userId)->readByOwner();
     }
 
-    private function getDialogWith(int $userId): Dialog
-    {
-        $dialog = $this->dialogs()->where([
-            'user_id' => $this->user_id,
-            'client_id' => $userId,
-        ])->first();
-        if (!$dialog) {
-            throw new \DomainException('Dialog is not found.');
-        }
-        return $dialog;
-    }
+//    private function getDialogWith(int $userId): Dialog
+//    {
+//        $dialog = $this->dialogs()->where([
+//            'user_id' => $this->user_id,
+//            'client_id' => $userId,
+//        ])->first();
+//        if (!$dialog) {
+//            throw new \DomainException('Dialog is not found.');
+//        }
+//        return $dialog;
+//    }
 
-    private function getOrCreateDialogWith(int $userId): Dialog
-    {
-        if ($userId === $this->user_id) {
-            throw new \DomainException('Cannot send message to myself.');
-        }
-        return $this->dialogs()->firstOrCreate([
-            'user_id' => $this->user_id,
-            'client_id' => $userId,
-        ]);
-    }
+//    private function getOrCreateDialogWith(int $userId): Dialog
+//    {
+//        if ($userId === $this->user_id) {
+//            throw new \DomainException('Cannot send message to myself.');
+//        }
+//        return $this->dialogs()->firstOrCreate([
+//            'user_id' => $this->user_id,
+//            'client_id' => $userId,
+//        ]);
+//    }
 
     public function getValue($id)
     {
@@ -218,10 +209,10 @@ class Advert extends Model
         return $this->belongsToMany(User::class, 'advert_favorites', 'advert_id', 'user_id');
     }
 
-    public function dialogs()
-    {
-        return $this->hasMany(Dialog::class, 'advert_id', 'id');
-    }
+//    public function dialogs()
+//    {
+//        return $this->hasMany(Dialog::class, 'advert_id', 'id');
+//    }
 
     public function scopeActive(Builder $query)
     {
@@ -256,19 +247,5 @@ class Advert extends Model
         return $query->whereHas('favorites', function(Builder $query) use ($user) {
             $query->where('user_id', $user->id);
         });
-    }
-
-    public function getGeos()
-    {
-        $httpClient = new Client();
-        $provider = new GeoPlugin($httpClient);
-        $geocoder = new StatefulGeocoder($provider, 'en');
-        try {
-            $result = $geocoder->geocodeQuery(GeocodeQuery::create('217.77.215.39'));
-        } catch (Exception $e) {
-            dd($e->getMessage());
-        }
-        dd($result);
-//        return $result;
     }
 }

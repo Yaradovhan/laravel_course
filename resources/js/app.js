@@ -86,8 +86,7 @@ $('.user_delete').click(function () {
 
 $('.user_edit').click(function () {
     var block = $(this);
-    var url = block.data('source');
-    window.location = url;
+    window.location = block.data('source');
 });
 
 $('.field .ui.embed').embed();
@@ -109,18 +108,7 @@ $(document).on('click', '.location-button', function () {
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
             var location = position.coords.longitude + ',' + position.coords.latitude;
-            // console.log(location);
-            // var url = 'https://www.google.com/maps?q=Randall Miller %26 Associates 300 E Broadway, Logansport, IN 46947&output=embed';
-            // var url = 'https://geocode-maps.yandex.ru/1.x/?format=json&callback=geocode_callback&geocode=' + location;
             var url = 'https://geocode-maps.yandex.ru/1.x/?format=json&callback=geocode_callback&geocode=' + location;
-            //https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyChq5tO3U4Gi7k0NLYvRQjTcYMrh27-6p0
-            // console.log('https://geocode-maps.yandex.ru/1.x/?format=json&callback=geocode_callback&geocode=' + location);
-            console.log('https://www.google.com/maps?q=' + target.val() + '&key=AIzaSyChq5tO3U4Gi7k0NLYvRQjTcYMrh27-6p0');
-            // console.log(url);
-            // console.log(target.val());
-
-            // console.log('https://www.google.com/maps?q='+ url +'&output=embed');
-            // console.log('https://www.google.com/maps?q='+ location +'&output=embed');
             var script = $('<script>').appendTo($('body'));
             script.attr('src', url);
         }, function (error) {
