@@ -1,5 +1,6 @@
 <?php
 
+use App\Entity\Adverts\Advert\Advert;
 use App\Entity\Adverts\Attribute;
 use App\Entity\Region;
 use \App\Entity\User;
@@ -59,14 +60,24 @@ Breadcrumbs::for('cabinet.profile.phone', function (Crumbs $crumbs) {
 
 //Adverts
 
-Breadcrumbs::for('cabinet.adverts.index', function (Crumbs $crumbs) {
-    $crumbs->parent('cabinet.home');
-    $crumbs->push('Adverts', route('cabinet.adverts.index'));
+Breadcrumbs::for('adverts.index', function (Crumbs $crumbs, AdvertsPath $path = null) {
+    $path = $path ?: adverts_path(null, null);
+    $crumbs->parent('adverts.inner_category', $path, $path);
+});
+
+Breadcrumbs::for('adverts.show', function (Crumbs $crumbs, Advert $advert) {
+    $crumbs->parent('adverts.index', adverts_path($advert->region, $advert->category));
+    $crumbs->push($advert->title, route('adverts.show', $advert));
 });
 
 Breadcrumbs::for('cabinet.adverts.create', function (Crumbs $crumbs) {
     $crumbs->parent('cabinet.adverts.index');
-    $crumbs->push('Create', route('cabinet.adverts.create'));
+    $crumbs->push('Create advert', route('cabinet.adverts.create'));
+});
+
+Breadcrumbs::for('cabinet.adverts.index', function (Crumbs $crumbs) {
+    $crumbs->parent('cabinet.home');
+    $crumbs->push('Adverts', route('cabinet.adverts.index'));
 });
 
 Breadcrumbs::for('cabinet.adverts.create.region', function (Crumbs $crumbs, Category $category, Region $region = null) {

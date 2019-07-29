@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Adverts;
 use App\Entity\Adverts\Advert\Advert;
 use App\Entity\Adverts\Category;
 use App\Entity\Region;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -37,7 +38,7 @@ class AdvertController extends Controller
 
     public function show(Advert $advert)
     {
-        if (!($advert->isActive() || Gate::allows('show-advert', $advert))) {
+        if (!($advert->isActive() || Gate::allows('show-advert', $advert))){
             abort(403);
         }
 
@@ -48,7 +49,7 @@ class AdvertController extends Controller
 
     public function phone(Advert $advert) :string
     {
-        if (!($advert->isActive() || Gate::allows('show-advert', $advert))) {
+        if (!($advert->isActive() || Gate::allows('show-advert', $advert))){
             abort(403);
         }
 
