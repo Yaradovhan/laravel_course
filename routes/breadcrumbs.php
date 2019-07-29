@@ -64,6 +64,21 @@ Breadcrumbs::for('cabinet.adverts.index', function (Crumbs $crumbs) {
     $crumbs->push('Adverts', route('cabinet.adverts.index'));
 });
 
+Breadcrumbs::for('cabinet.adverts.create', function (Crumbs $crumbs) {
+    $crumbs->parent('cabinet.adverts.index');
+    $crumbs->push('Create', route('cabinet.adverts.create'));
+});
+
+Breadcrumbs::for('cabinet.adverts.create.region', function (Crumbs $crumbs, Category $category, Region $region = null) {
+    $crumbs->parent('cabinet.adverts.create');
+    $crumbs->push($category->name, route('cabinet.adverts.create.region', [$category, $region]));
+});
+
+Breadcrumbs::for('cabinet.adverts.create.advert', function (Crumbs $crumbs, Category $category, Region $region = null) {
+    $crumbs->parent('cabinet.adverts.create.region', $category, $region);
+    $crumbs->push($region ? $region->name : 'All', route('cabinet.adverts.create.advert', [$category, $region]));
+});
+
 // Admin
 Breadcrumbs::for('admin.home', function (Crumbs $trail) {
     $trail->parent('home');

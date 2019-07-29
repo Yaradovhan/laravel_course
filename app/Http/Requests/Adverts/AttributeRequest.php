@@ -5,7 +5,6 @@ namespace App\Http\Requests\Adverts;
 use App\Entity\Adverts\Advert\Advert;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use phpDocumentor\Reflection\Types\Array_;
 
 /**
  * Class AttributeRequest
