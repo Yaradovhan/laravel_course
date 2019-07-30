@@ -40,53 +40,43 @@ $('.region-selector').each(function () {
 $(document).on('click', '.location-button', function () {
     var button = $(this);
     var target = $(button.data('target'));
-    var platform = new H.service.Platform({
-        apikey: 'Aokmr8E5SgH0TJGTGACpKO5aHE9MRrDUrvjFfl14B-w'
-    });
 
-    window.geocode_callback = function (response) {
-        if (response.response.GeoObjectCollection.metaDataProperty.GeocoderResponseMetaData.found > 0) {
-            target.val(response.response.GeoObjectCollection.featureMember['0'].GeoObject.metaDataProperty.GeocoderMetaData.Address.formatted);
-        } else {
-            alert('Unable to detect your address.');
-        }
-    };
+
+    // window.geocode_callback = function (response) {
+    //     if (response) {
+    //         console.log('here');
+    //         // target.val(response.response.GeoObjectCollection.featureMember['0'].GeoObject.metaDataProperty.GeocoderMetaData.Address.formatted);
+    //     } else {
+    //         alert('Unable to detect your address.');
+    //     }
+    // };
 
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function (position) {
+ var location = position.coords.latitude + ','+ position.coords.longitude;
 
-console.log(position)
-
-            function reverseGeocode(platform) {
-                var geocoder = platform.getGeocodingService(),
-                    reverseGeocodingParameters = {
-                        prox: '52.5309,13.3847,150', // Berlin
-                        mode: 'retrieveAddresses',
-                        maxresults: '1',
-                        jsonattributes : 1
-                    };
-
-                geocoder.reverseGeocode(
-                    reverseGeocodingParameters,
-                    onSuccess,
-                    onError
-                );
-            }
-
-
-
-
-
-
-        //     var location = position.coords.longitude + ',' + position.coords.latitude;
-        //     var url = 'https://geocode-maps.yandex.ru/1.x/?format=json&callback=geocode_callback&geocode=' + location;
-        //     var script = $('<script>').appendTo($('body'));
-        //     script.attr('src', url);
-        // }, function (error) {
-        //     console.warn(error.message);
-        // });
-    // } else {
-    //     alert('Unable to detect your location.');
+            $.ajax({
+                url: 'https://reverse.geocoder.api.here.com/6.2/reversegeocode.json',
+                type: 'GET',
+                dataType: 'jsonp',
+                jsonp: 'jsoncallback',
+                data: {
+                    prox: location,
+                    mode: 'retrieveAddresses',
+                    maxresults: '1',
+                    gen: '9',
+                    app_id: 'BAqxBoWOqhhwObgD5ToS',
+                    app_code: 'sIBk3mmh-ZajXg-Gn57ckg'
+                },
+                success: function (data) {
+                    var curAddress = data.Response.View[0].Result[0].Location.Address.Label;
+                    target.val(curAddress);
+                    // console.log(curAddress);
+                    // var script = $('<script>').appendTo($('body'));
+                    // console.log(script);
+                    // script.attr('src', curAddress);
+                }
+            });
     })}
 });
 
