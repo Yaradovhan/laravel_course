@@ -69,10 +69,11 @@
             <p class="float-right" style="font-size: 36px;">{{ $advert->price }}</p>
             <h1 style="margin-bottom: 10px">{{ $advert->title  }}</h1>
             <p>
-                @if ($advert->expires_at)
-                    Date: {{ $advert->published_at }} &nbsp;
+                @if (!$advert->expires_at)
+                    Created date: {{ $advert->created_at }} &nbsp;
                 @endif
                 @if ($advert->expires_at)
+                    Published date: {{ $advert->published_at }}
                     Expires: {{ $advert->expires_at }}
                 @endif
             </p>
@@ -106,28 +107,102 @@
 
             <p>Address: {{ $advert->address }}</p>
 
+
             <div style="margin: 20px 0; border: 1px solid #ddd">
                 <div id="map" style="width: 100%; height: 250px"></div>
+                <div id="panel"></div>
+
+                <script>
+                    // Initialize the platform object:
+                    {{--var platform = new H.service.Platform({--}}
+                    {{--    'apikey': '{{ env('HERE_MAP_API_KEY') }}'--}}
+                    {{--});--}}
+                    function geocode(platform) {
+                        var geocoder = platform.getGeocodingService(),
+                            geocodingParameters = {
+                                street: '{{$advert->address}}',
+                                jsonattributes : 1,
+                            };
+                        geocoder.geocode(
+                            geocodingParameters,
+                            onSuccess,
+                            onError
+                        );
+                    }
+
+                    function onSuccess(result) {
+                        var locations = result.response.view[0].result;
+
+                        addLocationsToMap(locations);
+                    }
+
+                    function onError(error) {
+                        alert('Can\'t reach the remote server');
+                    }
+
+                    var platform = new H.service.Platform({
+                        apikey: '{{ env('HERE_MAP_API_KEY') }}'
+                    });
+                    var defaultLayers = platform.createDefaultLayers();
+
+                    var map = new H.Map(document.getElementById('map'),
+                        defaultLayers.vector.normal.map,{
+                            center: {lat:37.376, lng:-122.034},
+                            zoom: 15,
+                            pixelRatio: window.devicePixelRatio || 1
+                        });
+                    window.addEventListener('resize', () => map.getViewPort().resize());
+
+                    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+
+                    var ui = H.ui.UI.createDefault(map, defaultLayers);
+
+                    function addLocationsToMap(locations){
+                        var group = new  H.map.Group(),
+                            position,
+                            i;
+
+                        for (i = 0;  i < locations.length; i += 1) {
+                            position = {
+                                lat: locations[i].location.displayPosition.latitude,
+                                lng: locations[i].location.displayPosition.longitude
+                            };
+                            marker = new H.map.Marker(position);
+                            marker.label = locations[i].location.address.label;
+                            group.addObject(marker);
+                        }
+
+                        map.addObject(group);
+                        map.getViewModel().setLookAtData({
+                            bounds: group.getBoundingBox()
+                        });
+                    }
+
+                    geocode(platform);
+                </script>
+
             </div>
 
             <p style="margin-bottom: 20px">Seller: {{ $advert->user->name }}</p>
 
-{{--            <div class="d-flex flex-row mb-3">--}}
-{{--                <span class="btn btn-success mr-1"><span class="fa fa-envelope"></span> Send Message</span>--}}
-{{--                <span class="btn btn-primary phone-button mr-1" data-source="{{ route('adverts.phone', $advert) }}"><span class="fa fa-phone"></span> <span class="number">Show Phone Number</span></span>--}}
-{{--                @if ($user && $user->hasInFavorites($advert->id))--}}
-{{--                    <form method="POST" action="{{ route('adverts.favorites', $advert) }}" class="mr-1">--}}
-{{--                        @csrf--}}
-{{--                        @method('DELETE')--}}
-{{--                        <button class="btn btn-secondary"><span class="fa fa-star"></span> Remove from Favorites</button>--}}
-{{--                    </form>--}}
-{{--                @else--}}
-{{--                    <form method="POST" action="{{ route('adverts.favorites', $advert) }}" class="mr-1">--}}
-{{--                        @csrf--}}
-{{--                        <button class="btn btn-danger"><span class="fa fa-star"></span> Add to Favorites</button>--}}
-{{--                    </form>--}}
-{{--                @endif--}}
-{{--            </div>--}}
+            <div class="d-flex flex-row mb-3">
+                <span class="btn btn-success mr-1"><span class="fa fa-envelope"></span> Send Message</span>
+                <span class="btn btn-primary phone-button mr-1"
+                      data-source="{{ route('adverts.phone', $advert) }}"><span
+                        class="fa fa-phone"></span> <span class="number">Show Phone Number</span></span>
+                {{--                            @if ($user && $user->hasInFavorites($advert->id))--}}
+                {{--                                <form method="POST" action="{{ route('adverts.favorites', $advert) }}" class="mr-1">--}}
+                {{--                                    @csrf--}}
+                {{--                                    @method('DELETE')--}}
+                {{--                                    <button class="btn btn-secondary"><span class="fa fa-star"></span> Remove from Favorites</button>--}}
+                {{--                                </form>--}}
+                {{--                            @else--}}
+                {{--                                <form method="POST" action="{{ route('adverts.favorites', $advert) }}" class="mr-1">--}}
+                {{--                                    @csrf--}}
+                {{--                                    <button class="btn btn-danger"><span class="fa fa-star"></span> Add to Favorites</button>--}}
+                {{--                                </form>--}}
+                {{--                            @endif--}}
+            </div>
 
             <hr/>
 
@@ -136,28 +211,40 @@
             <div class="row">
                 <div class="col-sm-6 col-md-4">
                     <div class="card">
-                        <img class="card-img-top" src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt=""/>
+                        <img class="card-img-top"
+                             src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+                             alt=""/>
                         <div class="card-body">
                             <div class="card-title h4 mt-0" style="margin: 10px 0"><a href="#">The First Thing</a></div>
-                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas
+                                eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh
+                                ultricies vehicula ut id elit.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4">
                     <div class="card">
-                        <img class="card-img-top" src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt=""/>
+                        <img class="card-img-top"
+                             src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+                             alt=""/>
                         <div class="card-body">
                             <div class="card-title h4 mt-0" style="margin: 10px 0"><a href="#">The First Thing</a></div>
-                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas
+                                eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh
+                                ultricies vehicula ut id elit.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6 col-md-4">
                     <div class="card">
-                        <img class="card-img-top" src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb" alt=""/>
+                        <img class="card-img-top"
+                             src="https://images.pexels.com/photos/297933/pexels-photo-297933.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+                             alt=""/>
                         <div class="card-body">
                             <div class="card-title h4 mt-0" style="margin: 10px 0"><a href="#">The First Thing</a></div>
-                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+                            <p class="card-text" style="color: #666">Cras justo odio, dapibus ac facilisis in, egestas
+                                eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh
+                                ultricies vehicula ut id elit.</p>
                         </div>
                     </div>
                 </div>
@@ -165,8 +252,10 @@
 
         </div>
         <div class="col-md-3">
-            <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd; margin-bottom: 20px"></div>
-            <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd; margin-bottom: 20px"></div>
+            <div class="sticky-top">
+                <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd; margin-bottom: 20px"></div>
+                <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd; margin-bottom: 20px"></div>
+            </div>
         </div>
     </div>
 @endsection
@@ -176,10 +265,12 @@
 
 {{--    <script type='text/javascript'>--}}
 {{--        ymaps.ready(init);--}}
-{{--        function init(){--}}
+
+{{--        function init() {--}}
+{{--            console.log({{ $advert->address }});--}}
 {{--            var geocoder = new ymaps.geocode(--}}
 {{--                '{{ $advert->address }}',--}}
-{{--                { results: 1 }--}}
+{{--                {results: 1}--}}
 {{--            );--}}
 {{--            geocoder.then(--}}
 {{--                function (res) {--}}
@@ -191,7 +282,7 @@
 {{--                        controls: ['mapTools']--}}
 {{--                    });--}}
 {{--                    map.geoObjects.add(res.geoObjects.get(0));--}}
-{{--                    map.zoomRange.get(coord).then(function(range){--}}
+{{--                    map.zoomRange.get(coord).then(function (range) {--}}
 {{--                        map.setCenter(coord, range[1] - 1)--}}
 {{--                    });--}}
 {{--                    map.controls.add('mapTools')--}}

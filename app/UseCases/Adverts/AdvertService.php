@@ -8,6 +8,7 @@ use App\Entity\Region;
 use App\Entity\User;
 use App\Http\Requests\Adverts\AttributeRequest;
 use App\Http\Requests\Adverts\CreateRequest;
+use App\Http\Requests\Adverts\EditRequest;
 use App\Http\Requests\Adverts\PhotosRequest;
 use App\Http\Requests\Adverts\RejectRequest;
 use Illuminate\Support\Facades\DB;
@@ -67,47 +68,58 @@ class AdvertService
         });
     }
 
-    public function getAdvert($id) :Advert
+    public function getAdvert($id): Advert
     {
         return Advert::findOrFail($id);
     }
 
-    public function sendToModeration($id) :void
+    public function sendToModeration($id): void
     {
         $advert = $this->getAdvert($id);
         $advert->sendToModeration();
     }
 
-    public function reject($id, RejectRequest $request) :void
+    public function reject($id, RejectRequest $request): void
     {
         $advert = $this->getAdvert($id);
         $advert->reject($request['reason']);
     }
 
-    public function editAttributes($id, AttributeRequest $request) :void
+    public function editAttributes($id, AttributeRequest $request): void
     {
         $advert = $this->getAdvert($id);
 
-        DB::transaction(function () use ($request, $advert){
-           foreach ($advert->values as $value){
-               $value->delete();
-           }
+        DB::transaction(function () use ($request, $advert) {
+            foreach ($advert->values as $value) {
+                $value->delete();
+            }
 
-           foreach ($advert->category->allAttributes() as $attribute){
-               $value = $request['attributes'][$attribute->id] ?? null;
-               if(!empty($value)){
-                   $advert->values()->create([
-                      'attribute_id' => $attribute->id,
-                       'value' => $value
-                   ]);
-               }
-           }
+            foreach ($advert->category->allAttributes() as $attribute) {
+                $value = $request['attributes'][$attribute->id] ?? null;
+                if (!empty($value)) {
+                    $advert->values()->create([
+                        'attribute_id' => $attribute->id,
+                        'value' => $value
+                    ]);
+                }
+            }
         });
     }
 
-    public function remove($id) :void
+    public function remove($id): void
     {
         $advert = $this->getAdvert($id);
         $advert->delete();
+    }
+
+    public function edit($id, EditRequest $request): void
+    {
+        $advert = $this->getAdvert($id);
+        $advert->update($request->only([
+            'title',
+            'content',
+            'price',
+            'address',
+        ]));
     }
 }

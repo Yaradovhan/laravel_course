@@ -52,7 +52,6 @@ class AdvertController extends Controller
         if (!($advert->isActive() || Gate::allows('show-advert', $advert))){
             abort(403);
         }
-
         return $advert->user->phone;
     }
 }
