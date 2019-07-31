@@ -41,43 +41,26 @@ $(document).on('click', '.location-button', function () {
     var button = $(this);
     var target = $(button.data('target'));
 
+    var geocoder = new google.maps.Geocoder;
+    geocodeLatLng(geocoder);
 
-    // window.geocode_callback = function (response) {
-    //     if (response) {
-    //         console.log('here');
-    //         // target.val(response.response.GeoObjectCollection.featureMember['0'].GeoObject.metaDataProperty.GeocoderMetaData.Address.formatted);
-    //     } else {
-    //         alert('Unable to detect your address.');
-    //     }
-    // };
 
-    if (navigator.geolocation) {
+    function geocodeLatLng(geocoder) {
         navigator.geolocation.getCurrentPosition(function (position) {
- var location = position.coords.latitude + ','+ position.coords.longitude;
-
-            $.ajax({
-                url: 'https://reverse.geocoder.api.here.com/6.2/reversegeocode.json',
-                type: 'GET',
-                dataType: 'jsonp',
-                jsonp: 'jsoncallback',
-                data: {
-                    prox: location,
-                    mode: 'retrieveAddresses',
-                    maxresults: '1',
-                    gen: '9',
-                    app_id: 'BAqxBoWOqhhwObgD5ToS',
-                    app_code: 'sIBk3mmh-ZajXg-Gn57ckg'
-                },
-                success: function (data) {
-                    var curAddress = data.Response.View[0].Result[0].Location.Address.Label;
-                    target.val(curAddress);
-                    // console.log(curAddress);
-                    // var script = $('<script>').appendTo($('body'));
-                    // console.log(script);
-                    // script.attr('src', curAddress);
+            var latlng = {lat: position.coords.latitude, lng: position.coords.longitude};
+            geocoder.geocode({'location': latlng}, function (results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        target.val(results[0].formatted_address);
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
                 }
             });
-    })}
+        });
+    }
 });
 
 $(document).on('click', '.phone-button', function () {

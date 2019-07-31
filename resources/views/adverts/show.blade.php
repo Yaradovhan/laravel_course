@@ -110,76 +110,7 @@
 
             <div style="margin: 20px 0; border: 1px solid #ddd">
                 <div id="map" style="width: 100%; height: 250px"></div>
-                <div id="panel"></div>
 
-                <script>
-                    // Initialize the platform object:
-                    {{--var platform = new H.service.Platform({--}}
-                    {{--    'apikey': '{{ env('HERE_MAP_API_KEY') }}'--}}
-                    {{--});--}}
-                    function geocode(platform) {
-                        var geocoder = platform.getGeocodingService(),
-                            geocodingParameters = {
-                                street: '{{$advert->address}}',
-                                jsonattributes : 1,
-                            };
-                        geocoder.geocode(
-                            geocodingParameters,
-                            onSuccess,
-                            onError
-                        );
-                    }
-
-                    function onSuccess(result) {
-                        var locations = result.response.view[0].result;
-
-                        addLocationsToMap(locations);
-                    }
-
-                    function onError(error) {
-                        alert('Can\'t reach the remote server');
-                    }
-
-                    var platform = new H.service.Platform({
-                        apikey: '{{ env('HERE_MAP_API_KEY') }}'
-                    });
-                    var defaultLayers = platform.createDefaultLayers();
-
-                    var map = new H.Map(document.getElementById('map'),
-                        defaultLayers.vector.normal.map,{
-                            center: {lat:37.376, lng:-122.034},
-                            zoom: 15,
-                            pixelRatio: window.devicePixelRatio || 1
-                        });
-                    window.addEventListener('resize', () => map.getViewPort().resize());
-
-                    var behavior = new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
-
-                    var ui = H.ui.UI.createDefault(map, defaultLayers);
-
-                    function addLocationsToMap(locations){
-                        var group = new  H.map.Group(),
-                            position,
-                            i;
-
-                        for (i = 0;  i < locations.length; i += 1) {
-                            position = {
-                                lat: locations[i].location.displayPosition.latitude,
-                                lng: locations[i].location.displayPosition.longitude
-                            };
-                            marker = new H.map.Marker(position);
-                            marker.label = locations[i].location.address.label;
-                            group.addObject(marker);
-                        }
-
-                        map.addObject(group);
-                        map.getViewModel().setLookAtData({
-                            bounds: group.getBoundingBox()
-                        });
-                    }
-
-                    geocode(platform);
-                </script>
 
             </div>
 
@@ -258,38 +189,34 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 8,
+                center: {lat: -34.397, lng: 150.644}
+            });
+            var geocoder = new google.maps.Geocoder();
+
+            geocodeAddress(geocoder, map);
+        }
+
+        function geocodeAddress(geocoder, resultsMap) {
+            var address = '{{$advert->address}}';
+            geocoder.geocode({'address': address}, function (results, status) {
+                if (status === 'OK') {
+                    resultsMap.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: resultsMap,
+                        position: results[0].geometry.location
+                    });
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+    </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key={{env('GOOGLE_MAP_KEY')}}&callback=initMap">
+    </script>
 @endsection
-
-{{--@section('scripts')--}}
-{{--    <script src="//api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU" type="text/javascript"></script>--}}
-
-{{--    <script type='text/javascript'>--}}
-{{--        ymaps.ready(init);--}}
-
-{{--        function init() {--}}
-{{--            console.log({{ $advert->address }});--}}
-{{--            var geocoder = new ymaps.geocode(--}}
-{{--                '{{ $advert->address }}',--}}
-{{--                {results: 1}--}}
-{{--            );--}}
-{{--            geocoder.then(--}}
-{{--                function (res) {--}}
-{{--                    var coord = res.geoObjects.get(0).geometry.getCoordinates();--}}
-{{--                    var map = new ymaps.Map('map', {--}}
-{{--                        center: coord,--}}
-{{--                        zoom: 7,--}}
-{{--                        behaviors: ['default', 'scrollZoom'],--}}
-{{--                        controls: ['mapTools']--}}
-{{--                    });--}}
-{{--                    map.geoObjects.add(res.geoObjects.get(0));--}}
-{{--                    map.zoomRange.get(coord).then(function (range) {--}}
-{{--                        map.setCenter(coord, range[1] - 1)--}}
-{{--                    });--}}
-{{--                    map.controls.add('mapTools')--}}
-{{--                        .add('zoomControl')--}}
-{{--                        .add('typeSelector');--}}
-{{--                }--}}
-{{--            );--}}
-{{--        }--}}
-{{--    </script>--}}
-{{--@endsection--}}
