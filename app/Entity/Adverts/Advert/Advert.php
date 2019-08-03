@@ -67,9 +67,9 @@ class Advert extends Model
         if (!$this->isDraft()) {
             throw new \DomainException('Advert is not draft.');
         }
-        if (!\count($this->photos)) {
-            throw new \DomainException('Upload photos.');
-        }
+//        if (!\count($this->photos)) {
+//            throw new \DomainException('Upload photos.');
+//        }
         $this->update([
             'status' => self::STATUS_MODERATION,
         ]);
@@ -162,7 +162,7 @@ class Advert extends Model
         return null;
     }
 
-    public function isDraft(): bool
+     public function isDraft(): bool
     {
         return $this->status === self::STATUS_DRAFT;
     }

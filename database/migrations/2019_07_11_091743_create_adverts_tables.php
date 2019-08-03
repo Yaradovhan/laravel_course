@@ -21,7 +21,7 @@ class CreateAdvertsTables extends Migration
             $table->text('reject_reason')->nullable();
             $table->timestamps();
             $table->timestamp('published_at')->nullable();
-            $table->timestamp('expires_at')->nullable();
+            $table->timestamp('expired_at')->nullable();
         });
 
         Schema::create('advert_advert_values', function (Blueprint $table) {

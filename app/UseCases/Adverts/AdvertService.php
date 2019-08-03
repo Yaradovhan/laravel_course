@@ -122,4 +122,9 @@ class AdvertService
             'address',
         ]));
     }
+
+    public function expire(Advert $advert) :void
+    {
+        $advert->expire();
+    }
 }
