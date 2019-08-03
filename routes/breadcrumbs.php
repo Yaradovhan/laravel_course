@@ -87,36 +87,37 @@ Breadcrumbs::for('cabinet.adverts.create.advert', function (Crumbs $crumbs, Cate
     $crumbs->push($region ? $region->name : 'All', route('cabinet.adverts.create.advert', [$category, $region]));
 });
 //Adverts
-Breadcrumbs::for('adverts.inner_region', function (Crumbs $crumbs, AdvertsPath $path) {
-    if ($path->region && $parent = $path->region->parent) {
-        $crumbs->parent('adverts.inner_region', $path->withRegion($parent));
+
+Breadcrumbs::for('adverts.inner_region', function (Crumbs $crumbs, Region $region = null, Category $category = null) {
+    if ($region && $parent = $region->parent) {
+        $crumbs->parent('adverts.inner_region', $parent, $category);
     } else {
         $crumbs->parent('home');
         $crumbs->push('Adverts', route('adverts.index'));
     }
-    if ($path->region) {
-        $crumbs->push($path->region->name, route('adverts.index', $path));
+    if ($region) {
+        $crumbs->push($region->name, route('adverts.index', $region, $category));
     }
 });
 
-Breadcrumbs::for('adverts.inner_category', function (Crumbs $crumbs, AdvertsPath $path, AdvertsPath $orig) {
-    if ($path->category && $parent = $path->category->parent) {
-        $crumbs->parent('adverts.inner_category', $path->withCategory($parent), $orig);
+Breadcrumbs::for('adverts.inner_category', function (Crumbs $crumbs, Region $region = null, Category $category = null) {
+    if ($category && $parent = $category->parent) {
+        $crumbs->parent('adverts.inner_category', $region, $parent);
     } else {
-        $crumbs->parent('adverts.inner_region', $orig);
+        $crumbs->parent('adverts.inner_region', $region, $category);
     }
-    if ($path->category) {
-        $crumbs->push($path->category->name, route('adverts.index', $path));
+    if ($category) {
+        $crumbs->push($category->name, route('adverts.index', $region, $category));
     }
 });
 
-Breadcrumbs::for('adverts.index', function (Crumbs $crumbs, AdvertsPath $path = null) {
-    $path = $path ?: adverts_path(null, null);
-    $crumbs->parent('adverts.inner_category', $path, $path);
+Breadcrumbs::for('adverts.index', function (Crumbs $crumbs, Region $region = null, Category $category = null) {
+//    $path = $path ?: adverts_path(null, null);
+    $crumbs->parent('adverts.inner_category', $region, $category);
 });
 
 Breadcrumbs::for('adverts.show', function (Crumbs $crumbs, Advert $advert) {
-    $crumbs->parent('adverts.index', adverts_path($advert->region, $advert->category));
+    $crumbs->parent('adverts.index', $advert->region, $advert->category);
     $crumbs->push($advert->title, route('adverts.show', $advert));
 });
 
