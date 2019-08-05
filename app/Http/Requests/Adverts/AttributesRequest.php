@@ -11,7 +11,7 @@ use Illuminate\Validation\Rule;
  * @property Advert $advert
  * @package App\Http\Requests\Adverts
  */
-class AttributeRequest extends FormRequest
+class AttributesRequest extends FormRequest
 {
     public function authorize(): bool
     {

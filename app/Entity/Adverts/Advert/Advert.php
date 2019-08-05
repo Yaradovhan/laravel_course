@@ -251,4 +251,13 @@ class Advert extends Model
             $query->where('user_id', $user->id);
         });
     }
+
+    public function getRouteKeyName() :string
+    {
+        return 'advert';
+    }
+    public function getRouteKey() :string
+    {
+        return $this->id . '-' . $this->slug;
+    }
 }
