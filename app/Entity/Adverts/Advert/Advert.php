@@ -252,12 +252,4 @@ class Advert extends Model
         });
     }
 
-    public function getRouteKeyName() :string
-    {
-        return 'advert';
-    }
-    public function getRouteKey() :string
-    {
-        return $this->id . '-' . $this->slug;
-    }
 }
