@@ -80,6 +80,12 @@ Breadcrumbs::for('cabinet.adverts.create.advert', function (Crumbs $crumbs, Cate
     $crumbs->parent('cabinet.adverts.create.region', $category, $region);
     $crumbs->push($region ? $region->name : 'All', route('cabinet.adverts.create.advert', [$category, $region]));
 });
+
+Breadcrumbs::register('cabinet.adverts.edit', function (Crumbs $crumbs, Advert $advert) {
+    $crumbs->parent('adverts.index');
+    $crumbs->push($advert->title, route('cabinet.adverts.edit', $advert));
+});
+
 //Breadcrumbs::for('cabinet.adverts.photos', function (Crumbs $crumbs, Advert $advert) {
 //    $crumbs->parent('cabinet.adverts.edit');
 //    $crumbs->push('Adverts Photos', route('cabinet.adverts.edit', $advert));
@@ -216,4 +222,21 @@ Breadcrumbs::for('admin.adverts.categories.show', function (Crumbs $crumbs, Cate
 Breadcrumbs::for('admin.adverts.categories.edit', function (Crumbs $crumbs, Category $category) {
     $crumbs->parent('admin.adverts.categories.show', $category);
     $crumbs->push('Edit', route('admin.adverts.categories.edit', $category));
+});
+
+// Advert Category Attributes
+
+Breadcrumbs::for('admin.adverts.categories.attributes.create', function (Crumbs $crumbs, Category $category) {
+    $crumbs->parent('admin.adverts.categories.show', $category);
+    $crumbs->push('Create', route('admin.adverts.categories.attributes.create', $category));
+});
+
+Breadcrumbs::for('admin.adverts.categories.attributes.show', function (Crumbs $crumbs, Category $category, Attribute $attribute) {
+    $crumbs->parent('admin.adverts.categories.show', $category);
+    $crumbs->push($attribute->name, route('admin.adverts.categories.attributes.show', [$category, $attribute]));
+});
+
+Breadcrumbs::for('admin.adverts.categories.attributes.edit', function (Crumbs $crumbs, Category $category, Attribute $attribute) {
+    $crumbs->parent('admin.adverts.categories.attributes.show', $category, $attribute);
+    $crumbs->push('Edit', route('admin.adverts.categories.attributes.edit', [$category, $attribute]));
 });

@@ -82,7 +82,7 @@ class Advert extends Model
         }
         $this->update([
             'published_at' => $date,
-            'expires_at' => $date->copy()->addDays(15),
+            'expired_at' => $date->copy()->addDays(15),
             'status' => self::STATUS_ACTIVE,
         ]);
     }

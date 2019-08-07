@@ -16,10 +16,10 @@ class AdvertController extends Controller
     {
         $query = Advert::active()->with(['category', 'region'])->orderByDesc('published_at');
 
-        if($region = $path->region){
+        if ($region = $path->region) {
             $query->forRegion($region);
         }
-        if($category = $path->category){
+        if ($category = $path->category) {
             $query->forCategory($category);
         }
 
@@ -33,12 +33,15 @@ class AdvertController extends Controller
 
         $adverts = $query->paginate(20);
 
-        return view('adverts.index', compact('adverts', 'category', 'categories', 'region', 'regions'));
+        return view('adverts.index', compact(
+            'adverts',
+            'category','categories',
+            'region','regions'));
     }
 
     public function show(Advert $advert)
     {
-        if (!($advert->isActive() || Gate::allows('show-advert', $advert))){
+        if (!($advert->isActive() || Gate::allows('show-advert', $advert))) {
             abort(403);
         }
 
@@ -47,9 +50,9 @@ class AdvertController extends Controller
         return view('adverts.show', compact('advert', 'user'));
     }
 
-    public function phone(Advert $advert) :string
+    public function phone(Advert $advert): string
     {
-        if (!($advert->isActive() || Gate::allows('show-advert', $advert))){
+        if (!($advert->isActive() || Gate::allows('show-advert', $advert))) {
             abort(403);
         }
         return $advert->user->phone;

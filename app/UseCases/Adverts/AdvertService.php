@@ -11,6 +11,7 @@ use App\Http\Requests\Adverts\CreateRequest;
 use App\Http\Requests\Adverts\EditRequest;
 use App\Http\Requests\Adverts\PhotosRequest;
 use App\Http\Requests\Adverts\RejectRequest;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class AdvertService
@@ -77,6 +78,12 @@ class AdvertService
     {
         $advert = $this->getAdvert($id);
         $advert->sendToModeration();
+    }
+
+    public function moderate($id): void
+    {
+        $advert = $this->getAdvert($id);
+        $advert->moderate(Carbon::now());
     }
 
     public function reject($id, RejectRequest $request): void
