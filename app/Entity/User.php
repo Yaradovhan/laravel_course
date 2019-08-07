@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Adverts\Advert\Advert;
 use Carbon\Carbon;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -198,4 +199,10 @@ class User extends Authenticatable
         $this->phone_verify_token_expire = null;
         $this->saveOrFail();
     }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Advert::class, 'advert_favorites', 'user_id', 'advert_id');
+    }
+
 }

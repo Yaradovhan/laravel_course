@@ -37,13 +37,13 @@ class AdvertsPath implements UrlRoutable
         $segments = [];
 
         if ($this->region) {
-            $segments[] = Cache::tags('region')->rememberForever('region_' . $this->region->id, function () {
+            $segments[] = Cache::tags(Region::class)->rememberForever('region_' . $this->region->id, function () {
                 return $this->region->getPath();
             });
         }
 
         if ($this->category) {
-            $segments[] = Cache::tags('category')->rememberForever('category_' . $this->category->id, function () {
+            $segments[] = Cache::tags(Category::class)->rememberForever('category_' . $this->category->id, function () {
                 return $this->category->getPath();
             });
         }
