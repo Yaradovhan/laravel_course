@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
-
 //Awesome
 @import "~font-awesome/scss/font-awesome.scss";
 // Variables
@@ -20,4 +19,13 @@ body {
 
 .app-content {
     flex: 1;
+}
+
+.search-bar {
+    background: #d4d4d4;
+}
+
+.breadcrumb {
+    background: none;
+    padding: 0;
 }

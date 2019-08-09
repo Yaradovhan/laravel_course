@@ -72,6 +72,9 @@
             </div>
         </div>
     </nav>
+    @section('search')
+        @include('partials.search', ['category' => null, 'route' => route('adverts.index')])
+    @show
 </header>
 
 <main class="app-content py-4">
