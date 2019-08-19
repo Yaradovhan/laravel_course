@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Region
+ * @property int $id
  * @package App\Entity
  * @property Region $parent
  * @property Region[] $children

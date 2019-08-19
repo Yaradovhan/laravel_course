@@ -24,9 +24,21 @@ class SearchService
             'index' => 'app',
             'type' => 'adverts',
             'body' => [
-                'sort' => [
-                    ['published_at' => ['order' => 'desc']],
-                ],
+                'from' => ($page - 1) * $perPage,
+                'size' => $perPage,
+                'query' => [
+                    'bool' => [
+                        'must' => array_filter([
+                            ['term' => ['status' => Advert::STATUS_ACTIVE]],
+                            $category ? ['term' => ['categories' => $category->id]] : false,
+                            $region ? ['term' => ['region' => $region->id]] : false,
+                            !empty($request->text) ? ['multi_match' => [
+                                'query' => $request->text,
+                                'fields' => ['title^3', 'content']
+                            ]] : false
+                        ]),
+                    ]
+                ]
             ]
         ]);
 
@@ -35,6 +47,7 @@ class SearchService
         $items = Advert::active()
             ->with(['category', 'region'])
             ->whereIn('id', $ids)
+            ->orderBy('FIELD(id, ' . implode(',', $ids) . ')')
             ->get();
     }
 }
