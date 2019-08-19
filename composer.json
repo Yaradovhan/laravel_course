@@ -19,7 +19,7 @@
         "laravel/tinker": "^1.0",
         "predis/predis": "^1.1",
         "twilio/sdk": "^5.34",
-        "elasticsearch/elasticsearch": "^7.0"
+        "elasticsearch/elasticsearch": "6.*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

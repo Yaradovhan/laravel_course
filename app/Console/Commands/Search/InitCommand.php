@@ -2,17 +2,13 @@
 
 namespace App\Console\Commands\Search;
 
-use App\Entity\Adverts\Advert\Advert;
-use Elasticsearch\Client;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Illuminate\Console\Command;
+use Elasticsearch\Client;
 
 class InitCommand extends Command
 {
-
     protected $signature = 'search:init';
-
-    protected $description = 'Command description';
 
     private $client;
 
@@ -25,6 +21,7 @@ class InitCommand extends Command
     public function handle(): bool
     {
         $this->initAdverts();
+//        $this->initBanners();
 
         return true;
     }
@@ -112,7 +109,7 @@ class InitCommand extends Command
                             'trigrams' => [
                                 'type' => 'ngram',
                                 'min_gram' => 4,
-                                'max_gram' => 6,
+                                'max_gram' => 4,
                             ],
                         ],
                         'analyzer' => [
@@ -128,6 +125,46 @@ class InitCommand extends Command
                                     'word_delimiter',
                                     'trigrams',
                                 ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+        ]);
+    }
+
+    private function initBanners(): void
+    {
+        try {
+            $this->client->indices()->delete([
+                'index' => 'banners'
+            ]);
+        } catch (Missing404Exception $e) {
+        }
+
+        $this->client->indices()->create([
+            'index' => 'banners',
+            'body' => [
+                'mappings' => [
+                    'banner' => [
+                        '_source' => [
+                            'enabled' => true,
+                        ],
+                        'properties' => [
+                            'id' => [
+                                'type' => 'integer',
+                            ],
+                            'status' => [
+                                'type' => 'keyword',
+                            ],
+                            'format' => [
+                                'type' => 'keyword',
+                            ],
+                            'categories' => [
+                                'type' => 'integer',
+                            ],
+                            'regions' => [
+                                'type' => 'integer',
                             ],
                         ],
                     ],

@@ -23,32 +23,35 @@ class AdvertController extends Controller
 
     public function index(SearchRequest $request, AdvertsPath $path)
     {
-        $query = Advert::active()->with(['category', 'region'])->orderByDesc('published_at');
-
         $region = $path->region;
         $category = $path->category;
 
-//        if ($region = $path->region) {
-//            $query->forRegion($region);
-//        }
-//        if ($category = $path->category) {
-//            $query->forCategory($category);
-//        }
+        $result = $this->search->search($category, $region, $request, 20, $request->get('page', 1));
 
-        $regions = $region
-            ? $region->children()->orderBy('name')->getModels()
-            : Region::roots()->orderBy('name')->getModels();
+        $adverts = $result->adverts;
+        $regionsCounts = $result->regionsCounts;
+        $categoriesCounts = $result->categoriesCounts;
 
-        $categories = $category
-            ? $category->children()->orderBy('name')->getModels()
-            : Category::whereIsRoot()->defaultOrder()->getModels();
+        $query = $region ? $region->children() : Region::roots();
+        $regions = $query->orderBy('name')->getModels();
 
-        $adverts =$this->search->search($category, $region, $request, 20, $request->get('page', 1));
+        $query = $category ? $category->children() : Category::whereIsRoot();
+        $categories = $query->defaultOrder()->getModels();
+
+        $regions = array_filter($regions, function (Region $region) use ($regionsCounts) {
+            return isset($regionsCounts[$region->id]) && $regionsCounts[$region->id] > 0;
+        });
+
+        $categories = array_filter($categories, function (Category $category) use ($categoriesCounts) {
+            return isset($categoriesCounts[$category->id]) && $categoriesCounts[$category->id] > 0;
+        });
+
 
         return view('adverts.index', compact(
             'adverts',
             'category', 'categories',
-            'region', 'regions'));
+            'region', 'regions',
+            'regionCounts', 'categoriesCounts'));
     }
 
     public function show(Advert $advert)
