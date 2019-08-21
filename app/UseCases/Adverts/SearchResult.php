@@ -2,7 +2,7 @@
 
 namespace App\UseCases\Adverts;
 
-use Illuminate\Pagination\Paginator;
+use Illuminate\Contracts\Pagination\Paginator;
 
 class SearchResult
 {
@@ -16,5 +16,4 @@ class SearchResult
         $this->regionsCounts = $regionsCounts;
         $this->categoriesCounts = $categoriesCounts;
     }
-
 }

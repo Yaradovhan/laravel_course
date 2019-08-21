@@ -51,7 +51,7 @@ class AdvertController extends Controller
             'adverts',
             'category', 'categories',
             'region', 'regions',
-            'regionCounts', 'categoriesCounts'));
+            'regionsCounts', 'categoriesCounts'));
     }
 
     public function show(Advert $advert)

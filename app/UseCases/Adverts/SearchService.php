@@ -26,8 +26,7 @@ class SearchService
         });
 
         $response = $this->client->search([
-            'index' => 'adverts',
-            'type' => 'advert',
+            'index' => 'app',
             'body' => [
                 '_source' => ['id'],
                 'from' => ($page - 1) * $perPage,
@@ -60,30 +59,46 @@ class SearchService
                                     'query' => $request['text'],
                                     'fields' => ['title^3', 'content']
                                 ]] : false,
-                            ]),
-                            array_map(function ($value, $id) {
-                                return [
-                                    'nested' => [
-                                        'path' => 'values',
-                                        'query' => [
-                                            'bool' => [
-                                                'must' => array_values(array_filter([
-                                                    ['match' => ['values.attribute' => $id]],
-                                                    !empty($value['equals']) ? ['match' => ['values.value_string' => $value['equals']]] : false,
-                                                    !empty($value['from']) ? ['range' => ['values.value_int' => ['gte' => $value['from']]]] : false,
-                                                    !empty($value['to']) ? ['range' => ['values.value_int' => ['lte' => $value['to']]]] : false,
-                                                ])),
-                                            ],
-                                        ],
-                                    ],
-                                ];
-                            }, $values, array_keys($values))
+                            ])
+//                            array_map(function ($value, $id) {
+//                                return [
+//                                    'nested' => [
+//                                        'path' => 'values',
+//                                        'query' => [
+//                                            'bool' => [
+//                                                'must' => array_values(array_filter([
+//                                                    ['match' => ['values.attribute' => $id]],
+//                                                    !empty($value['equals']) ? ['match' => ['values.value_string' => $value['equals']]] : false,
+//                                                    !empty($value['from']) ? ['range' => ['values.value_int' => ['gte' => $value['from']]]] : false,
+//                                                    !empty($value['to']) ? ['range' => ['values.value_int' => ['lte' => $value['to']]]] : false,
+//                                                ])),
+//                                            ],
+//                                        ],
+//                                    ],
+//                                ];
+//                            }, $values, array_keys($values))
                         )
                     ],
                 ],
             ],
         ]);
 
+//        $params = [
+//            'index' => 'adverts',
+//            'body' => [
+//                'query' => [
+//                    'bool' => [
+//                        'must' =>
+//                            [
+//                                ['term' => ['status' => Advert::STATUS_ACTIVE]],
+//                            ],
+//                    ]
+//                ]
+//            ]
+//        ];
+//
+//        $response = $this->client->search($params);
+//        dd($response);
         $ids = array_column($response['hits']['hits'], '_id');
 
         if ($ids) {
@@ -92,7 +107,7 @@ class SearchService
                 ->whereIn('id', $ids)
                 ->orderBy(new Expression('FIELD(id,' . implode(',', $ids) . ')'))
                 ->get();
-            $pagination = new LengthAwarePaginator($items, $response['hits']['total'], $perPage, $page);
+            $pagination = new LengthAwarePaginator($items, $response['hits']['total']['value'], $perPage, $page);
         } else {
             $pagination = new LengthAwarePaginator([], 0, $perPage, $page);
         }

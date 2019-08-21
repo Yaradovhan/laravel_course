@@ -8,7 +8,7 @@ class SearchRequest extends FormRequest
 {
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     public function rules(): array
