@@ -144,7 +144,7 @@ class InitCommand extends Command
             }
 
             $this->client->index([
-                'index' => 'app',
+                'index' => 'adverts',
                 'id' => $advert->id,
                 'body' => [
                     'id' => $advert->id,

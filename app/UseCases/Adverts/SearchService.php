@@ -26,7 +26,7 @@ class SearchService
         });
 
         $response = $this->client->search([
-            'index' => 'app',
+            'index' => 'adverts',
             'body' => [
                 '_source' => ['id'],
                 'from' => ($page - 1) * $perPage,
