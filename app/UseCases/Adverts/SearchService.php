@@ -59,24 +59,24 @@ class SearchService
                                     'query' => $request['text'],
                                     'fields' => ['title^3', 'content']
                                 ]] : false,
-                            ])
-//                            array_map(function ($value, $id) {
-//                                return [
-//                                    'nested' => [
-//                                        'path' => 'values',
-//                                        'query' => [
-//                                            'bool' => [
-//                                                'must' => array_values(array_filter([
-//                                                    ['match' => ['values.attribute' => $id]],
-//                                                    !empty($value['equals']) ? ['match' => ['values.value_string' => $value['equals']]] : false,
-//                                                    !empty($value['from']) ? ['range' => ['values.value_int' => ['gte' => $value['from']]]] : false,
-//                                                    !empty($value['to']) ? ['range' => ['values.value_int' => ['lte' => $value['to']]]] : false,
-//                                                ])),
-//                                            ],
-//                                        ],
-//                                    ],
-//                                ];
-//                            }, $values, array_keys($values))
+                            ]),
+                            array_map(function ($value, $id) {
+                                return [
+                                    'nested' => [
+                                        'path' => 'values',
+                                        'query' => [
+                                            'bool' => [
+                                                'must' => array_values(array_filter([
+                                                    ['match' => ['values.attribute' => $id]],
+                                                    !empty($value['equals']) ? ['match' => ['values.value_string' => $value['equals']]] : false,
+                                                    !empty($value['from']) ? ['range' => ['values.value_int' => ['gte' => $value['from']]]] : false,
+                                                    !empty($value['to']) ? ['range' => ['values.value_int' => ['lte' => $value['to']]]] : false,
+                                                ])),
+                                            ],
+                                        ],
+                                    ],
+                                ];
+                            }, $values, array_keys($values))
                         )
                     ],
                 ],

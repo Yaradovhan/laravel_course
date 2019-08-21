@@ -61,11 +61,11 @@ class InitCommand extends Command
                                 'preserve_original' => true,
                                 'catenate_numbers' => true,
                             ],
-                            'trigrams' => [
-                                'type' => 'ngram',
-                                'min_gram' => 2,
-                                'max_gram' => 2,
-                            ],
+//                            'trigrams' => [
+//                                'type' => 'ngram',
+//                                'min_gram' => 2,
+//                                'max_gram' => 2,
+//                            ],
                         ],
                         'analyzer' => [
                             'default' => [
@@ -78,7 +78,7 @@ class InitCommand extends Command
                                 'filter' => [
                                     'lowercase',
                                     'word_delimiter',
-                                    'trigrams',
+//                                    'trigrams',
                                 ],
                             ],
                         ],
