@@ -6,7 +6,7 @@ use App\Entity\Region;
 use App\Http\Router\AdvertsPath;
 use App\Http\Router\PagePath;
 
-if (! function_exists('adverts_path')) {
+if (!function_exists('adverts_path')) {
 
     function adverts_path(?Region $region, ?Category $category)
     {
@@ -16,7 +16,7 @@ if (! function_exists('adverts_path')) {
     }
 }
 
-if (! function_exists('page_path')) {
+if (!function_exists('page_path')) {
 
     function page_path(Page $page)
     {

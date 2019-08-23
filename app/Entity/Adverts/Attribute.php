@@ -19,11 +19,8 @@ class Attribute extends Model
     public const TYPE_STRING = 'string';
     public const TYPE_INTEGER = 'integer';
     public const TYPE_FLOAT = 'float';
-
-    protected $table = 'advert_attributes';
-
     public $timestamps = false;
-
+    protected $table = 'advert_attributes';
     protected $fillable = ['name', 'type', 'required', 'default', 'variants', 'sort'];
 
     protected $casts = [
@@ -44,6 +41,11 @@ class Attribute extends Model
         return $this->type === self::TYPE_STRING;
     }
 
+    public function isNumber(): bool
+    {
+        return $this->isInteger() || $this->isFloat();
+    }
+
     public function isInteger(): bool
     {
         return $this->type === self::TYPE_INTEGER;
@@ -52,11 +54,6 @@ class Attribute extends Model
     public function isFloat(): bool
     {
         return $this->type === self::TYPE_FLOAT;
-    }
-
-    public function isNumber(): bool
-    {
-        return $this->isInteger() || $this->isFloat();
     }
 
     public function isSelect(): bool

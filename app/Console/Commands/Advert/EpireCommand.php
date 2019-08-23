@@ -9,11 +9,9 @@ use Illuminate\Console\Command;
 
 class EpireCommand extends Command
 {
-    private $service;
-
     protected $signature = 'advert:expire';
-
     protected $description = 'Expire adverts';
+    private $service;
 
     public function __construct(AdvertService $service)
     {

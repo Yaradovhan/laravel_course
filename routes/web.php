@@ -82,14 +82,14 @@ Route::group([
     'prefix' => 'admin',
     'as' => 'admin.',
     'namespace' => 'Admin',
-    'middleware' => ['auth','can:admin-panel']
+    'middleware' => ['auth', 'can:admin-panel']
 ], function () {
     Route::get('/', 'HomeController@index')->name('home');
     Route::post('/users/{user}/verify', 'UsersController@verify')->name('users.verify');
     Route::resource('users', 'UsersController');
     Route::resource('regions', 'RegionController');
 
-    Route::group(['prefix'=>'adverts', 'as'=>'adverts.', 'namespace'=>'Adverts'], function(){
+    Route::group(['prefix' => 'adverts', 'as' => 'adverts.', 'namespace' => 'Adverts'], function () {
 
         Route::resource('categories', 'CategoryController');
 

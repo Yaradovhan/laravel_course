@@ -18,20 +18,6 @@ class AdvertsPath implements UrlRoutable
      */
     public $category;
 
-    public function withRegion(?Region $region): self
-    {
-        $clone = clone $this;
-        $clone->region = $region;
-        return $clone;
-    }
-
-    public function withCategory(?Category $category): self
-    {
-        $clone = clone $this;
-        $clone->category = $category;
-        return $clone;
-    }
-
     public function getRouteKey()
     {
         $segments = [];
@@ -87,5 +73,19 @@ class AdvertsPath implements UrlRoutable
         return $this
             ->withRegion($region)
             ->withCategory($category);
+    }
+
+    public function withCategory(?Category $category): self
+    {
+        $clone = clone $this;
+        $clone->category = $category;
+        return $clone;
+    }
+
+    public function withRegion(?Region $region): self
+    {
+        $clone = clone $this;
+        $clone->region = $region;
+        return $clone;
     }
 }

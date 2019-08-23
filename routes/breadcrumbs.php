@@ -2,10 +2,10 @@
 
 use App\Entity\Adverts\Advert\Advert;
 use App\Entity\Adverts\Attribute;
-use App\Http\Router\AdvertsPath;
+use App\Entity\Adverts\Category;
 use App\Entity\Region;
-use \App\Entity\User;
-use \App\Entity\Adverts\Category;
+use App\Entity\User;
+use App\Http\Router\AdvertsPath;
 use DaveJamesMiller\Breadcrumbs\BreadcrumbsGenerator as Crumbs;
 
 Breadcrumbs::for('home', function (Crumbs $trail) {

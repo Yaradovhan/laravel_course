@@ -4,9 +4,8 @@ namespace App\Entity;
 
 use App\Entity\Adverts\Advert\Advert;
 use Carbon\Carbon;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 /**
@@ -49,15 +48,6 @@ class User extends Authenticatable
         'phone_verify_token_expire' => 'datetime'
     ];
 
-    public static function rolesList(): array
-    {
-        return [
-            self::ROLE_ADMIN => 'Admin',
-            self::ROLE_MODERATOR => 'Moderator',
-            self::ROLE_USER => 'User'
-        ];
-    }
-
     public static function register(string $name, string $email, string $password): self
     {
         return static::create([
@@ -82,11 +72,6 @@ class User extends Authenticatable
             'role' => self::ROLE_USER,
             'status' => self::STATUS_ACTIVE
         ]);
-    }
-
-    public function isWait(): bool
-    {
-        return $this->status === self::STATUS_WAIT;
     }
 
     public function isActive(): bool
@@ -128,6 +113,11 @@ class User extends Authenticatable
         return (empty($this->name) || empty($this->last_name) || !$this->isPhoneVerified()) ? false : true;
     }
 
+    public function isPhoneVerified(): bool
+    {
+        return $this->phone_verified;
+    }
+
     public function verify(): void
     {
         if (!$this->isWait()) {
@@ -139,6 +129,11 @@ class User extends Authenticatable
             'status' => self::STATUS_ACTIVE,
             'verify_code' => null
         ]);
+    }
+
+    public function isWait(): bool
+    {
+        return $this->status === self::STATUS_WAIT;
     }
 
     public function changeRole($role): void
@@ -153,17 +148,21 @@ class User extends Authenticatable
         $this->update(['role' => $role]);
     }
 
+    public static function rolesList(): array
+    {
+        return [
+            self::ROLE_ADMIN => 'Admin',
+            self::ROLE_MODERATOR => 'Moderator',
+            self::ROLE_USER => 'User'
+        ];
+    }
+
     public function unverifyPhone(): void
     {
         $this->phone_verified = false;
         $this->phone_verify_token = null;
         $this->phone_verify_token_expire = null;
         $this->saveOrFail();
-    }
-
-    public function isPhoneVerified(): bool
-    {
-        return $this->phone_verified;
     }
 
     public function requestPhoneVerification(Carbon $now): string
@@ -200,11 +199,6 @@ class User extends Authenticatable
         $this->saveOrFail();
     }
 
-    public function favorites()
-    {
-        return $this->belongsToMany(Advert::class, 'advert_favorites', 'user_id', 'advert_id');
-    }
-
     public function addToFavorites($id): void
     {
         if ($this->hasInFavorites($id)) {
@@ -213,14 +207,19 @@ class User extends Authenticatable
         $this->favorites()->attach($id);
     }
 
-    public function removeFromFavorites($id): void
-    {
-        $this->favorites()->detach($id);
-    }
-
     public function hasInFavorites($id): bool
     {
         return $this->favorites()->where('id', $id)->exists();
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(Advert::class, 'advert_favorites', 'user_id', 'advert_id');
+    }
+
+    public function removeFromFavorites($id): void
+    {
+        $this->favorites()->detach($id);
     }
 
 }

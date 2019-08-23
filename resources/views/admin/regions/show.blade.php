@@ -15,18 +15,22 @@
     <table class="table table-bordered table-striped">
         <tbody>
         <tr>
-            <th>ID</th><td>{{ $region->id }}</td>
+            <th>ID</th>
+            <td>{{ $region->id }}</td>
         </tr>
         <tr>
-            <th>Name</th><td>{{ $region->name }}</td>
+            <th>Name</th>
+            <td>{{ $region->name }}</td>
         </tr>
         <tr>
-            <th>Slug</th><td>{{ $region->slug }}</td>
+            <th>Slug</th>
+            <td>{{ $region->slug }}</td>
         </tr>
         </tbody>
     </table>
 
-    <p><a href="{{ route('admin.regions.create', ['parent' => $region->id]) }}" class="btn btn-success">Add SubRegion</a></p>
+    <p><a href="{{ route('admin.regions.create', ['parent' => $region->id]) }}" class="btn btn-success">Add
+            SubRegion</a></p>
 
     @include('admin.regions._list', ['regions' => $regions])
 @endsection

@@ -74,9 +74,9 @@ $(document).on('click', '.phone-button', function () {
 });
 
 $('.advert-slider').fotorama({
-    shuffle : true,
+    shuffle: true,
     maxwidth: '100%',
-    ratio: 16/9,
+    ratio: 16 / 9,
     allowfullscreen: true,
     nav: 'thumbs',
     loop: true

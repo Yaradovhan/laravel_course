@@ -21,7 +21,7 @@ class SearchService
 
     public function search(?Category $category, ?Region $region, SearchRequest $request, int $perPage, int $page): SearchResult
     {
-        $values = array_filter((array) $request->input('attrs'), function ($value) {
+        $values = array_filter((array)$request->input('attrs'), function ($value) {
             return !empty($value['equals']) || !empty($value['from']) || !empty($value['to']);
         });
 

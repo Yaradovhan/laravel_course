@@ -8,15 +8,14 @@ use Illuminate\Foundation\Http\FormRequest;
  * Class EditRequest
  * @package App\Http\Requests\Adverts
  */
-
 class EditRequest extends FormRequest
 {
-    public function authorize() :bool
+    public function authorize(): bool
     {
         return true;
     }
 
-    public function rules() :array
+    public function rules(): array
     {
         return [
             'title' => 'required|string',

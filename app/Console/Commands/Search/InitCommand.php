@@ -4,9 +4,9 @@ namespace App\Console\Commands\Search;
 
 use App\Entity\Adverts\Advert\Advert;
 use App\Entity\Adverts\Advert\Value;
+use Elasticsearch\Client;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 use Illuminate\Console\Command;
-use Elasticsearch\Client;
 
 class InitCommand extends Command
 {

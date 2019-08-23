@@ -17,8 +17,9 @@
                         <option value=""></option>
                         @foreach ($attribute->variants as $variant)
                             <option
-                                value="{{ $variant }}"{{ $variant == old('attributes.' . $attribute->id, $advert->getValue($attribute->id)) ? ' selected' : '' }}>
-                                {{ $variant }}
+                                value="{{ $variant }}" {{ $variant== old('attributes.' . $attribute->id,
+                            $advert->getValue($attribute->id)) ? ' selected' : '' }}>
+                            {{ $variant }}
                             </option>
                         @endforeach
                     </select>

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Cabinet;
 
+use App\Http\Controllers\Controller;
 use App\Services\Sms\SmsSender;
 use Auth;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 class PhoneController extends Controller
 {
@@ -22,7 +22,7 @@ class PhoneController extends Controller
         $user = Auth::user();
         try {
             $token = $user->requestPhoneVerification(Carbon::now());
-            $this->sms->send($user->phone,$token);
+            $this->sms->send($user->phone, $token);
 //            $this->sms->sendSms($phone, $body);
         } catch (\DomainException $e) {
             $request->session()->flash('error', $e->getMessage());
@@ -59,7 +59,7 @@ class PhoneController extends Controller
     {
         $user = Auth::user();
 
-        if($user->isPhoneAuthEnabled()){
+        if ($user->isPhoneAuthEnabled()) {
             $user->disabledPhoneAuth();
         } else {
             $user->enabledPhoneAuth();

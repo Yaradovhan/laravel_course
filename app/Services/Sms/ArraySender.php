@@ -11,8 +11,8 @@ class ArraySender implements SmsSender
     public function send($number, $text): void
     {
         $this->messages[] = [
-          'to' => '+'.$number,
-          'text' => $text
+            'to' => '+' . $number,
+            'text' => $text
         ];
     }
 

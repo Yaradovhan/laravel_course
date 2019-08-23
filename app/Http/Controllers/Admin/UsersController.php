@@ -3,13 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Entity\User;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Users\CreateRequest;
 use App\Http\Requests\Admin\Users\UpdateRequest;
 use App\UseCases\Auth\RegisterService;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rule;
 
 class UsersController extends Controller
 {

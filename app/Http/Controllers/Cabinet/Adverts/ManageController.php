@@ -25,6 +25,13 @@ class ManageController extends Controller
         return view('adverts.edit.advert', compact('advert'));
     }
 
+    private function checkAccess(Advert $advert): void
+    {
+        if (!Gate::allows('manage-own-advert', $advert)) {
+            abort(403);
+        }
+    }
+
     public function edit(EditRequest $request, Advert $advert)
     {
         $this->checkAccess($advert);
@@ -107,12 +114,5 @@ class ManageController extends Controller
         }
 
         return redirect()->route('cabinet.adverts.index');
-    }
-
-    private function checkAccess(Advert $advert): void
-    {
-        if (!Gate::allows('manage-own-advert', $advert)) {
-            abort(403);
-        }
     }
 }

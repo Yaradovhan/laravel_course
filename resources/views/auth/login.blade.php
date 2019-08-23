@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 {{--@section('breadcrumbs')--}}
-    {{--{!! Breadcrumbs::render('login') !!}--}}
+{{--{!! Breadcrumbs::render('login') !!}--}}
 {{--@endsection--}}
 
 @section('content')

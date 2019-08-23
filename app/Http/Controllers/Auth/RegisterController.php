@@ -2,17 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\Auth\RegisterRequest;
-use App\Mail\Auth\VerifyMail;
 use App\Entity\User;
-use App\UseCases\Auth\RegisterService;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Foundation\Auth\RegistersUsers;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
+use App\Http\Requests\Auth\RegisterRequest;
+use App\UseCases\Auth\RegisterService;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -26,7 +20,7 @@ class RegisterController extends Controller
         $this->middleware('guest');
         $this->service = $service;
     }
-    
+
     public function form()
     {
         return view('auth.register');
@@ -34,16 +28,16 @@ class RegisterController extends Controller
 
     public function verify($token)
     {
-        if(!$user = User::where('verify_code', $token)->first()) {
+        if (!$user = User::where('verify_code', $token)->first()) {
             return redirect()->route('login')
                 ->with('error', 'Sorry, your link cant be identified');
         }
 
-        try{
+        try {
             $this->service->verify($user->id);
             return redirect()->route('login')
                 ->with('success', 'Your e-mail are verified. You can now login');
-        } catch (\DomainException $e){
+        } catch (\DomainException $e) {
             return redirect()->route('login')
                 ->with('error', $e->getMessage());
         }

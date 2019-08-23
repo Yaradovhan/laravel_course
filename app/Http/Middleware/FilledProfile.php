@@ -11,7 +11,7 @@ class FilledProfile
     {
         $user = Auth::user();
 
-        if(!$user->hasFailedProfile()) {
+        if (!$user->hasFailedProfile()) {
             return redirect()
                 ->route('cabinet.profile.home')
                 ->with('error', 'Please, verify your profile and phone');

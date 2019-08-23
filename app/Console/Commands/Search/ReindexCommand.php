@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands\Search;
 
-use Illuminate\Console\Command;
 use App\Entity\Adverts\Advert\Advert;
 use App\Services\Search\AdvertIndexer;
+use Illuminate\Console\Command;
 
 class ReindexCommand extends Command
 {

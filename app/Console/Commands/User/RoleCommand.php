@@ -21,13 +21,13 @@ class RoleCommand extends Command
         $role = $this->argument('role');
         $email = $this->argument('email');
 
-        if(!$user = User::where('email', $email)->first()){
+        if (!$user = User::where('email', $email)->first()) {
             $this->error('Undefined user wuth email ' . $email);
             return false;
         }
-        try{
+        try {
             $user->changeRole($role);
-        }catch (\DomainException $e){
+        } catch (\DomainException $e) {
             $this->error($e->getMessage());
         }
 

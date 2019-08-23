@@ -44,14 +44,15 @@
                             <select id="status" class="form-control" name="status">
                                 <option value=""></option>
                                 @foreach ($statuses as $value => $label)
-                                    <option value="{{ $value }}"{{ $value === request('status') ? ' selected' : '' }}>{{ $label }}</option>
+                                    <option value="{{ $value }}" {{ $value=== request('status') ? ' selected' : ''
+                                    }}>{{ $label }}</option>
                                 @endforeach;
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="col-form-label">&nbsp;</label><br />
+                            <label class="col-form-label">&nbsp;</label><br/>
                             <button type="submit" class="btn btn-primary">Search</button>
                             <a href="?" class="btn btn-outline-secondary">Clear</a>
                         </div>

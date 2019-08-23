@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 class LoginTestTest extends TestCase
 {
-    public function testForm() :void
+    public function testForm(): void
     {
         $response = $this->get('/login');
 
@@ -17,9 +17,9 @@ class LoginTestTest extends TestCase
             ->assertSee('Login');
     }
 
-    public function testErrors() :void
+    public function testErrors(): void
     {
-        $response = $this->post('/login',[
+        $response = $this->post('/login', [
             'email' => '',
             'password' => ''
         ]);

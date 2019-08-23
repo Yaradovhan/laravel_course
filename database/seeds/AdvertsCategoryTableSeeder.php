@@ -12,12 +12,12 @@ class AdvertsCategoryTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(CategoryAlias::class, 10)->create()->each(function (CategoryAlias $category){
-           $counts = [0, random_int(3,7)];
-           $category->children()->saveMany(factory(CategoryAlias::class, $counts[array_rand($counts)])->create()->each(function (CategoryAlias $category){
-               $counts = [0, random_int(3,7)];
-               $category->children()->saveMany(factory(CategoryAlias::class, $counts[array_rand($counts)])->create());
-           }));
+        factory(CategoryAlias::class, 10)->create()->each(function (CategoryAlias $category) {
+            $counts = [0, random_int(3, 7)];
+            $category->children()->saveMany(factory(CategoryAlias::class, $counts[array_rand($counts)])->create()->each(function (CategoryAlias $category) {
+                $counts = [0, random_int(3, 7)];
+                $category->children()->saveMany(factory(CategoryAlias::class, $counts[array_rand($counts)])->create());
+            }));
         });
     }
 }

@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\Auth\LoginRequest;
 use App\Entity\User;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
 use App\Services\Sms\SmsSender;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 /**

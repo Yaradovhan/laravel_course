@@ -8,10 +8,9 @@ use Illuminate\Console\Command;
 
 class VerifyCommand extends Command
 {
-    private $service;
     protected $signature = 'user:verify {email}';
-
     protected $description = 'Verify user by email';
+    private $service;
 
     public function __construct(RegisterService $service)
     {

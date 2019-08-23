@@ -20,6 +20,7 @@ class RegisterService
         $this->dispatcher = $dispatcher;
         $this->mailer = $mailer;
     }
+
     public function register(RegisterRequest $request)
     {
         $user = User::register(
@@ -32,7 +33,7 @@ class RegisterService
         $this->dispatcher->dispatch(new Registered($user));
     }
 
-    public function verify($id) :void
+    public function verify($id): void
     {
         /** @var User $user */
         $user = User::findOrFail($id);

@@ -75,6 +75,11 @@ class Advert extends Model
         ]);
     }
 
+    public function isDraft(): bool
+    {
+        return $this->status === self::STATUS_DRAFT;
+    }
+
     public function moderate(Carbon $date): void
     {
         if ($this->status !== self::STATUS_MODERATION) {
@@ -114,19 +119,25 @@ class Advert extends Model
         $this->getOrCreateDialogWith($fromId)->writeMessageByClient($fromId, $message);
     }
 
+    private function getOrCreateDialogWith(int $userId): Dialog
+    {
+        if ($userId === $this->user_id) {
+            throw new \DomainException('Cannot send message to myself.');
+        }
+        return $this->dialogs()->firstOrCreate([
+            'user_id' => $this->user_id,
+            'client_id' => $userId,
+        ]);
+    }
+
+    public function dialogs()
+    {
+        return $this->hasMany(Dialog::class, 'advert_id', 'id');
+    }
+
     public function writeOwnerMessage(int $toId, string $message): void
     {
         $this->getDialogWith($toId)->writeMessageByOwner($this->user_id, $message);
-    }
-
-    public function readClientMessages(int $userId): void
-    {
-        $this->getDialogWith($userId)->readByClient();
-    }
-
-    public function readOwnerMessages(int $userId): void
-    {
-        $this->getDialogWith($userId)->readByOwner();
     }
 
     private function getDialogWith(int $userId): Dialog
@@ -141,15 +152,14 @@ class Advert extends Model
         return $dialog;
     }
 
-    private function getOrCreateDialogWith(int $userId): Dialog
+    public function readClientMessages(int $userId): void
     {
-        if ($userId === $this->user_id) {
-            throw new \DomainException('Cannot send message to myself.');
-        }
-        return $this->dialogs()->firstOrCreate([
-            'user_id' => $this->user_id,
-            'client_id' => $userId,
-        ]);
+        $this->getDialogWith($userId)->readByClient();
+    }
+
+    public function readOwnerMessages(int $userId): void
+    {
+        $this->getDialogWith($userId)->readByOwner();
     }
 
     public function getValue($id)
@@ -160,11 +170,6 @@ class Advert extends Model
             }
         }
         return null;
-    }
-
-     public function isDraft(): bool
-    {
-        return $this->status === self::STATUS_DRAFT;
     }
 
     public function isOnModeration(): bool
@@ -212,11 +217,6 @@ class Advert extends Model
         return $this->belongsToMany(User::class, 'advert_favorites', 'advert_id', 'user_id');
     }
 
-    public function dialogs()
-    {
-        return $this->hasMany(Dialog::class, 'advert_id', 'id');
-    }
-
     public function scopeActive(Builder $query)
     {
         return $query->where('status', self::STATUS_ACTIVE);
@@ -247,7 +247,7 @@ class Advert extends Model
 
     public function scopeFavoredByUser(Builder $query, User $user)
     {
-        return $query->whereHas('favorites', function(Builder $query) use ($user) {
+        return $query->whereHas('favorites', function (Builder $query) use ($user) {
             $query->where('user_id', $user->id);
         });
     }

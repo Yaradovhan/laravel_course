@@ -34,7 +34,8 @@
                             <select id="status" class="form-control" name="status">
                                 <option value=""></option>
                                 @foreach ($statuses as $value => $label)
-                                    <option value="{{ $value }}"{{ $value === request('status') ? ' selected' : '' }}>{{ $label }}</option>
+                                    <option value="{{ $value }}" {{ $value=== request('status') ? ' selected' : ''
+                                    }}>{{ $label }}</option>
                                 @endforeach;
                             </select>
                         </div>
@@ -45,14 +46,15 @@
                             <select id="role" class="form-control" name="role">
                                 <option value=""></option>
                                 @foreach ($roles as $value => $label)
-                                    <option value="{{ $value }}"{{ $value === request('role') ? ' selected' : '' }}>{{ $label }}</option>
+                                    <option value="{{ $value }}" {{ $value=== request('role') ? ' selected' : ''
+                                    }}>{{ $label }}</option>
                                 @endforeach;
                             </select>
                         </div>
                     </div>
                     <div class="col-sm-2">
                         <div class="form-group">
-                            <label class="col-form-label">&nbsp;</label><br />
+                            <label class="col-form-label">&nbsp;</label><br/>
                             <button type="submit" class="btn btn-primary">Search</button>
                         </div>
                     </div>
@@ -83,13 +85,13 @@
                         <span class="badge badge-secondary">Waiting</span>
                     @endif
                     @if($user->isActive())
-                            <span class="badge badge-primary">Active</span>
+                        <span class="badge badge-primary">Active</span>
                     @endif
                 </td>
                 <td>
                     @if($user->isAdmin())
                         <span class="badge badge-danger">Admin</span>
-                        @else
+                    @else
                         <span class="badge badge-secondary">User</span>
                     @endif
                 </td>

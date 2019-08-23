@@ -15,21 +15,21 @@ class FavoriteService
         $user->addToFavorites($advert->id);
     }
 
+    private function getUser($userId): User
+    {
+        return User::findOrFail($userId);
+    }
+
+    private function getAdvert($advertId): Advert
+    {
+        return Advert::findOrFail($advertId);
+    }
+
     public function remove($userId, $advertId): void
     {
         $user = $this->getUser($userId);
         $advert = $this->getAdvert($advertId);
 
         $user->removeFromFavorites($advert->id);
-    }
-
-    private function getUser($userId):User
-    {
-        return User::findOrFail($userId);
-    }
-
-    private function getAdvert($advertId):Advert
-    {
-        return Advert::findOrFail($advertId);
     }
 }

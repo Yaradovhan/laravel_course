@@ -10,7 +10,7 @@ class CreateTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testNew() :void
+    public function testNew(): void
     {
         $user = User::new(
             $name = 'name',

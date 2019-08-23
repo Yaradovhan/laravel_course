@@ -73,7 +73,8 @@
                             </div>
                             <div class="col-md-9">
                                 <span class="float-right">{{ $advert->price }}</span>
-                                <div class="h4" style="margin-top: 0"><a href="{{ route('adverts.show', $advert) }}">{{ $advert->title }}</a></div>
+                                <div class="h4" style="margin-top: 0"><a
+                                        href="{{ route('adverts.show', $advert) }}">{{ $advert->title }}</a></div>
                                 <p>Region: <a href="">{{ $advert->region ? $advert->region->name : 'All' }}</a></p>
                                 <p>Category: <a href="">{{ $advert->category->name }}</a></p>
                                 <p>Date: {{ $advert->created_at }}</p>
@@ -85,15 +86,15 @@
 
             {{ $adverts->links() }}
         </div>
-{{--        <div class="col-md-3">--}}
-{{--            <div--}}
-{{--                class="banner mb-3"--}}
-{{--                data-url="{{ route('banner.get') }}"--}}
-{{--                data-format="240x400"--}}
-{{--                data-category="{{ $category ? $category->id : '' }}"--}}
-{{--                data-region="{{ $region ? $region->id : '' }}"--}}
-{{--            ></div>--}}
-{{--        </div>--}}
+        {{--        <div class="col-md-3">--}}
+        {{--            <div--}}
+        {{--                class="banner mb-3"--}}
+        {{--                data-url="{{ route('banner.get') }}"--}}
+        {{--                data-format="240x400"--}}
+        {{--                data-category="{{ $category ? $category->id : '' }}"--}}
+        {{--                data-region="{{ $region ? $region->id : '' }}"--}}
+        {{--            ></div>--}}
+        {{--        </div>--}}
     </div>
 
 @endsection

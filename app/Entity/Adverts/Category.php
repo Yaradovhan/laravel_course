@@ -20,10 +20,8 @@ class Category extends Model
 {
     use NodeTrait;
 
-    protected $table = 'advert_categories';
-
     public $timestamps = false;
-
+    protected $table = 'advert_categories';
     protected $fillable = ['name', 'slug', 'parent_id'];
 
     public function getPath(): string
