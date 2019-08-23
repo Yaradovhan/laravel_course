@@ -1,4 +1,4 @@
-require('./bootstrap');
+import './bootstrap';
 
 $('.region-selector').each(function () {
     var block = $(this);
