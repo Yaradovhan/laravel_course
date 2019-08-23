@@ -1,4 +1,5 @@
 import './bootstrap';
+import './fotorama.js';
 
 $('.region-selector').each(function () {
     var block = $(this);
@@ -70,4 +71,13 @@ $(document).on('click', '.phone-button', function () {
     }).catch(function (reason) {
         console.log(reason);
     });
+});
+
+$('.advert-slider').fotorama({
+    shuffle : true,
+    maxwidth: '100%',
+    ratio: 16/9,
+    allowfullscreen: true,
+    nav: 'thumbs',
+    loop: true
 });

@@ -80,14 +80,10 @@
 
             <div style="margin-bottom: 20px">
                 <div class="row">
-                    <div class="col-10">
-                        <div style="height: 400px; background: #f6f6f6; border: 1px solid #ddd"></div>
-                    </div>
-                    <div class="col-2">
-                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>
-                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>
-                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>
-                        <div style="height: 100px; background: #f6f6f6; border: 1px solid #ddd"></div>
+                    <div class="fotorama col-12 advert-slider">
+                        <img src="{{asset('build/images/adverts/1.jpg')}}">
+                        <img src="{{asset('build/images/adverts/2.jpg')}}">
+                        <img src="{{asset('build/images/adverts/3.jpg')}}">
                     </div>
                 </div>
             </div>

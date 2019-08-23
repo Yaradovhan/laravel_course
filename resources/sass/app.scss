@@ -5,6 +5,8 @@
 @import 'variables';
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+//slider
+@import "./fotorama.css";
 
 .navbar {
     background-color: $primary;
