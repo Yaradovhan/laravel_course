@@ -66,7 +66,7 @@ class AdvertIndexer
     public function remove(Advert $advert): void
     {
         $this->client->delete([
-            'index' => 'app',
+            'index' => 'adverts',
             'id' => $advert->id
         ]);
     }
