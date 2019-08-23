@@ -21,7 +21,7 @@ class SearchService
 
     public function search(?Category $category, ?Region $region, SearchRequest $request, int $perPage, int $page): SearchResult
     {
-        $values = array_filter((array)$request->input('attrs'), function ($value) {
+        $values = array_filter((array) $request->input('attrs'), function ($value) {
             return !empty($value['equals']) || !empty($value['from']) || !empty($value['to']);
         });
 
@@ -57,7 +57,7 @@ class SearchService
                                 $region ? ['term' => ['regions' => $region->id]] : false,
                                 !empty($request['text']) ? ['multi_match' => [
                                     'query' => $request['text'],
-                                    'fields' => ['title^3', 'content']
+                                    'fields' => ['title^3', 'content'],
                                 ]] : false,
                             ]),
                             array_map(function ($value, $id) {
@@ -77,7 +77,7 @@ class SearchService
                                     ],
                                 ];
                             }, $values, array_keys($values))
-                        )
+                        ),
                     ],
                 ],
             ],

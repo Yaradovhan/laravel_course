@@ -33,7 +33,7 @@ class AdvertService
                 'content' => $request['content'],
                 'price' => $request['price'],
                 'address' => $request['address'],
-                'status' => Advert::STATUS_DRAFT
+                'status' => Advert::STATUS_DRAFT,
             ]);
 
             $advert->user()->associate($user);
@@ -47,7 +47,7 @@ class AdvertService
                 if (!empty($value)) {
                     $advert->values()->create([
                         'attribute_id' => $attribute->id,
-                        'value' => $value
+                        'value' => $value,
                     ]);
                 }
             }
@@ -63,7 +63,7 @@ class AdvertService
         DB::transaction(function () use ($request, $advert) {
             foreach ($request['files'] as $file) {
                 $advert->photos()->create([
-                    'file' => $file->store('adverts')
+                    'file' => $file->store('adverts'),
                 ]);
             }
         });
@@ -106,7 +106,7 @@ class AdvertService
                 if (!empty($value)) {
                     $advert->values()->create([
                         'attribute_id' => $attribute->id,
-                        'value' => $value
+                        'value' => $value,
                     ]);
                 }
             }
@@ -130,7 +130,7 @@ class AdvertService
         ]));
     }
 
-    public function expire(Advert $advert) :void
+    public function expire(Advert $advert): void
     {
         $advert->expire();
     }
