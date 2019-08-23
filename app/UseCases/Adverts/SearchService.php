@@ -83,22 +83,6 @@ class SearchService
             ],
         ]);
 
-//        $params = [
-//            'index' => 'adverts',
-//            'body' => [
-//                'query' => [
-//                    'bool' => [
-//                        'must' =>
-//                            [
-//                                ['term' => ['status' => Advert::STATUS_ACTIVE]],
-//                            ],
-//                    ]
-//                ]
-//            ]
-//        ];
-//
-//        $response = $this->client->search($params);
-//        dd($response);
         $ids = array_column($response['hits']['hits'], '_id');
 
         if ($ids) {
