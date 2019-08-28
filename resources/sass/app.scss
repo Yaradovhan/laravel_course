@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Comfortaa&display=swap');
 //Awesome
 @import "~font-awesome/scss/font-awesome.scss";
 // Variables
@@ -7,6 +7,7 @@
 @import '~bootstrap/scss/bootstrap';
 //slider
 @import "./fotorama.css";
+
 
 .navbar {
     background-color: $primary;
@@ -17,6 +18,7 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    font-family: 'Comfortaa', sans-serif;
 }
 
 .app-content {
