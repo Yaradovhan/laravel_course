@@ -98,6 +98,43 @@ Breadcrumbs::for('cabinet.favorites.index', function (Crumbs $crumbs) {
     $crumbs->push('Adverts', route('cabinet.favorites.index'));
 });
 
+// Cabinet Banners
+
+Breadcrumbs::for('cabinet.banners.index', function (Crumbs $crumbs) {
+    $crumbs->parent('cabinet.home');
+    $crumbs->push('Banners', route('cabinet.banners.index'));
+});
+
+Breadcrumbs::for('cabinet.banners.show', function (Crumbs $crumbs, Banner $banner) {
+    $crumbs->parent('cabinet.banners.index');
+    $crumbs->push($banner->name, route('cabinet.banners.show', $banner));
+});
+
+Breadcrumbs::for('cabinet.banners.edit', function (Crumbs $crumbs, Banner $banner) {
+    $crumbs->parent('cabinet.banners.show', $banner);
+    $crumbs->push('Edit', route('cabinet.banners.edit', $banner));
+});
+
+Breadcrumbs::for('cabinet.banners.file', function (Crumbs $crumbs, Banner $banner) {
+    $crumbs->parent('cabinet.banners.show', $banner);
+    $crumbs->push('File', route('cabinet.banners.file', $banner));
+});
+
+Breadcrumbs::for('cabinet.banners.create', function (Crumbs $crumbs) {
+    $crumbs->parent('cabinet.banners.index');
+    $crumbs->push('Create', route('cabinet.banners.create'));
+});
+
+Breadcrumbs::for('cabinet.banners.create.region', function (Crumbs $crumbs, Category $category, Region $region = null) {
+    $crumbs->parent('cabinet.banners.create');
+    $crumbs->push($category->name, route('cabinet.banners.create.region', [$category, $region]));
+});
+
+Breadcrumbs::for('cabinet.banners.create.banner', function (Crumbs $crumbs, Category $category, Region $region = null) {
+    $crumbs->parent('cabinet.banners.create.region', $category, $region);
+    $crumbs->push($region ? $region->name : 'All', route('cabinet.banners.create.banner', [$category, $region]));
+});
+
 
 // Adverts
 
