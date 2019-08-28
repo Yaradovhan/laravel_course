@@ -3,6 +3,7 @@
 use App\Entity\Adverts\Advert\Advert;
 use App\Entity\Adverts\Attribute;
 use App\Entity\Adverts\Category;
+use App\Entity\Banner\Banner;
 use App\Entity\Region;
 use App\Entity\User;
 use App\Http\Router\AdvertsPath;
@@ -197,8 +198,6 @@ Breadcrumbs::for('admin.users.edit', function (Crumbs $trail, User $user) {
     $trail->push('Edit', route('admin.users.edit', $user));
 });
 
-//End Admin
-
 // Regions
 
 Breadcrumbs::for('admin.regions.index', function (Crumbs $crumbs) {
@@ -283,4 +282,26 @@ Breadcrumbs::for('admin.adverts.categories.attributes.show', function (Crumbs $c
 Breadcrumbs::for('admin.adverts.categories.attributes.edit', function (Crumbs $crumbs, Category $category, Attribute $attribute) {
     $crumbs->parent('admin.adverts.categories.attributes.show', $category, $attribute);
     $crumbs->push('Edit', route('admin.adverts.categories.attributes.edit', [$category, $attribute]));
+});
+
+// Banners
+
+Breadcrumbs::for('admin.banners.index', function (Crumbs $crumbs) {
+    $crumbs->parent('admin.home');
+    $crumbs->push('Banners', route('admin.banners.index'));
+});
+
+Breadcrumbs::for('admin.banners.show', function (Crumbs $crumbs, Banner $banner) {
+    $crumbs->parent('admin.banners.index');
+    $crumbs->push($banner->name, route('admin.banners.show', $banner));
+});
+
+Breadcrumbs::for('admin.banners.edit', function (Crumbs $crumbs, Banner $banner) {
+    $crumbs->parent('admin.banners.show', $banner);
+    $crumbs->push('Edit', route('admin.banners.edit', $banner));
+});
+
+Breadcrumbs::for('admin.banners.reject', function (Crumbs $crumbs, Banner $banner) {
+    $crumbs->parent('admin.banners.show', $banner);
+    $crumbs->push('Reject', route('admin.banners.reject', $banner));
 });

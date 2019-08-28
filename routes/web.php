@@ -138,4 +138,15 @@ Route::group([
             Route::delete('/{advert}/destroy', 'AdvertController@destroy')->name('destroy');
         });
     });
+    Route::group(['prefix' => 'banners', 'as' => 'banners.'], function () {
+        Route::get('/', 'BannerController@index')->name('index');
+        Route::get('/{banner}/show', 'BannerController@show')->name('show');
+        Route::get('/{banner}/edit', 'BannerController@editForm')->name('edit');
+        Route::put('/{banner}/edit', 'BannerController@edit');
+        Route::post('/{banner}/moderate', 'BannerController@moderate')->name('moderate');
+        Route::get('/{banner}/reject', 'BannerController@rejectForm')->name('reject');
+        Route::post('/{banner}/reject', 'BannerController@reject');
+        Route::post('/{banner}/pay', 'BannerController@pay')->name('pay');
+        Route::delete('/{banner}/destroy', 'BannerController@destroy')->name('destroy');
+    });
 });
