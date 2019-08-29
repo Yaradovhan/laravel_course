@@ -87,10 +87,10 @@ Breadcrumbs::for('cabinet.adverts.edit', function (Crumbs $crumbs, Advert $adver
     $crumbs->push($advert->title, route('cabinet.adverts.edit', $advert));
 });
 
-//Breadcrumbs::for('cabinet.adverts.photos', function (Crumbs $crumbs, Advert $advert) {
-//    $crumbs->parent('cabinet.adverts.edit');
-//    $crumbs->push('Adverts Photos', route('cabinet.adverts.edit', $advert));
-//});
+Breadcrumbs::for('cabinet.adverts.photos', function (Crumbs $crumbs, Advert $advert) {
+    $crumbs->parent('cabinet.adverts.index');
+    $crumbs->push('Adverts Photos', route('cabinet.adverts.photos', $advert));
+});
 
 // Favorites
 

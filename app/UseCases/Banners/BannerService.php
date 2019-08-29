@@ -73,6 +73,7 @@ class BannerService
 
     public function create(User $user, Category $category, ?Region $region, CreateRequest $request): Banner
     {
+        dd( $request->file('file'));
         /** @var Banner $banner */
         $banner = Banner::make([
             'name' => $request['name'],

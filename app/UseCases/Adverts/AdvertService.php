@@ -59,13 +59,12 @@ class AdvertService
     public function addPhotos($id, PhotosRequest $request): void
     {
         $advert = $this->getAdvert($id);
-
+dd($request);
         DB::transaction(function () use ($request, $advert) {
-            foreach ($request['files'] as $file) {
-                $advert->photos()->create([
-                    'file' => $file->store('adverts'),
-                ]);
+            foreach ($request->files as $key=>$file) {
+                $advert->photos()->create(['file' => $file->store('adverts', 'public')]);
             }
+            $advert->update();
         });
     }
 
