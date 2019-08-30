@@ -87,7 +87,7 @@ class SearchService
 
         if ($ids) {
             $items = Advert::active()
-                ->with(['category', 'region'])
+                ->with(['category', 'region','photos'])
                 ->whereIn('id', $ids)
                 ->orderBy(new Expression('FIELD(id,' . implode(',', $ids) . ')'))
                 ->get();

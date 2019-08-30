@@ -66,12 +66,16 @@
 
             <div class="adverts-list">
                 @foreach ($adverts as $advert)
+                    {{--                    {{dd($advert)}}--}}
                     <div class="advert">
                         <div class="row">
-                            <div class="col-md-3">
-                                <div style="height: 180px; background: #f6f6f6; border: 1px solid #ddd"></div>
+                            <div class="col-md-4">
+
+                                <div class="card text-center" style="width: 17rem;">
+                                    <img src="{{ Storage::disk('public')->url($advert->photos->first()['file'])}}" class="card-img-top" alt="...">
+                                </div>
                             </div>
-                            <div class="col-md-9">
+                            <div class="col-md-8">
                                 <span class="float-right">{{ $advert->price }}</span>
                                 <div class="h4" style="margin-top: 0"><a
                                         href="{{ route('adverts.show', $advert) }}">{{ $advert->title }}</a></div>
@@ -86,15 +90,15 @@
 
             {{ $adverts->links() }}
         </div>
-        {{--        <div class="col-md-3">--}}
-        {{--            <div--}}
-        {{--                class="banner mb-3"--}}
-        {{--                data-url="{{ route('banner.get') }}"--}}
-        {{--                data-format="240x400"--}}
-        {{--                data-category="{{ $category ? $category->id : '' }}"--}}
-        {{--                data-region="{{ $region ? $region->id : '' }}"--}}
-        {{--            ></div>--}}
-        {{--        </div>--}}
+        {{--                <div class="col-md-3">--}}
+        {{--                    <div--}}
+        {{--                        class="banner mb-3"--}}
+        {{--                        data-url="{{ route('banner.get') }}"--}}
+        {{--                        data-format="240x400"--}}
+        {{--                        data-category="{{ $category ? $category->id : '' }}"--}}
+        {{--                        data-region="{{ $region ? $region->id : '' }}"--}}
+        {{--                    ></div>--}}
+        {{--                </div>--}}
     </div>
 
 @endsection

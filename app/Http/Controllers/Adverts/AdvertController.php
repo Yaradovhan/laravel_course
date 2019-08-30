@@ -27,8 +27,8 @@ class AdvertController extends Controller
         $category = $path->category;
 
         $result = $this->search->search($category, $region, $request, 20, $request->get('page', 1));
-
         $adverts = $result->adverts;
+
         $regionsCounts = $result->regionsCounts;
         $categoriesCounts = $result->categoriesCounts;
 

@@ -13,9 +13,8 @@
 
     <form method="POST" action="?" enctype="multipart/form-data">
         @csrf
-
         <div class="form-group">
-            <label for="photos" class="col-form-label">Title</label>
+            <label for="photos" class="col-form-label">Add new photos</label>
             <input id="photos" type="file" class="form-control{{ $errors->has('title') ? ' is-invalid' : '' }}" name="files[]" multiple required>
         </div>
 
@@ -23,5 +22,14 @@
             <button type="submit" class="btn btn-primary">Upload</button>
         </div>
     </form>
+
+    @foreach($advert->photos as $photo)
+        <div class="card text-center" style="width: 18rem;">
+            <img src="{{ Storage::disk('public')->url($photo['file']) }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <a href="#" class="btn btn-danger">Delete</a>
+            </div>
+        </div>
+    @endforeach
 
 @endsection

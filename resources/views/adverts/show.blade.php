@@ -81,9 +81,9 @@
             <div style="margin-bottom: 20px">
                 <div class="row">
                     <div class="fotorama col-12 advert-slider">
-                        <img src="{{asset('build/images/adverts/1.jpg')}}">
-                        <img src="{{asset('build/images/adverts/2.jpg')}}">
-                        <img src="{{asset('build/images/adverts/3.jpg')}}">
+                        @foreach($advert->photos as $photo)
+                            <img src="{{ Storage::disk('public')->url($photo['file']) }}" />
+                        @endforeach
                     </div>
                 </div>
             </div>

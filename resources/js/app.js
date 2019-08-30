@@ -1,5 +1,6 @@
 import './bootstrap';
 import './fotorama.js';
+// import '../../public/js/dropzone.js';
 
 $('.region-selector').each(function () {
     var block = $(this);
