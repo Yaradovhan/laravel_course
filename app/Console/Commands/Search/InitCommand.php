@@ -23,7 +23,7 @@ class InitCommand extends Command
     public function handle(): bool
     {
         $this->initAdverts();
-//        $this->initBanners();
+        $this->initBanners();
 
         return true;
     }
@@ -183,26 +183,24 @@ class InitCommand extends Command
             'index' => 'banners',
             'body' => [
                 'mappings' => [
-                    'banner' => [
-                        '_source' => [
-                            'enabled' => true,
+                    '_source' => [
+                        'enabled' => true,
+                    ],
+                    'properties' => [
+                        'id' => [
+                            'type' => 'integer',
                         ],
-                        'properties' => [
-                            'id' => [
-                                'type' => 'integer',
-                            ],
-                            'status' => [
-                                'type' => 'keyword',
-                            ],
-                            'format' => [
-                                'type' => 'keyword',
-                            ],
-                            'categories' => [
-                                'type' => 'integer',
-                            ],
-                            'regions' => [
-                                'type' => 'integer',
-                            ],
+                        'status' => [
+                            'type' => 'keyword',
+                        ],
+                        'format' => [
+                            'type' => 'keyword',
+                        ],
+                        'categories' => [
+                            'type' => 'integer',
+                        ],
+                        'regions' => [
+                            'type' => 'integer',
                         ],
                     ],
                 ],

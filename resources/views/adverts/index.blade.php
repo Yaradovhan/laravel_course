@@ -72,7 +72,8 @@
                             <div class="col-md-4">
 
                                 <div class="card text-center" style="width: 17rem;">
-                                    <img src="{{ Storage::disk('public')->url($advert->photos->first()['file'])}}" class="card-img-top" alt="...">
+                                    <img src="{{ Storage::disk('public')->url($advert->photos->first()['file'])}}"
+                                         class="card-img-top" alt="...">
                                 </div>
                             </div>
                             <div class="col-md-8">
@@ -90,15 +91,15 @@
 
             {{ $adverts->links() }}
         </div>
-        {{--                <div class="col-md-3">--}}
-        {{--                    <div--}}
-        {{--                        class="banner mb-3"--}}
-        {{--                        data-url="{{ route('banner.get') }}"--}}
-        {{--                        data-format="240x400"--}}
-        {{--                        data-category="{{ $category ? $category->id : '' }}"--}}
-        {{--                        data-region="{{ $region ? $region->id : '' }}"--}}
-        {{--                    ></div>--}}
-        {{--                </div>--}}
+        <div class="col-md-3">
+            <div
+                class="banner mb-3"
+                data-url="{{ route('banner.get') }}"
+                data-format="240x400"
+                data-category="{{ $category ? $category->id : '' }}"
+                data-region="{{ $region ? $region->id : '' }}"
+            ></div>
+        </div>
     </div>
 
 @endsection

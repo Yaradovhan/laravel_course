@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Entity\Payment;
+
 class LiqPay
 {
     const CURRENCY_EUR = 'EUR';

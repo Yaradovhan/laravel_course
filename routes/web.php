@@ -17,6 +17,9 @@ Route::get('/verify/{token}', 'Auth\RegisterController@verify')->name('register.
 
 Route::get('/ajax/regions', 'Ajax\RegionController@get')->name('ajax.regions');
 
+Route::get('/banner/get', 'BannerController@get')->name('banner.get');
+Route::get('/banner/{banner}/click', 'BannerController@click')->name('banner.click');
+
 Route::group([
     'prefix' => 'adverts',
     'as' => 'adverts.',
