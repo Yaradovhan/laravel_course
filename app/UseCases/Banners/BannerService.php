@@ -45,7 +45,7 @@ class BannerService
                         'must' => [
                             ['term' => ['status' => Banner::STATUS_ACTIVE]],
                             ['term' => ['format' => $format ?: '']],
-                            ['term' => ['categories' => [$categoryId, 0] ?: 0]],
+                            ['terms' => ['categories' => [$categoryId, 0] ?: 0]],
                             ['term' => ['regions' => $regionId ?: 0]],
                         ],
                     ],
